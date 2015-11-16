@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>{{title_name}}</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/metisMenu/2.2.0/metisMenu.min.css" rel="stylesheet">
+    <link href="{{static_url("css/sb-admin-2.css")}}" rel="stylesheet">
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    {% block head_link %}{% end %}
+    <script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">nihaoshish</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">域名WHOIS信息统计平台</a>
+            </div>
+            <!-- /.navbar-header -->
+            <!-- 这部分是导航条右边的人头 -->
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+            <!-- /这部分是导航条右边的人头 -->
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <!-- 搜索 -->
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                        <!-- /搜索 -->
+                        <li>
+                            <a href="/">
+                                <i class="fa fa-dashboard fa-fw"></i> 控制台首页
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-bar-chart-o fa-fw"></i> 域名数量统计
+                                <span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/domain">域名数量分布</a>
+                                </li>
+                                <li>
+                                    <a href="/domain_geography">地理位置分布</a>
+                                </li>
+                                <li>
+                                    <a href="#">组成分布情况</a>
+                                </li>
+                                <li>
+                                    <a href="/tld">域名顶级后缀</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <!-- <a href="tables.html"> -->
+                            <a href="#">
+                                <i class="fa fa-table fa-fw"></i> 域名WHOIS服务器
+                                <span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/svr">WHOIS服务器统计</a>
+                                </li>
+                                <li>
+                                    <a href="/svr_geo">WHOIS服务器地理位置分布</a>
+                                </li>
+                                <li>
+                                    <a href="/svr_performance">WHOIS服务器探测性能</a>
+                                </li>
+                                <li>
+                                    <a href="/tld">域名顶级后缀</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <!-- <a href="tables.html"> -->
+                            <a href="#">
+                                <i class="fa fa-table fa-fw"></i> 域名WHOIS信息统计
+                            </a>
+                        </li>
+                        <li>
+                            <!-- <a href="tables.html"> -->
+                            <a href="#">
+                                <i class="fa fa-table fa-fw"></i> 分布统计
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-bar-chart-o fa-fw"></i> 域名数量统计
+                                <span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#">域名总数</a>
+                                </li>
+                                <li>
+                                    <a href="#">域名分布情况</a>
+                                </li>
+                                <li>
+                                    <a href="#">域名分布情况</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+        <div id="page-wrapper">
+            {% block page %} {% end %}
+        </div>
+    </div>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/metisMenu/2.2.0/metisMenu.min.js"></script>
+    <script src="{{static_url("js/sb-admin-2.js")}}"></script>
+    {% block foot_script %}{% end %}
+</body>
+
+</html>

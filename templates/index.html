@@ -1,0 +1,125 @@
+{% extends "main_template.html" %}
+{% block head_link %}
+    <script src = "{{static_url("js/initial_charts.js")}}"></script>
+{% end %}
+{% block page %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">域名及WHOIS信息概览</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-bookmark-o fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{domain_num}} M</div>
+                        <div>域名数量</div>
+                    </div>
+                </div>
+            </div>
+            <a href="/domain">
+                <div class="panel-footer">
+                    <span class="pull-left">查看详细</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-cog fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">12</div>
+                        <div>域名WHOIS信息</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">查看详细</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-yellow">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-key fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{tld_num}}</div>
+                        <div>域名顶级后缀数量</div>
+                    </div>
+                </div>
+            </div>
+            <a href="/tld">
+                <div class="panel-footer">
+                    <span class="pull-left">查看详细</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-red">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-leaf fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="medium">{{msvr_sum}}/{{ssvr_sum}}</div>
+                        <div>域名WHOIS服务器数量</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">查看详细</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i>
+                域名WHOIS信息分布
+                <div class="pull-right"></div>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <!-- <div id="morris-area-chart"></div> -->
+                <div id="containertb" style="width:100%;height:100%">
+                    <script>
+                        $(document).ready(whois_chart());
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% end %}

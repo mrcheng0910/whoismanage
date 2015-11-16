@@ -1,0 +1,59 @@
+# encoding:utf-8
+"""
+域名WHOIS服务器信息
+"""
+import tornado
+import json
+from models.svr_db import SvrDb
+
+PATH = './svrs/'
+
+
+class DomainSvrHandler(tornado.web.RequestHandler):
+    """
+    域名WHOIS服务器所负责的顶级后缀统计
+    """
+
+    def get(self):
+        svrs, total = SvrDb().get_svrs(10)
+        self.render(PATH + 'svr_index.html',
+                    title_name="域名WHOIS信息",
+                    svrs=json.dumps(svrs),
+                    total=total
+                    )
+
+    def post(self):
+        num = self.get_argument('num', "None")
+        # self.write(num)
+        svrs, total = SvrDb().get_svrs(int(num))
+        self.write(json.dumps(svrs))
+
+
+class SvrGeoHandler(tornado.web.RequestHandler):
+    """
+    WHOIS服务器的地理位置统计展示
+    """
+
+    def get(self):
+        results = SvrDb().get_svr_addr()
+        self.render(PATH + 'svr_geo.html',
+                    title_name="全球域名WHOIS服务器地理位置分布",
+                    data=json.dumps(results)
+                    )
+
+
+class SvrPerformanceHandler(tornado.web.RequestHandler):
+    """whois服务器性能统计分析"""
+
+    def get(self):
+        self.render(PATH + 'svr_performance.html',
+                    title_name="域名WHOIS服务器性能")
+
+
+class SvrTableHandler(tornado.web.RequestHandler):
+    """域名是否含有whois服务器列表"""
+
+    def get(self):
+        results = SvrDb().tld_exsit_svr()
+        self.render(PATH + 'tld_svr_table.html')
+
