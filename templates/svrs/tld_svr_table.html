@@ -38,28 +38,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="odd gradeX">
-                                    <td>Trident</td>
-                                    <td class="center">4</td>
-                                    <td class="center">X</td>
-                                </tr>
-                                <tr class="even gradeC">
-                                    <td>Trident</td>
-                                    <td class="center">5</td>
-                                    <td class="center">C</td>
-                                </tr>
-                                <tr class="odd gradeA">
-                                    <td>Win 95+</td>
-                                    <td class="center">5.5</td>
-                                    <td class="center">A</td>
-                                </tr>
+                                 {% for id ,tld in enumerate(results) %}
+                                 <tr class="odd gradeA">
+                                    <td>{{id+1}}</td>
+                                    <td>{{tld["tld"]}}</td>
+                                    <td>{{tld["addr"]}}</td>
+                                 </tr>
+                                {% end %}
                             </tbody>
                             <tfoot>
                                 <tr>
                                 <th>序号</th>
                                 <th>域名顶级后缀</th>
                                 <th>WHOIS服务器</th>
-
                                 </tr>
                            </tfoot>
                         </table>

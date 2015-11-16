@@ -55,5 +55,6 @@ class SvrTableHandler(tornado.web.RequestHandler):
 
     def get(self):
         results = SvrDb().tld_exsit_svr()
-        self.render(PATH + 'tld_svr_table.html')
-
+        self.render(PATH + 'tld_svr_table.html',
+                    results=results
+                    )

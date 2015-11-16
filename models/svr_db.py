@@ -42,6 +42,6 @@ class SvrDb(BaseDb):
     def tld_exsit_svr(self):
         """获取所有域名以及对应whois服务器"""
 
-        sql = 'SELECT tld,addr FROM whois_addr'
+        sql = 'SELECT tld,addr FROM whois_addr LIMIT 5'
         results = self.db.query(sql)
         return results
