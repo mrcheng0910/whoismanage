@@ -1,3 +1,4 @@
+//含有和不含有whois服务器的饼图
 $(function() {
     $('#container').highcharts({
         chart: {
@@ -6,7 +7,7 @@ $(function() {
             plotShadow: false
         },
         title: {
-            text: 'Browser market shares at a specific website, 2014'
+            text: '含有和不含有域名WHOIS服务器所占数量比'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -28,16 +29,8 @@ $(function() {
             type: 'pie',
             name: 'Browser share',
             data: [
-                ['Firefox', 45.0],
-                ['IE', 26.8], {
-                    name: 'Chrome',
-                    y: 12.8,
-                    sliced: true,
-                    selected: true
-                },
-                ['Safari', 8.5],
-                ['Opera', 6.2],
-                ['Others', 0.9]
+                ['含有域名whois', 45.0],
+                ['没有域名whois', 55.0]
             ]
         }]
     });
