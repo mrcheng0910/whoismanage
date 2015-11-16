@@ -37,7 +37,7 @@ $(function() {
                 },
                 ['Safari', 8.5],
                 ['Opera', 6.2],
-                ['Others', 0.7]
+                ['Others', 0.9]
             ]
         }]
     });
