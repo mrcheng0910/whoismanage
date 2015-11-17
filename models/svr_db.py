@@ -8,8 +8,10 @@
 
 from models.base_db import BaseDb
 
+
 class SvrDb(BaseDb):
     """域名WHOIS服务器相关操作操作"""
+
     def __init__(self):
         BaseDb.__init__(self)  # 执行父类
 
@@ -24,7 +26,9 @@ class SvrDb(BaseDb):
                 print index, value
                 del svrs[index]
                 svrs.insert(index, {'svr_name': '无WHOIS服务器',
-                                    'domain_sum': value['domain_sum']})
+                                    'domain_sum': value['domain_sum']
+                                    }
+                            )
                 break
 
         total = sum(item['domain_sum'] for item in svrs)
@@ -56,12 +60,8 @@ class SvrDb(BaseDb):
 
     def svr_sum(self):
         """获取信息"""
-        sql = "SELECT addr FROM whois_addr"
+        sql = 'SELECT COUNT( CASE WHEN addr IS NULL THEN 1 ELSE NULL END ) AS a,\
+                    COUNT( CASE WHEN addr IS NOT NULL THEN 1 ELSE NULL END ) AS b\
+               FROM whois_addr'
         results = self.db.query(sql)
-        count_null = 0
-        count = len(results)
-        for i in range(count):   # 可以优化,按照域名采集
-            if not results[i]['addr']:
-                count_null += 1
-        return count-count_null, count_null
-
+        return results[0]['b'],results[0]['a']

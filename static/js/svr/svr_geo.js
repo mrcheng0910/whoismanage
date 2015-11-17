@@ -22,7 +22,7 @@ function svr_geo(code_num) {
 
         colorAxis: {
             min: 1,
-            max: 10,
+            max: 50,
             type: 'logarithmic'
         },
 
