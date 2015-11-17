@@ -3,20 +3,22 @@
 域名WHOIS服务器相关操作操作
 1、获取whois服务器负责顶级后缀的数量
 2、获取whois服务器的地理位置
+3、获取域名whois服务器列表
 """
+
 import torndb
 from base_db import BaseDb
 
-
 class SvrDb(BaseDb):
-
+    """域名WHOIS服务器相关操作操作"""
     def __init__(self):
         BaseDb.__init__(self)  # 执行父类
 
     def get_svrs(self, top=1):
         """获得WHOIS服务器负责的域名数量"""
         svrs = []
-        sql = 'SELECT addr as svr_name,count(*)as domain_sum FROM whois_addr GROUP BY addr ORDER BY domain_sum DESC '
+        sql = 'SELECT addr as svr_name,count(*)as domain_sum FROM whois_addr \
+                GROUP BY addr ORDER BY domain_sum DESC '
         svrs = self.db.query(sql)
         for index, value in enumerate(svrs):   # 用来将None替换
             if not value['svr_name']:
@@ -35,13 +37,20 @@ class SvrDb(BaseDb):
     def get_svr_addr(self):
         """获取whois服务器所在国家code，以及数量"""
 
-        sql = 'SELECT COUNT(*) as value,upper(code) as code FROM svr_country GROUP BY code'
+        sql = 'SELECT COUNT(*) as value,upper(code) as code FROM svr_country \
+                GROUP BY code'
         results = self.db.query(sql)
         return results
 
-    def tld_exsit_svr(self):
-        """获取所有域名以及对应whois服务器"""
+    def tld_exist_svr(self):
+        """获取含有whois服务器的域名列表"""
 
-        sql = 'SELECT tld,addr FROM whois_addr LIMIT 5'
+        sql = 'SELECT tld,addr FROM whois_addr WHERE addr IS NOT NULL'
+        results = self.db.query(sql)
+        return results
+
+    def tld_no_exist_svr(self):
+        """获取没有域名whois的域名列表"""
+        sql = 'SELECT tld,addr FROM whois_addr WHERE addr IS NULL'
         results = self.db.query(sql)
         return results

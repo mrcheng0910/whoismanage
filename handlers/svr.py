@@ -30,9 +30,7 @@ class DomainSvrHandler(tornado.web.RequestHandler):
 
 
 class SvrGeoHandler(tornado.web.RequestHandler):
-    """
-    WHOIS服务器的地理位置统计展示
-    """
+    """WHOIS服务器的地理位置统计展示"""
 
     def get(self):
         results = SvrDb().get_svr_addr()
@@ -54,7 +52,11 @@ class SvrTableHandler(tornado.web.RequestHandler):
     """域名是否含有whois服务器列表"""
 
     def get(self):
-        results = SvrDb().tld_exsit_svr()
+        flag = self.get_argument('flag',None)
+        if flag=='True':
+            results = SvrDb().tld_exist_svr() # 含有whois域名列表
+        else:
+            results = SvrDb().tld_no_exist_svr() # 不含有whois域名列表
         self.render(PATH + 'tld_svr_table.html',
                     results=results
                     )

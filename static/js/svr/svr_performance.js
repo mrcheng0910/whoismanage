@@ -19,10 +19,10 @@ $(function() {
                 events:{
                     click: function(e){
                         if (e.point.name=='含有whois服务器'){
-                            alert("test");
+                            tld_svr_detail(flag=true);
                         }
                         else if(e.point.name=='不含有whois服务器'){
-                            exist_detail();
+                            tld_svr_detail(flag=false);
                         }
                     }
                 },
@@ -48,13 +48,22 @@ $(function() {
 });
 
 // 详细信息
-function exist_detail() {
+function tld_svr_detail(flag) {
+    var url = ''
+    if (flag){
+        url = '/svr_table?flag=True';
+        title = '含有whois服务器域名列表'
+    }
+    else{
+        url = '/svr_table?flag=False';
+        title = '不含有whois服务器域名列表'
+    }
     layer.open({
         type: 2,
-        title: '含有域名whois服务器域名',
+        title: title,
         shadeClose: true,
         shade: 0.8,
         area: ['66%', '75%'],
-        content: '/svr_table'
+        content: url
     });
 };
