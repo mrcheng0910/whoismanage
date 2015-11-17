@@ -61,9 +61,10 @@ function tld_svr_detail(flag) {
     layer.open({
         type: 2,
         title: title,
+        closeBtn: false,
         shadeClose: true,
         shade: 0.8,
-        area: ['66%', '75%'],
+        area: ['68%', '75%'],
         content: url
     });
 };

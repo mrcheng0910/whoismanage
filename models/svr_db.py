@@ -6,8 +6,7 @@
 3、获取域名whois服务器列表
 """
 
-import torndb
-from base_db import BaseDb
+from models.base_db import BaseDb
 
 class SvrDb(BaseDb):
     """域名WHOIS服务器相关操作操作"""
