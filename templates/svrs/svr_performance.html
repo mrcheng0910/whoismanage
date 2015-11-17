@@ -18,17 +18,23 @@
             </div>
             <div class="panel-body">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#home" data-toggle="tab">首页</a></li>
-                    <li><a href="#profile" data-toggle="tab">性能</a></li>
+                    <li class="active"><a href="#home" data-toggle="tab">有/无WHOIS服务器</a></li>
+                    <li><a href="#profile" data-toggle="tab">WHOIS服务器性能</a></li>
                 </ul> <!-- /.nav-tabs -->
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="home">
                        <div id="container" style="width:100%;height:100%"></div>
+                       <script type="text/javascript">
+                        $(document).ready(tld_svr_pie({{count}},{{count_null}}));
+                       </script>
                     </div>
                     <div class="tab-pane fade" id="profile">
                         详细信息表
                     </div>
                 </div>
+            </div>
+            <div class="panel-footer">
+            单击饼图可以显示详细信息
             </div>
         </div>
     </div>

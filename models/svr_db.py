@@ -53,3 +53,15 @@ class SvrDb(BaseDb):
         sql = 'SELECT tld,addr FROM whois_addr WHERE addr IS NULL'
         results = self.db.query(sql)
         return results
+
+    def svr_sum(self):
+        """获取信息"""
+        sql = "SELECT addr FROM whois_addr"
+        results = self.db.query(sql)
+        count_null = 0
+        count = len(results)
+        for i in range(count):   # 可以优化,按照域名采集
+            if not results[i]['addr']:
+                count_null += 1
+        return count-count_null, count_null
+

@@ -1,5 +1,5 @@
 //含有和不含有whois服务器的饼图
-$(function() {
+function tld_svr_pie(count,count_null) {
     $('#container').highcharts({
         chart: {
             plotBackgroundColor: null,
@@ -19,10 +19,10 @@ $(function() {
                 events:{
                     click: function(e){
                         if (e.point.name=='含有whois服务器'){
-                            tld_svr_detail(flag=true);
+                            tld_svr_tb(flag=true);
                         }
                         else if(e.point.name=='不含有whois服务器'){
-                            tld_svr_detail(flag=false);
+                            tld_svr_tb(flag=false);
                         }
                     }
                 },
@@ -39,16 +39,16 @@ $(function() {
             type: 'pie',
             name: '百分比',
             data: [
-                {name: '含有whois服务器', y:145},
-                {name: '不含有whois服务器', y:555},
+                {name: '含有whois服务器', y: count},
+                {name: '不含有whois服务器', y: count_null},
             ]
 
         }]
     });
-});
+};
 
 // 详细信息
-function tld_svr_detail(flag) {
+function tld_svr_tb(flag) {
     var url = ''
     if (flag){
         url = '/svr_table?flag=True';
