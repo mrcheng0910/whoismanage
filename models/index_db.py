@@ -1,7 +1,6 @@
 # encoding:utf-8
-import torndb
-from base_db import BaseDb
 
+from base_db import BaseDb
 
 class IndexDb(BaseDb):
 
@@ -24,7 +23,7 @@ class IndexDb(BaseDb):
 
     def get_svr_sum(self):
         """获取WHOIS服务器（主/次）数量"""
-        msvr_sum = ssvr_sum = 0
+        # msvr_sum = ssvr_sum = 0
         sql = 'SELECT msvr,ssvr FROM msvr_ssvr'
         result = self.db.query(sql)
         msvr_sum = result[0]['msvr']
