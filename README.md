@@ -1,6 +1,6 @@
 ## 域名WHOIS信息统计系统（Web）
 该系统主要用来统计分析域名WHOIS信息，后台使用`Python`的`Tornado`框架，前台使用`Bootstrap/Ajax/JQuery/Highchars`等框架来搭建。
-通过使用MVC框架，使程序能够更清晰明了.
+通过使用MVC框架，使程序能够更清晰明了,同时方便编写代码.
 
 前端使用以下内容
 - dataTables
