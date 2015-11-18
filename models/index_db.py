@@ -39,3 +39,12 @@ class IndexDb(BaseDb):
         whois_sum = result[0]['whois_sum']
         return int(whois_sum / 1000)
 
+    def get_tld_whois_flag(self):
+        """获取各个标志位的whois域名数量"""
+        sql = "SELECT tld,flag,whois_sum FROM tld_whois_flag WHERE tld \
+                in (SELECT tld FROM (SELECT tld FROM tld_whois_flag \
+                GROUP BY tld  ORDER BY sum(whois_sum) DESC LIMIT 10) as t)"
+        result = self.db.query(sql)
+        return result
+
+print IndexDb().get_tld_whois_flag()

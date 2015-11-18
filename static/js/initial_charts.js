@@ -1,4 +1,5 @@
-function whois_chart() {  //实现下转事件
+function whois_chart() {
+    //实现首页whois信息类型的展示
     $('#containertb').highcharts({
         chart: {
             type: 'column'
@@ -7,7 +8,7 @@ function whois_chart() {  //实现下转事件
             text: 'WHOIS信息类型统计'
         },
         xAxis: {
-            categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+            categories: ['COM', 'NET', 'ORG', 'CN', 'BTI','NL']
         },
         yAxis: {
             min: 0,
@@ -25,16 +26,16 @@ function whois_chart() {  //实现下转事件
             }
         },
         series: [{
-            name: 'John',
+            name: '无法连接',
             data: [5, 3, 4, 7, 2]
         }, {
-            name: 'Jane',
+            name: '注册者信息完整',
             data: [2, 2, 3, 2, 1]
         }, {
-            name: 'Joe',
+            name: '注册时间完整',
             data: [3, 4, 4, 2, 5]
         },{
-            name: 'cyn',
+            name: '注册者和时间不完整',
             data: [3,4,5,6,7]
 
         }]
