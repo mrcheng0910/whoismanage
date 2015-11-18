@@ -1,4 +1,4 @@
-#coding=utf-8
+# coding=utf-8
 """
 服务器启动
 """
@@ -8,6 +8,7 @@ from application import Application
 from tornado.options import define, options
 
 define("port", default=8000, help="run on the given port", type=int)
+
 
 def main():
     tornado.options.parse_command_line()

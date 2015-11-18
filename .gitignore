@@ -3,6 +3,7 @@
 *.so
 *.class
 *~
+.idea/
 build/
 /dist/
 MANIFEST
