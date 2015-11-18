@@ -2,6 +2,7 @@
 import torndb
 from base_db import BaseDb
 
+
 class IndexDb(BaseDb):
 
     def __init__(self):
@@ -28,4 +29,13 @@ class IndexDb(BaseDb):
         result = self.db.query(sql)
         msvr_sum = result[0]['msvr']
         ssvr_sum = result[0]['ssvr']
-        return msvr_sum,ssvr_sum
+        return msvr_sum, ssvr_sum
+
+    def get_whois_sum(self):
+        """获取数据库中已有域名whois信息的数量"""
+        whois_sum = 0
+        sql = ' SELECT sum(whois_sum) as whois_sum FROM tld_whois_sum '
+        result = self.db.query(sql)
+        whois_sum = result[0]['whois_sum']
+        return int(whois_sum / 1000)
+
