@@ -32,7 +32,7 @@ def manage_flag():
     :return tld_whois_sum:
     """
     tld_whois_sum = []
-    top = 10  # 域名whois数量前top，默认为10
+    top = 15  # 域名whois数量前top，默认为10
     results = IndexDb().get_tld_whois_flag(top)  # 获取查询结果
     for index, value in enumerate(results):
         flag = find_tld(tld_whois_sum, value['tld'])  # 查询顶级后缀是否已在列表中

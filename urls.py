@@ -16,5 +16,6 @@ urls = [
     (r'/svr', DomainSvrHandler), # 域名whois服务器首页
     (r'/svr_geo',SvrGeoHandler),  # 域名whois服务器地理位置
     (r'/svr_performance',SvrPerformanceHandler), # whois服务器性能
-    (r'/svr_table',SvrTableHandler) # 服务器表格内容测试，测试
+    (r'/svr_table',SvrTableHandler), # 服务器表格内容测试，测试
+    (r'/svr_table_info',SvrInfoHandler) # 信息
 ]

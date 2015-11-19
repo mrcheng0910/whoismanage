@@ -89,15 +89,8 @@ function tld_svr_reg(reg_n,reg_p,reg_y) {
                 cursor: 'pointer',
                 events:{
                     click: function(e){
-                        if (e.point.name=='无注册人信息'){
-                            tld_svr_tb(flag='n');
-                        }
-                        else if(e.point.name=='部分注册人信息'){
-                            tld_svr_tb(flag='p');
-                        }
-                        else if(e.point.name=='完整注册人信息'){
-                            tld_svr_tb(flag='y');
-                        }
+
+                        tld_svr_info();
                     }
                 },
                 dataLabels: {
@@ -122,20 +115,9 @@ function tld_svr_reg(reg_n,reg_p,reg_y) {
         }]
     });
 }
-// 详细信息
-function tld_svr_reg(flag) {
-    var url = ''
-    if (flag=='n'){
-        url = '/svr_table?flag=True';
-        //title = '含有whois服务器域名列表'
-    }
-    else if(flag=='p'){
-        url = '/svr_table?flag=False';
-        //title = '不含有whois服务器域名列表'
-    }
-    else if(flag=='y'){
-        url='/svr'
-    }
+ 详细信息
+function tld_svr_info(flag) {
+    var url = '/svr_table_info'
     layer.open({
         type: 2,
         title: "域名WHOIS详细信息",

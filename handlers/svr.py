@@ -66,3 +66,11 @@ class SvrTableHandler(tornado.web.RequestHandler):
                     results=results,
                     title = title
                     )
+
+class SvrInfoHandler(tornado.web.RequestHandler):
+    def get(self):
+        results = SvrDb().get_svr_info()
+        self.render(PATH+'tld_svr_detail.html',
+                    results=results,
+                    title='详细信息'
+                    )

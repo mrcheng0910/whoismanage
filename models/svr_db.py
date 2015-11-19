@@ -72,5 +72,10 @@ class SvrDb(BaseDb):
                     COUNT( CASE WHEN flag_date= '2' THEN 1 ELSE NULL END ) AS data_y\
                FROM whois_addr"
         results = self.db.query(sql)
-        print results
+        return results
+
+    def get_svr_info(self):
+        sql = "SELECT DISTINCT(addr),flag_reg,flag_org,flag_date FROM \
+              whois_addr WHERE flag_addr='1'"
+        results = self.db.query(sql)
         return results
