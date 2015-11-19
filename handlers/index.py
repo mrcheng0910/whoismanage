@@ -45,7 +45,7 @@ def manage_flag():
     return tld_whois_sum
 
 
-def merge_tld_whois(tld_whois={}, value={}):
+def merge_tld_whois(tld_whois, value):
     """
     向域名whois字典中添加新的数据
     :param tld_whois: 已有的域名whois信息
@@ -81,7 +81,4 @@ def flag_change(flag):
     elif flag == '2':
         return 'reg_date'  # 注册日期
     elif flag == '3':
-        return 'part_info' # 部分信息
-
-
-manage_flag()
+        return 'part_info'  # 部分信息

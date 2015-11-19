@@ -44,11 +44,10 @@ class SvrPerformanceHandler(tornado.web.RequestHandler):
     """whois服务器性能统计分析"""
 
     def get(self):
-        exist,count_null = SvrDb().svr_sum()
+        results = SvrDb().svr_sum()
         self.render(PATH + 'svr_performance.html',
                     title_name="域名WHOIS服务器性能",
-                    count = exist,
-                    count_null = count_null
+                    results=results
                     )
 
 

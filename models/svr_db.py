@@ -60,8 +60,17 @@ class SvrDb(BaseDb):
 
     def svr_sum(self):
         """获取信息"""
-        sql = 'SELECT COUNT( CASE WHEN addr IS NULL THEN 1 ELSE NULL END ) AS a,\
-                    COUNT( CASE WHEN addr IS NOT NULL THEN 1 ELSE NULL END ) AS b\
-               FROM whois_addr'
+        sql = "SELECT COUNT( CASE WHEN addr IS NULL THEN 1 ELSE NULL END ) AS exist_y,\
+                    COUNT( CASE WHEN addr IS NOT NULL THEN 1 ELSE NULL END ) AS exist_n,\
+                    COUNT( CASE WHEN flag_reg= '0' THEN 1 ELSE NULL END ) AS reg_n,\
+                    COUNT( CASE WHEN flag_reg= '1' THEN 1 ELSE NULL END ) AS reg_p,\
+                    COUNT( CASE WHEN flag_reg= '2' THEN 1 ELSE NULL END ) AS reg_y,\
+                    COUNT( CASE WHEN flag_org= '0' THEN 1 ELSE NULL END ) AS org_n,\
+                    COUNT( CASE WHEN flag_org= '1' THEN 1 ELSE NULL END ) AS org_y,\
+                    COUNT( CASE WHEN flag_date= '0' THEN 1 ELSE NULL END ) AS data_n,\
+                    COUNT( CASE WHEN flag_date= '1' THEN 1 ELSE NULL END ) AS data_p,\
+                    COUNT( CASE WHEN flag_date= '2' THEN 1 ELSE NULL END ) AS data_y\
+               FROM whois_addr"
         results = self.db.query(sql)
-        return results[0]['b'],results[0]['a']
+        print results
+        return results

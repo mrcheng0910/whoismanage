@@ -56,12 +56,13 @@ function domain_sort(svrs) {
     if (typeof(svrs)!='object'){
         svrs = eval('(' + svrs + ')');
     }
-    var name_data = new Array()
-    var num_data = new Array()
+    var name_data = new Array();
+    var num_data = new Array();
     for (var i=0;i<svrs.length;i++){
-        name_data[i] = svrs[i].svr_name
-        num_data[i] = svrs[i].domain_sum
+        name_data[i] = svrs[i].svr_name;
+        num_data[i] = svrs[i].domain_sum;
     }
+    //alert(name_data);
 
     $('#container_sort').highcharts({
         chart: {
