@@ -38,8 +38,11 @@ class IndexDb(BaseDb):
         whois_sum = result[0]['whois_sum']
         return int(whois_sum / 1000)
 
-    def get_tld_whois_flag(self,top=10):
-        """获取各个标志位的whois域名数量"""
+    def get_tld_whois_flag(self, top=10):
+        """获取各个标志位的whois域名数量
+        :type top: int
+        :rtype result: list
+        """
         # 1.先获取whois数量排名前10的顶级后缀
         # 2.再获取前十名当中的tld，标记位和数量
         sql = "SELECT tld,flag,whois_sum FROM tld_whois_flag WHERE tld \
@@ -48,3 +51,4 @@ class IndexDb(BaseDb):
 
         result = self.db.query(sql)
         return result
+
