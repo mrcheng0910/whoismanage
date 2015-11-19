@@ -14,7 +14,7 @@ class IndexHandler(tornado.web.RequestHandler):
         tld_num = index_db.get_tld_num()  # 获取数据库中所有域名顶级后缀
         msvr_sum, ssvr_sum = index_db.get_svr_sum()  # 获取whois服务器(主/次)数量
         whois_sum = index_db.get_whois_sum()
-        test = manage_flag()  # 获取whois类型信息
+        tld_whois_sum = manage_flag()  # 获取whois类型信息
         self.render('index.html',
                     title_name="测试首页",
                     domain_num=domain_num,
@@ -22,7 +22,7 @@ class IndexHandler(tornado.web.RequestHandler):
                     msvr_sum=msvr_sum,
                     ssvr_sum=ssvr_sum,
                     whois_sum=whois_sum,
-                    test=json.dumps(test)
+                    tld_whois_sum=json.dumps(tld_whois_sum)
                     )
 
 
@@ -39,24 +39,23 @@ def manage_flag():
         if flag == -1:  # 若无则加入到列表中
             tld_whois_sum.append({'tld_name': value['tld'], flag_change(str(value['flag'])): value['whois_sum']})
         else:
-            d = jia(tld_whois_sum[flag], value)
-            del tld_whois_sum[flag]
-            tld_whois_sum.append(d)
+            tld_whois = merge_tld_whois(tld_whois_sum[flag], value)
+            del tld_whois_sum[flag]  # 删除原来的数据
+            tld_whois_sum.append(tld_whois)  # 添加新数据
     return tld_whois_sum
 
 
-def jia(test={}, v={}):
+def merge_tld_whois(tld_whois={}, value={}):
     """
-    :param test:
-    :param v:
-    :return:
+    向域名whois字典中添加新的数据
+    :param tld_whois: 已有的域名whois信息
+    :param value:要插入的数据
+    :return:返回新数据
     """
-    test[flag_change(v['flag'])] = v['whois_sum']
-    # print test
-    return test
+    tld_whois[flag_change(value['flag'])] = value['whois_sum']
+    return tld_whois
 
-
-def find_tld(tld_whois_sum, tld_name=""):
+def find_tld(tld_whois_sum, tld_name):
     """
     查询顶级后缀是否在列表中，若存在则返回位置，不存在返回-1
     :param tld_whois_sum: 域名whois类型列表
@@ -69,17 +68,20 @@ def find_tld(tld_whois_sum, tld_name=""):
     return -1
 
 
-def flag_change(name):
-
-    print name
-    if name == '0':
-        return 'no_connect'
-    elif name == '1':
-        return 'reg_info'
-    elif name == '2':
-        return 'reg_date'
-    elif name == '3':
-        return 'no_reg'
+def flag_change(flag):
+    """
+    更换标记位名称
+    :param flag 标记位
+    :rtype: change_flag，变化后的标记位
+    """
+    if flag == '0':
+        return 'no_connect'  # 无法连接
+    elif flag == '1':
+        return 'reg_info'  # 注册人信息
+    elif flag == '2':
+        return 'reg_date'  # 注册日期
+    elif flag == '3':
+        return 'part_info' # 部分信息
 
 
 manage_flag()

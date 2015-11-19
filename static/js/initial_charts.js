@@ -11,7 +11,7 @@ function whois_chart(tldWhoisSum) {
         noConnect[i] = Number(tldWhoisSum[i].no_connect);//注意字符串转数字
         regInfo[i] = Number(tldWhoisSum[i].reg_info);//注意字符串转数字
         regDate[i] = Number(tldWhoisSum[i].reg_date);//注意字符串转数字
-        partOfInfo[i] = Number(tldWhoisSum[i].no_reg); //注意字符串转数字
+        partOfInfo[i] = Number(tldWhoisSum[i].part_info); //注意字符串转数字
     }
     $('#containertb').highcharts({
         chart: {
@@ -22,7 +22,7 @@ function whois_chart(tldWhoisSum) {
         },
         xAxis: {
             //categories: ['COM', 'NET', 'ORG', 'CN']
-            categories: tldName
+            categories: tldName.sort()
         },
         yAxis: {
             min: 0,
