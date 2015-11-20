@@ -74,3 +74,7 @@ class SvrInfoHandler(tornado.web.RequestHandler):
                     results=results,
                     title='详细信息'
                     )
+class SvrDetectHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render(PATH+'detect_info.html',
+                    title_name="探测信息")
