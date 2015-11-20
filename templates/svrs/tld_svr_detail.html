@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{static_url("css/sb-admin-2.css")}}" rel="stylesheet">
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <style type="text/css">
+    .row{
+        margin-top: 0px;
+        margin-right: 4px;
+        margin-bottom: 0px;
+        margin-left: 4px;
+    }
+    </style>
+</head>
+
+<body>
+    <!-- <div class="container"> -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                    {{title}}
+                    </div>
+                <div class="panel-body">
+                    <div class="dataTable_wrapper">
+                        <table class="table table-striped table-bordered table-hover display" id="dataTables_details">
+                            <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>WHOIS服务器</th>
+                                    <th>注册人信息</th>
+                                    <th>注册公司信息</th>
+                                    <th>注册日期</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 {% for id ,info in enumerate(results) %}
+                                 <tr class="odd gradeA">
+                                    <td>{{id+1}}</td>
+                                    <td>{{info["addr"]}}</td>
+                                     {% if info["flag_reg"] == 0 %}
+                                        <td>无</td>
+                                     {% elif info["flag_reg"]==1 %}
+                                        <td>部分</td>
+                                     {% elif info["flag_reg"]==2 %}
+                                        <td>全部</td>
+                                     {% else %}
+                                         <td>无法连接</td>
+                                     {% end %}
+{#                                     注册人信息#}
+                                     {% if info["flag_org"]==0 %}
+                                        <td>无</td>
+                                     {% elif info["flag_org"]==1 %}
+                                        <td>有</td>
+                                     {% else %}
+                                         <td></td>
+                                     {% end %}
+{#                                     注册公司#}
+                                     {% if info["flag_date"]==0 %}
+                                        <td>无</td>
+                                     {% elif info["flag_date"]==1 %}
+                                        <td>部分</td>
+                                     {% elif info["flag_date"]==2 %}
+                                        <td>所有</td>
+                                     {% else %}
+                                         <td></td>
+                                     {% end %}
+{#                                     注册日期#}
+                                 </tr>
+                                {% end %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                 <th>序号</th>
+                                 <th>WHOIS服务器</th>
+                                 <th>注册人信息</th>
+                                 <th>注册公司信息</th>
+                                 <th>注册日期</th>
+                                </tr>
+                           </tfoot>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+                </div>
+            <!-- /.panel -->
+            </div>
+        </div>
+    <!-- </div> -->
+    <script src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.9/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('#dataTables_details').DataTable({
+            responsive: true
+        });
+    });
+    </script>
+</body>
+
+</html>
