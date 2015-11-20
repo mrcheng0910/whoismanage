@@ -1,0 +1,61 @@
+{% extends "../main_template.html" %}
+{% block head_link %}
+<script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script src="http://cdn.hcharts.cn/highcharts/highcharts-more.js"></script>
+<script src="http://cdn.hcharts.cn/highcharts/modules/solid-gauge.js"></script>
+<script src="{{static_url("js/domain/domain_query.js")}}"></script>
+
+{% end %}
+{% block page %}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">域名收录统计</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i>截至{{datetime.datetime.now().strftime('%Y-%m-%d')}}顶级域名收录数量
+                <div class="pull-right"></div>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <!-- <div id="morris-area-chart"></div> -->
+                <div style="width: 300px; height: 200px; margin: 0 auto">
+	                <div id="container-domain" style="width: 300px; height: 200px;float: left;"></div>
+{#                    <div id="container-tld" style="width: 300px; height: 200px; float: left"></div>#}
+                </div>
+
+
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-8 -->
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+               <i class="fa fa-bar-chart-o fa-fw"></i>截至{{datetime.datetime.now().strftime('%Y-%m-%d')}}顶级后缀收录数量
+                <div class="pull-right"></div>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+               <div style="width: 600px; height: 200px; margin: 0 auto">
+                    <div id="container-tld" style="width: 600px; height: 200px; float: left"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% end %}
+{% block foot_script %}
+<script>
+    $(document).ready(test())
+</script>
+{% end %}
