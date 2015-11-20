@@ -55,26 +55,33 @@ class SvrTableHandler(tornado.web.RequestHandler):
     """域名是否含有whois服务器列表"""
 
     def get(self):
-        flag = self.get_argument('flag',None)
-        if flag=='True':
-            results = SvrDb().tld_exist_svr() # 含有whois域名列表
+        flag = self.get_argument('flag', None)
+        if flag == 'True':
+            results = SvrDb().tld_exist_svr()  # 含有whois域名列表
             title = "含有WHOIS域名列表"
         else:
-            results = SvrDb().tld_no_exist_svr() # 不含有whois域名列表
+            results = SvrDb().tld_no_exist_svr()  # 不含有whois域名列表
             title = "不含有WHOIS域名列表"
         self.render(PATH + 'tld_svr_table.html',
                     results=results,
-                    title = title
+                    title=title
                     )
+
 
 class SvrInfoHandler(tornado.web.RequestHandler):
     def get(self):
         results = SvrDb().get_svr_info()
-        self.render(PATH+'tld_svr_detail.html',
+        self.render(PATH + 'tld_svr_detail.html',
                     results=results,
                     title='详细信息'
                     )
+
+
 class SvrDetectHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render(PATH+'detect_info.html',
-                    title_name="探测信息")
+        results = SvrDb().get_detect()
+        self.render(PATH + 'detect_info.html',
+                    title_name="探测信息",
+                    results1=json.dumps(results[:7]),
+                    results2=json.dumps(results[7:15])
+                    )

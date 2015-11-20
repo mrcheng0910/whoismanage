@@ -79,3 +79,24 @@ class SvrDb(BaseDb):
               whois_addr WHERE flag_addr='1'"
         results = self.db.query(sql)
         return results
+
+    def get_detect(self):
+        """
+        获取已探测域名和未探测域名的数量
+        :return:
+        """
+        results = []
+        detect_sql = "SELECT tld,sum(whois_sum) as detect_sum FROM tld_whois_flag GROUP BY tld"
+        detect_results = self.db.query(detect_sql)
+        sum_sql = "SELECT tld_name,domain_num FROM domain_summary WHERE tld_name in(SELECT tld FROM tld_whois_flag) ORDER BY domain_num DESC "
+        sum_results = self.db.query(sum_sql)
+
+        for sum_value in sum_results:
+            for detect_value in detect_results:
+                if detect_value['tld']==sum_value['tld_name']:
+                    results.append({'tld':detect_value['tld'],
+                                    'detected':detect_value['detect_sum'],
+                                    'undetected':sum_value['domain_num']-detect_value['detect_sum']})
+        return results
+
+
