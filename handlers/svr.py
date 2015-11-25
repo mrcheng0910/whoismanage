@@ -17,7 +17,6 @@ class DomainSvrHandler(tornado.web.RequestHandler):
     def get(self):
         svrs, total = SvrDb().get_svrs(10)
         self.render(PATH + 'svr_index.html',
-                    title_name="域名WHOIS信息",
                     svrs=json.dumps(svrs),
                     total=total
                     )
@@ -35,7 +34,6 @@ class SvrGeoHandler(tornado.web.RequestHandler):
     def get(self):
         results = SvrDb().get_svr_addr()
         self.render(PATH + 'svr_geo.html',
-                    title_name="全球域名WHOIS服务器地理位置分布",
                     data=json.dumps(results)
                     )
 
@@ -46,7 +44,6 @@ class SvrPerformanceHandler(tornado.web.RequestHandler):
     def get(self):
         results = SvrDb().svr_sum()
         self.render(PATH + 'svr_performance.html',
-                    title_name="域名WHOIS服务器性能",
                     results=results
                     )
 
@@ -81,7 +78,6 @@ class SvrDetectHandler(tornado.web.RequestHandler):
     def get(self):
         results = SvrDb().get_detect()
         self.render(PATH + 'detect_info.html',
-                    title_name="探测信息",
                     results1=json.dumps(results[:7]),
                     results2=json.dumps(results[7:15])
                     )

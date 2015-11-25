@@ -10,7 +10,6 @@ class DomainIndexHandler(tornado.web.RequestHandler):
     def get(self):
         domains, total = DomainDb().get_domain(10)
         self.render(PATH+'domain_index.html',
-                    title_name="顶级后缀统计",
                     domains=domains,
                     total=total
                     )
@@ -19,6 +18,4 @@ class DomainIndexHandler(tornado.web.RequestHandler):
 class DomainQueryHandler(tornado.web.RequestHandler):
     """域名相关查询"""
     def get(self):
-        self.render(PATH+'domain_query.html',
-                    title_name = "域名查询"
-                    )
+        self.render(PATH+'domain_query.html')

@@ -4,7 +4,11 @@
 <script src="{{ static_url("js/svr/svr_performance.js")}}"></script>
 <script src="http://apps.bdimg.com/libs/layer/2.0/layer.js"></script>
 <!-- 遮盖层脚本 -->
-{% end %} {% block page %}
+{% end %}
+{% block title_name %}
+<title>WHOIS服务器性能统计</title>
+{% end %}
+{% block page %}
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">域名WHOIS服务器性能统计</h1>

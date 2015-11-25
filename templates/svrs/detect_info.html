@@ -2,9 +2,12 @@
 {% block head_link %}
 <script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
 <script src="{{static_url("js/svr/detect_info.js")}}"></script>
-
-<!-- 遮盖层脚本 -->
 {% end %}
+
+{% block title_name %}
+<title>WHOIS探测信息</title>
+{% end %}
+
 {% block page %}
 <div class="row">
     <div class="col-lg-12">

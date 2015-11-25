@@ -16,7 +16,6 @@ class IndexHandler(tornado.web.RequestHandler):
         whois_sum = index_db.get_whois_sum()
         tld_whois_sum = manage_flag()  # 获取whois类型信息
         self.render('index.html',
-                    title_name="测试首页",
                     domain_num=domain_num,
                     tld_num=tld_num,
                     msvr_sum=msvr_sum,
