@@ -99,4 +99,19 @@ class SvrDb(BaseDb):
                                     'undetected':sum_value['domain_num']-detect_value['detect_sum']})
         return results
 
-
+    def top_sec(self):
+        """
+        获取顶级和二级服务器统计信息
+        """
+        results = []
+        sql = "SELECT top_svr,count(*) as num FROM top_sec_svr group by top_svr"
+        results = self.db.query(sql)
+        return results
+    def sec_num(self):
+        """
+        获得二级服务器服务器
+        """
+        results = []
+        sql = "select count(distinct(sec_svr)) as num from top_sec_svr"
+        results = self.db.query(sql)
+        return results

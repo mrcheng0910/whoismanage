@@ -1,7 +1,7 @@
 {% extends "../main_template.html" %}
 {% block head_link %}
 <script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
-<script src="{{static_url("js/svr/detect_info.js")}}"></script>
+<script src="{{static_url("js/svr/top_sec.js")}}"></script>
 {% end %}
 
 {% block title_name %}
@@ -25,7 +25,6 @@
     </ul>
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="home">
-            <h2>域名whois分析的空间</h2>
             <div class="row" style="margin-top:20px;">
                 <div class="col-lg-6">
                     <div class="panel panel-primary">
@@ -34,9 +33,13 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                W3Cschoool菜鸟教程是一个提供最新的web技术站点，本站免费提供了建站相关的技术文档，帮助广大web技术爱好者快速入门并建立自己的网站。菜鸟先飞早入行——学的不仅是技术，更是梦想。
+                                <div id="container" style="min-width:400px;height:400px"></div>
+                                
                             </div>
                         </div>
+                    </div>
+                    <div class="well">
+                    目前数据库中，含有二级whois服务器的顶级服务器有<code id="top"></code>个，二级服务器总数为<code>{{sec_num}}</code>个，详细可单击图标查询。
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -46,9 +49,7 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                 <div style=" width:50px; height:50px; background-color:#F00; border-radius:25px;">
-         <span style="height:50px; line-height:50px; display:block; color:#FFF; text-align:center">4</span>
-    </div>
+                               
                             </div>
                         </div>
                     </div>
@@ -59,12 +60,11 @@
         
         
         
-        
+    
         
     <div class="tab-pane fade" id="ios">
         <p>
-            iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch 和 Apple 
-        TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS 是苹果的移动版本。
+               nihaoanihao
         </p>
     </div>
     <div class="tab-pane fade" id="jmeter">
@@ -78,4 +78,19 @@
     </div>
     </div>
 </div>
+{% end %}
+{% block foot_script %}
+<script>
+   $(function(){
+      $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+      // 获取已激活的标签页的名称
+      var activeTab = $(e.target).text(); 
+      // 获取前一个激活的标签页的名称
+      var previousTab = $(e.relatedTarget).text(); 
+    //   $(".active-tab span").html(activeTab);
+    //   $(".previous-tab span").html(previousTab);
+    // alert("nihao");
+   });
+});
+</script>
 {% end %}

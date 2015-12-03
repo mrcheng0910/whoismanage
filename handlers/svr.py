@@ -88,6 +88,13 @@ class TopSecSvr(tornado.web.RequestHandler):
     操作域名whois顶级服务器和二级服务器
     """
     def get(self):
-        self.render(PATH+'top_sec.html')
+        results = SvrDb().sec_num()
+        self.render(PATH+'top_sec.html',sec_num=results[0].num)
         
-        
+class TopSecQuery(tornado.web.RequestHandler):
+    """
+    get
+    """
+    def get(self):
+        results = SvrDb().top_sec()
+        self.write(json.dumps(results))
