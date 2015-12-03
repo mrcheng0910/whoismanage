@@ -3,7 +3,7 @@
 *.so
 *.class
 *~
-.idea/
+.vscode/
 build/
 /dist/
 MANIFEST
