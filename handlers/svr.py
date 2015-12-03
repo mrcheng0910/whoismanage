@@ -81,3 +81,13 @@ class SvrDetectHandler(tornado.web.RequestHandler):
                     results1=json.dumps(results[:7]),
                     results2=json.dumps(results[7:15])
                     )
+
+
+class TopSecSvr(tornado.web.RequestHandler):
+    """
+    操作域名whois顶级服务器和二级服务器
+    """
+    def get(self):
+        self.render(PATH+'top_sec.html')
+        
+        

@@ -20,5 +20,6 @@ urls = [
     (r'/svr_performance',SvrPerformanceHandler), # whois服务器性能
     (r'/svr_table',SvrTableHandler), # 服务器表格内容测试，测试
     (r'/svr_table_info',SvrInfoHandler),  # 信息
-    (r'/svr_detect',SvrDetectHandler)  # 探测信息
+    (r'/svr_detect',SvrDetectHandler),  # 探测信息
+    (r'/top_sec',TopSecSvr) # 一级和二级服务器
 ]
