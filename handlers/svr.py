@@ -125,8 +125,12 @@ class TopSecNum(tornado.web.RequestHandler):
         for sec_value in sec_results[1:]:
             for drill_value in drill_series:
                 if drill_value['name']==sec_value['top_svr']:
-                    if len(drill_value['data']) == 5:
+                    if len(drill_value['data']) == 15:
                         pass
+                    elif len(drill_value['data'])==14:
+                        total = 0
+                        total = self.find_svr(top_series,drill_value['name'])-self.find_total(drill_value['data'])
+                        drill_value['data'].append(['Ohter',total])
                     else:
                         drill_value['data'].append([sec_value['sec_svr'],sec_value['whois_sum']])
                     break
@@ -137,45 +141,23 @@ class TopSecNum(tornado.web.RequestHandler):
                     'data':[[sec_value['sec_svr'],sec_value['whois_sum']],]
                 })
         
-        
-        # print len(drill_series)
-        # print len(drill_series[0]['data'])
-        
-        
-        
-        print top_series
-        print drill_series
         return [top_series,drill_series]
         
+    def find_svr(self,top_series,name):
+        """
+        查找总数
+        """
+        for value in top_series:
+            if value['name']==name:
+                return value['y']
         
+    def find_total(self,drill_data):
+        """
+        已有数量
+        """
+        total = 0
+        for value in drill_data:
+            total += value[1]
         
-        
-    # def manage(self,results):
-    #     svr_name = []
-    #     series = []
-    #     svr_name.append({
-    #         'name': results[0]['top_svr'],
-    #         'y': results[0]['whois_sum'],
-    #         'drilldown': results[0]['top_svr']
-    #     })
-    #     raw_results = results[1:]
-    #     for raw_value in raw_results:
-    #         for index,svr_value in enumerate(svr_name):
-    #             if svr_value['name']==raw_value['top_svr']:
-    #                 svr_name.append({
-    #                     'name': raw_value['top_svr'],
-    #                     'y': raw_value['whois_sum']+svr_value['y'],
-    #                     'drilldown': raw_value['top_svr']
-    #                 })
-    #                 svr_name.pop(index)
-    #                 break
-                
-    #         else:
-    #             svr_name.append({
-    #                 'name': raw_value['top_svr'],
-    #                 'y': raw_value['whois_sum'],
-    #                 'drilldown': raw_value['top_svr']
-    #             })
-    #     return svr_name
-        
+        return total
         

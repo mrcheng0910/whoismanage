@@ -50,7 +50,7 @@
         
         <div class="tab-pane fade" id="domain">
             <div class="row" style="margin-top:20px;">
-                    <div class="col-lg-7">
+                    <div class="col-lg-8">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <i class="fa  fa-chart fa-fw"></i> 截至{{ datetime.datetime.now().strftime('%Y-%m-%d')}}最新数据
@@ -62,9 +62,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-lg-4">
                         <div class="well">
-                            目前数据库中，含有二级whois服务器的顶级服务器有<code id="top" style="font-size:20px;"></code>个，二级服务器总数为<code style="font-size:20px;">{{sec_num}}</code>个，详细可单击柱状图查询。
+                            左图为二级服务器所负责的WHOIS信息查询的域名数量以及所占比例示意图。单击饼图可查询详细内容。
                         </div>
                     </div>
             </div>

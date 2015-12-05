@@ -122,6 +122,6 @@ class SvrDb(BaseDb):
         """
         sql = "SELECT top_svr,SUM(whois_sum) as total FROM top_sec_svr group by top_svr"
         top_results = self.db.query(sql)
-        sql = "SELECT top_svr,sec_svr,whois_sum FROM top_sec_svr order by whois_sum desc limit 1000"
+        sql = "SELECT top_svr,sec_svr,whois_sum FROM top_sec_svr order by whois_sum desc"
         sec_results = self.db.query(sql)
         return top_results,sec_results
