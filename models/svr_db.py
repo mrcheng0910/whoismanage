@@ -107,6 +107,7 @@ class SvrDb(BaseDb):
         sql = "SELECT top_svr,count(*) as num FROM top_sec_svr group by top_svr"
         results = self.db.query(sql)
         return results
+        
     def sec_num(self):
         """
         获得二级服务器服务器
@@ -115,3 +116,12 @@ class SvrDb(BaseDb):
         sql = "select count(distinct(sec_svr)) as num from top_sec_svr"
         results = self.db.query(sql)
         return results
+        
+    def top_sec_test(self):
+        """
+        """
+        sql = "SELECT top_svr,SUM(whois_sum) as total FROM top_sec_svr group by top_svr"
+        top_results = self.db.query(sql)
+        sql = "SELECT top_svr,sec_svr,whois_sum FROM top_sec_svr order by whois_sum desc limit 1000"
+        sec_results = self.db.query(sql)
+        return top_results,sec_results

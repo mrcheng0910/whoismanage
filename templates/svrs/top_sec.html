@@ -1,81 +1,74 @@
 {% extends "../main_template.html" %}
 {% block head_link %}
 <script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script src="http://cdn.hcharts.cn/highmaps/modules/drilldown.js"></script>
+<script src="http://cdn.hcharts.cn/highmaps/modules/data.js"> </script>
 <script src="{{static_url("js/svr/top_sec.js")}}"></script>
+<script src="{{static_url("js/svr/top_sec_num.js")}}"></script>
 {% end %}
 
 {% block title_name %}
-<title>一级和二级WHOIS服务器分析</title>
+<title>二级WHOIS服务器分析</title>
 {% end %}
 
 {% block page %}
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">一级和二级WHOIS服务器分析</h1>
+        <h1 class="page-header">二级WHOIS服务器分析</h1>
     </div>
 </div> <!--./row-->
 <div class="row">
     <ul id="myTab" class="nav nav-tabs">
-    <li class="active">
-        <a href="#home" data-toggle="tab">数量统计</a>
-   </li>
-   <li><a href="#ios" data-toggle="tab">二级服务器性能统计</a></li>
-   <li><a href="#" data-toggle="tab"> 性能分析</a></li>
-   
+        <li class="active">
+            <a href="#home" data-toggle="tab">服务器数量统计</a>
+        </li>
+        <li><a href="#domain" data-toggle="tab">服务器管理域名统计</a></li>
+        <li><a href="#" data-toggle="tab"> 性能分析</a></li>
     </ul>
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="home">
             <div class="row" style="margin-top:20px;">
-                <div class="col-lg-6">
+                <div class="col-lg-7">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <i class="fa  fa-pie-chart fa-fw"></i> 截至{{ datetime.datetime.now().strftime('%Y-%m-%d')}}最新数据
+                            <i class="fa  fa-chart fa-fw"></i> 截至{{ datetime.datetime.now().strftime('%Y-%m-%d')}}最新数据
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div id="container" style="min-width:400px;height:400px"></div>
-                                
+                                <div id="container" style="min-width:400px;height:400px;"></div>
                             </div>
                         </div>
-                    </div>
-                    <div class="well">
-                    目前数据库中，含有二级whois服务器的顶级服务器有<code id="top"></code>个，二级服务器总数为<code>{{sec_num}}</code>个，详细可单击图标查询。
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa  fa-pie-chart fa-fw"></i> 截至{{ datetime.datetime.now().strftime('%Y-%m-%d')}}最新数据
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                               
-                            </div>
-                        </div>
+                <div class="col-lg-5">
+                    <div class="well">
+                        目前数据库中，含有二级whois服务器的顶级服务器有<code id="top" style="font-size:20px;"></code>个，二级服务器总数为<code style="font-size:20px;">{{sec_num}}</code>个，详细可单击柱状图查询。
                     </div>
                 </div>
             </div>
+        </div> <!--./home tab-->
+        
+        <div class="tab-pane fade" id="domain">
+            <div class="row" style="margin-top:20px;">
+                    <div class="col-lg-7">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <i class="fa  fa-chart fa-fw"></i> 截至{{ datetime.datetime.now().strftime('%Y-%m-%d')}}最新数据
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div id="container1" style="min-width:400px;height:400px;margin:0 auto;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="well">
+                            目前数据库中，含有二级whois服务器的顶级服务器有<code id="top" style="font-size:20px;"></code>个，二级服务器总数为<code style="font-size:20px;">{{sec_num}}</code>个，详细可单击柱状图查询。
+                        </div>
+                    </div>
+            </div>
         </div>
-        
-        
-        
-        
-    
-        
-    <div class="tab-pane fade" id="ios">
-        <p>
-               nihaoanihao
-        </p>
-    </div>
-    <div class="tab-pane fade" id="jmeter">
-        <p>
-            jMeter 是一款开源的测试软件。它是 100% 纯 Java 应用程序，用于负载和性能测试。
-        </p>
-    </div>
-    <div class="tab-pane fade" id="ejb">
-        <p>Enterprise Java Beans（EJB）是一个创建高度可扩展性和强大企业级应用程序的开发架构，部署在兼容应用程序服务器（比如 JBOSS、Web Logic 等）的 J2EE 上。
-        </p>
-    </div>
     </div>
 </div>
 {% end %}
@@ -85,8 +78,12 @@
       $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
       // 获取已激活的标签页的名称
       var activeTab = $(e.target).text(); 
+      if(activeTab=="服务器管理域名统计"){
+          test();
+      }
+    //   alert(activeTab);     
       // 获取前一个激活的标签页的名称
-      var previousTab = $(e.relatedTarget).text(); 
+    //   var previousTab = $(e.relatedTarget).text(); 
     //   $(".active-tab span").html(activeTab);
     //   $(".previous-tab span").html(previousTab);
     // alert("nihao");

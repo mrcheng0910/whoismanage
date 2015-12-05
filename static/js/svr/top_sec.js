@@ -1,7 +1,7 @@
 $(function () {
-    var raw_data;
-    var categories_data=[];
-    var series_data =[];
+    var raw_data;       //原始数据
+    var categories_data=[];  //x数据
+    var series_data =[];   //y数据
     $.ajax({
             url: '/top_sec/query',
             type: "get",
@@ -14,7 +14,7 @@ $(function () {
                 series_data = raw_data.map(function(val){
                    return val.num;
                 });
-                test(categories_data,series_data);
+                top_pie(categories_data,series_data);
                 $("#top").text(categories_data.length);
             }, 
             error: function (xhr) {
@@ -25,9 +25,11 @@ $(function () {
                 }
             } // 出错后的处理
         });
-})
-
-function test(c,s){
+        
+    
+});
+//初始化顶级whois服务器饼图
+function top_pie(c,s){      
         $('#container').highcharts({
         chart: {
             type: 'column'

@@ -115,7 +115,7 @@ function tld_svr_reg(reg_n,reg_p,reg_y) {
         }]
     });
 }
- 详细信息
+ //详细信息
 function tld_svr_info(flag) {
     var url = '/svr_table_info'
     layer.open({
