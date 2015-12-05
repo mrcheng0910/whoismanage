@@ -1,8 +1,6 @@
 //获得各个服务器提供服务的域名数量
 function test () {
     var raw_data=[];
-    var svr_name = []
-    var first = []
     $.ajax({
             url: '/top_sec/query_num',
             type: "get",
