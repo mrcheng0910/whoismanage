@@ -2,7 +2,7 @@
 """
 系统路由设置
 """
-from handlers.index import IndexHandler
+from handlers.index import IndexHandler,RateOfIncrease
 from handlers.domain import DomainIndexHandler
 from handlers.domain_geo import DomainGeoHandler
 from handlers.domain import DomainQueryHandler
@@ -12,6 +12,7 @@ from handlers.domain_whois import DomainWhoisHandler
 
 urls = [
     (r'/', IndexHandler),
+    (r'/rate_of_increase',RateOfIncrease),
     (r'/tld', TldHandler),
     (r'/domain_geography', DomainGeoHandler), #域名地理位置查询
     (r'/domain', DomainIndexHandler), # 域名首页
@@ -26,5 +27,5 @@ urls = [
     (r'/top_sec/query',TopSecQuery), # 获取信息
     (r'/top_sec/query_num',TopSecNum), #获取对比数据
     
-    (r'/tld_whois_integrity',DomainWhoisHandler), # whois信息完整性分析
+    (r'/whois_integrity',DomainWhoisHandler), # whois信息完整性分析
 ]

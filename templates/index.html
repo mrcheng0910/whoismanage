@@ -24,8 +24,8 @@
                         <i class="fa fa-bookmark-o fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">{{ domain_num }} M</div>
-                        <div>域名数量(百万)</div>
+                        <div class="huge">{{ domain_num }}</div>
+                        <div>域名总量(百万)</div>
                     </div>
                 </div>
             </div>
@@ -47,8 +47,8 @@
                         <i class="fa fa-cog fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">{{ whois_sum }} T</div>
-                        <div>域名WHOIS信息(千)</div>
+                        <div class="huge">{{ whois_sum }}</div>
+                        <div>域名WHOIS信息(百万)</div>
                     </div>
                 </div>
             </div>
@@ -121,10 +121,7 @@
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <!-- <div id="morris-area-chart"></div> -->
-                <div id="containertb" style="width:100%;height:100%">
-                    <script>
-                        $(document).ready(whois_chart({% raw tld_whois_sum %}));
-                    </script>
+                <div id="container" style="width:100%;height:100%">
                 </div>
             </div>
         </div>

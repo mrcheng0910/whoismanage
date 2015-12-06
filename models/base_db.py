@@ -12,5 +12,6 @@ class BaseDb(object):
             database="DomainWhois",
             user="root",
             password="platform",
-            charset="utf8"
+            charset="utf8",
+            time_zone="+8:00"
         )

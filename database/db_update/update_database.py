@@ -100,6 +100,7 @@ def update_db():
     sql = 'INSERT INTO whois_sum(tld_sum) VALUES(%s)'
     cur.execute(sql,total)
     conn.commit()
+    cur.execute('TRUNCATE TABLE whois_sum_by_day')
     conn.close()
 
 def create_queue():
@@ -115,12 +116,13 @@ def create_queue():
     queue.put(sql_num)   # domain_whois_num 加入队列
     sql_other = 'SELECT SUBSTRING_INDEX(domain,".",-1) as tld, count(*) AS count \
                 FROM domain_whois_other WHERE flag <> -6 GROUP BY tld'
-    queue.put(sql_num)   # domain_whois_other 加入队列
+    queue.put(sql_other)   # domain_whois_other 加入队列
     
 
 def main():
     """主操作"""
-    
+    global sum_domains  # 务必添加，初始化，否则会一直累加
+    sum_domains = []
     create_queue()
     for q in range(num_thread):  # 开始任务
         worker = Thread(target=count_domain, args=(q, queue))
@@ -132,12 +134,23 @@ def main():
     for value in sum_domains:
         print value
     update_db()
+    
+def update_day():
+    """更新每天的数据"""
+    conn = conn_db()
+    sql = 'insert into DomainWhois.whois_sum_by_day(sum) select max(tld_sum) from DomainWhois.whois_sum where to_days(insert_time) = to_days(now())' # 插入数据
+    cur = conn.cursor()
+    cur.execute(sql)
+    conn.commit()
+    conn.close()
 
 if __name__ == "__main__":
     
     lock = threading.Lock()
     schedule.every().hour.do(main)   # 每小时运行一次
-    # schedule.every(8).minutes.do(main)
+    # schedule.every(15).minutes.do(main)
+    # schedule.every(30).minutes.do(update_day)
+    schedule.every().day.at("23:40").do(update_day)
     while True:
         schedule.run_pending()
         time.sleep(1)
