@@ -8,6 +8,7 @@ from handlers.domain_geo import DomainGeoHandler
 from handlers.domain import DomainQueryHandler
 from handlers.svr import *
 from handlers.tld import TldHandler
+from handlers.domain_whois import DomainWhoisHandler
 
 urls = [
     (r'/', IndexHandler),
@@ -24,4 +25,6 @@ urls = [
     (r'/top_sec',TopSecSvr), # 一级和二级服务器
     (r'/top_sec/query',TopSecQuery), # 获取信息
     (r'/top_sec/query_num',TopSecNum), #获取对比数据
+    
+    (r'/tld_whois_integrity',DomainWhoisHandler), # whois信息完整性分析
 ]

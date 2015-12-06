@@ -1,0 +1,38 @@
+{% extends "../main_template.html" %}
+{% block head_link %}
+<script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script src="{{ static_url("js/domain_whois/whois_integrity.js")}}"></script>
+{% end %}
+{% block title_name %}
+<title>域名WHOIS信息完整性统计</title>
+{% end %}
+{% block page %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">域名WHOIS信息完整性统计</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i>
+                域名WHOIS信息完整性分布
+                <div class="pull-right"></div>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <!-- <div id="morris-area-chart"></div> -->
+                <div id="containertb" style="width:100%;height:100%">
+                    <script>
+                        $(document).ready(whois_chart({% raw tld_whois_sum %}));
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% end %}

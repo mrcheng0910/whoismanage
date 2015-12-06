@@ -1,12 +1,17 @@
 #!/usr/bin/python
 # encoding:utf-8
 """
-网站后台定期更新程序，完成数据库中域名和WHOIS数量的统计分类
-程亚楠
+网站后台定期更新程序
+功能：更新tld_whois_sum_history表，完成数据库中已经探测的域名数量，包括顶级后缀和域名后缀
+其他：tld_whois_sum_history的update_time字段为自动添加，插入数据后，根据系统时间自动生成
 """
 import sys
 import MySQLdb
 import time
+try:
+    import schedule
+except ImportError:
+    sys.exit("无schedul模块,请安装 easy_install schedule")
 from datetime import datetime
 import threading
 from threading import Thread
@@ -55,10 +60,10 @@ def count_domain(q, queue):
     """计算各个列表中，各个顶级后缀的数量，并求和"""
     while 1:
         content = queue.get()
-        print content
         if not content:
             queue.task_done()
         try:
+            print content
             conn = conn_db()
             cur = conn.cursor()
             cur.execute(content)
@@ -79,19 +84,28 @@ def count_domain(q, queue):
 
 def update_db():
     """更新数据库"""
+    total = 0
     conn = conn_db()
-    current_time = datetime.now()
-    sql = 'INSERT INTO tld_whois_sum(tld,whois_sum) VALUES(%s, %s)'
+    sql = 'INSERT INTO tld_whois_sum_history(tld,whois_sum) VALUES(%s, %s)' # 插入数据
     cur = conn.cursor()
     for domain in sum_domains:
         cur.execute(sql,(domain[0], domain[1]))
-    # single_domains = cur.fetchall()
+    conn.commit()
+    cur.execute('TRUNCATE TABLE tld_whois_sum')
+    sql = 'INSERT INTO tld_whois_sum(tld,whois_sum) VALUES(%s, %s)'
+    for domain in sum_domains:
+        cur.execute(sql,(domain[0], domain[1]))
+        total = total + domain[1]
+    conn.commit()
+    sql = 'INSERT INTO whois_sum(tld_sum) VALUES(%s)'
+    cur.execute(sql,total)
     conn.commit()
     conn.close()
 
-
-def main():
-    """操作"""
+def create_queue():
+    """
+    创建任务队列
+    """
     for i in xrange(65, 91):     # 创建任务队列，A-Z
         sql = 'SELECT SUBSTRING_INDEX(domain,".",-1) as tld, count(*) AS count \
                FROM domain_whois_%s WHERE flag <> -6 GROUP BY tld' % chr(i)
@@ -102,10 +116,15 @@ def main():
     sql_other = 'SELECT SUBSTRING_INDEX(domain,".",-1) as tld, count(*) AS count \
                 FROM domain_whois_other WHERE flag <> -6 GROUP BY tld'
     queue.put(sql_num)   # domain_whois_other 加入队列
+    
 
+def main():
+    """主操作"""
+    
+    create_queue()
     for q in range(num_thread):  # 开始任务
         worker = Thread(target=count_domain, args=(q, queue))
-        # worker.setDaemon(True)
+        worker.setDaemon(True)
         worker.start()
     queue.join()
 
@@ -115,9 +134,10 @@ def main():
     update_db()
 
 if __name__ == "__main__":
-
-    start = time.clock()
+    
     lock = threading.Lock()
-    main()
-    elapsed = (time.clock() - start)
-    print("Time used:",elapsed)
+    schedule.every().hour.do(main)   # 每小时运行一次
+    # schedule.every(8).minutes.do(main)
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
