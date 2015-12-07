@@ -11,13 +11,14 @@ $(function () {
                 raw_data = JSON.parse(data);
                 for(var i=0,arrLength=raw_data.length;i<arrLength;i++){
                     var value = raw_data[i]
-                    categories.unshift(value.insert_time.slice(0,10));
-                    series_total.unshift(value.tld_sum);
+                    categories.unshift(value.insert_time.slice(0,10)); //添加时间，截取年月日
+                    series_total.unshift((Math.round((value.sum/1000000.0)*100)/100)); //添加数量，两位小数，百万级别
                 }
                 for(var i =1;i<series_total.length;i++){
-                    series_increase.push((series_total[i]-series_total[i-1])/series_total[i-1]);
+                    var single_value = (series_total[i]-series_total[i-1])/series_total[i-1];
+                    series_increase.push(Math.round(single_value*100)/100);
                 }
-                init(categories,series_total.slice(1,series_total.length),series_increase);
+                init(categories.slice(1,categories.length),series_total.slice(1,series_total.length),series_increase);
             },
             error: function (xhr) {
                 if (xhr.status == "0") {
@@ -31,8 +32,13 @@ $(function () {
 
 function init(categories,series_total,series_increase){
     $('#container').highcharts({
+        credits: {
+            enabled: false,
+            text: '域名分析团队',
+            href: '#'
+        },
         chart: {
-            zoomType: 'xy'
+            zoomType: 'x'  //x轴方向缩放
         },
         title: {
             text: '域名WHOIS信息增长趋势统计'
@@ -41,14 +47,13 @@ function init(categories,series_total,series_increase){
             text: '增长数量与增长趋势'
         },
         xAxis: [{
-            // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-            //     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            categories: categories,
-            crosshair: true
+            categories: categories,   //x轴显示数据
+            crosshair: true,
+            tickInterval: 2 //显示间隔，与step类似，但是其用的多
         }],
         yAxis: [{ // Primary yAxis
             labels: {
-                format: '{value}%',
+                format: '{value}%',   //格式化标签
                 style: {
                     color: Highcharts.getOptions().colors[1]
                 }
@@ -67,12 +72,21 @@ function init(categories,series_total,series_increase){
                 }
             },
             labels: {
-                format: '{value} 个',
+                format: '{value} M个',
                 style: {
                     color: Highcharts.getOptions().colors[0]
                 }
             },
-            opposite: true
+            opposite: true,
+            startOnTick: false,
+            endOnTick: false,
+            // tickInterval: 0.01,
+            // min: series_increase[0]
+            min: series_total[0]-1,
+            max: series_total[series_total.length-1]+0.3,
+            alignTicks: false
+            // gridLineWidth: 0
+            // max: null
         }],
         tooltip: {
             shared: true
@@ -82,7 +96,7 @@ function init(categories,series_total,series_increase){
             align: 'left',
             x: 120,
             verticalAlign: 'top',
-            y: 100,
+            y: 40,
             floating: true,
             backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
         },
@@ -90,20 +104,19 @@ function init(categories,series_total,series_increase){
             name: '域名WHOS总量',
             type: 'column',
             yAxis: 1,
-            // data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
             data: series_total,
             tooltip: {
-                valueSuffix: ' 个'
+                valueSuffix: ' M个'
             }
-
+            
         }, {
             name: '增长率',
             type: 'spline',
-            // data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
             data: series_increase,
             tooltip: {
                 valueSuffix: '%'
             }
+           
         }]
     });
 }

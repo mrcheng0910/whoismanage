@@ -40,6 +40,7 @@ class IndexDb(BaseDb):
         
     def get_increase(self,top=11):
         """获取域名whois增量"""
-        sql = 'SELECT tld_sum,insert_time FROM DomainWhois.whois_sum order by insert_time desc limit %d' % top
+        sql = 'SELECT sum,insert_time FROM whois_sum_by_day order by insert_time desc limit %d' % top
         results = self.db.query(sql)
+        # print results
         return results

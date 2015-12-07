@@ -27,8 +27,7 @@ class RateOfIncrease(tornado.web.RequestHandler):
     
     def get(self):
         index_db = IndexDb()
-        raw_data = index_db.get_increase(top=11)
-        print raw_data
+        raw_data = index_db.get_increase(top=15)
         self.write(json.dumps(raw_data,default=json_serial))
 
 

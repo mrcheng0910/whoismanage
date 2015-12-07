@@ -100,7 +100,6 @@ def update_db():
     sql = 'INSERT INTO whois_sum(tld_sum) VALUES(%s)'
     cur.execute(sql,total)
     conn.commit()
-    cur.execute('TRUNCATE TABLE whois_sum_by_day')
     conn.close()
 
 def create_queue():
