@@ -9,7 +9,7 @@ from handlers.domain import DomainQueryHandler
 from handlers.svr import *
 from handlers.tld import TldHandler
 from handlers.domain_whois import DomainWhoisHandler
-from handlers.detect_efficiency import DetectHandler
+from handlers.detect_efficiency import DetectHandler,ManageIncreaseHandler
 
 urls = [
     (r'/', IndexHandler),
@@ -29,5 +29,6 @@ urls = [
     (r'/top_sec/query_num',TopSecNum), #获取对比数据
     
     (r'/whois_integrity',DomainWhoisHandler), # whois信息完整性分析
-    (r'/detect',DetectHandler),  # 测试探测性能
+    (r'/detect',DetectHandler),  # 测试探测性能首页
+    (r'/detect/increase',ManageIncreaseHandler),  # 探测性能
 ]

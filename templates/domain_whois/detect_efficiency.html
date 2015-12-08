@@ -52,11 +52,16 @@
                 <script type="text/javascript">
                     $(function () {
                         $('#datetimepicker6').datetimepicker({
-                            format: "DD/MM/YYYY"
+                            // format: "DD/MM/YYYY",
+                            format: "YYYY-MM-DD",
+                            defaultDate: new Date(),
+                            showTodayButton: true
                         });
                         $('#datetimepicker7').datetimepicker({
                             useCurrent: false, //Important! See issue #1075
-                            format: "DD/MM/YYYY"
+                            format: "YYYY-MM-DD",
+                            defaultDate: new Date(),
+                            showTodayButton: true
                         });
                         $("#datetimepicker6").on("dp.change", function (e) {
                             $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
@@ -65,7 +70,8 @@
                             $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
                         });
                         $("#query").bind('click',function(){
-                           alert($("#start_date").val());
+                        //    alert($("#start_date").val());
+                            test();
                         });
                     });
                 </script>
@@ -77,7 +83,7 @@
             <div class="panel-heading">
                 <i class="fa fa-bar-chart-o fa-fw"></i>
                 域名WHOIS信息探测性能
-                <div class="pull-right"></div>
+                <code><div class="pull-right" style="font-size:15px;" id="detect_period">探测时间段：2015-12-08 08:07:05至2015-12-08 08:07:05</div></code>
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
