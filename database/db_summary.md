@@ -9,11 +9,16 @@
 8. `tld_whois_sum`,存储各个域名顶级后缀已经获取的域名WHOIS信息数量；
 9. `whois_addr`，存储WHOIS信息获取需要的各类信息，包括主服务器，函数名称，标记位等;
 10. `svr_country`,记录域名WHOIS服务器的地理位置;
-11. [`tld_whois_flag`](#t),记录已有whois信息的flag标志位的分布情况
-12. [`tld_whois_sum`](#tld_whois_sum)，记录最新一次的各个域名顶级后缀探测的域名whois的总数，**该表每小时更新一次最新数据**
-13. [`tld_whois_sum_history`](#tld_whois_sum_history),记录数据库中每天每小时各个域名顶级后缀探测的域名whois的总数，**该表每小时插入一次最新数据**
-14. [`whois_sum`](#whois_sum),记录每天每小时的数据库中域名whois的总数，简单来说就是多少个域名已探测，**该表每小时插入一次最新数据**；
-15. [`whois_sum_by_day`](#whois_sum_by_day)，记录每天数据库中已经探测得到的域名WHOIS总数,**该表在每天晚上11点50分左右插入一次最新数据**
+11. [`tld_whois_flag`](#tld_whois_flag)
+	记录各个域名顶级后缀的whois信息情况，通过flag标记位分类，flag\_details是详细信息。每小时更新一次最新数据
+12. [`tld_whois_sum`](#tld_whois_sum)
+	记录最新一次的各个域名顶级后缀探测的域名whois的总数，每小时更新一次最新数据
+13. [`tld_whois_sum_history`](#tld_whois_sum_history)
+	记录数据库中每天每小时各个域名顶级后缀探测的域名whois的总数，每小时插入一次最新数据
+14. [`whois_sum`](#whois_sum)
+	记录每天每小时的数据库中域名whois的总数，简单来说就是多少个域名已探测，每小时插入一次最新数据；
+15. [`whois_sum_by_day`](#whois_sum_by_day)
+	记录每天数据库中已经探测得到的域名WHOIS总数,在每天晚上11点50分左右插入一次最新数据
 
 ### 负责人说明
 1. **程亚楠**负责整个数据库的信息维护；
@@ -26,11 +31,29 @@
 1. 表1-3、9为域名WHOIS信息存储表，为获取系统的整体表。
 2. 表4-8、9为域名WHOIS信息统计web所需要表。
 
-###
-- 数据库名称：DomainWhois
 
 ## 表结构详细说明
 介绍各个表的结构，字段说明
+
+<h3 id="tld_whois_flag">tld_whois_flag</h3>
+
+字段说明
+
+- id：编号
+- tld: 域名顶级后缀
+- flag：标记位分类
+- flag\_detail:详细分类
+- whois\_sum:已探测的whois数量
+- update\_time:更新时间
+
+例子：
+
+id    | tld  | flag| flag_detail|whois_sum  | update_date
+------|------|---------|---------
+1| net| 3 | 100 |434|2015-12-07 09:40:45
+2| org| 2|122 |222|2015-12-07 10:42:32
+3| org| 1|101 |2232|2015-12-07 10:42:32
+
 
 <h3 id="tld_whois_sum">tld_whois_sum</h3>
 
