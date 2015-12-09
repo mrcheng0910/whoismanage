@@ -9,8 +9,8 @@
 8. `tld_whois_sum`,存储各个域名顶级后缀已经获取的域名WHOIS信息数量；
 9. `whois_addr`，存储WHOIS信息获取需要的各类信息，包括主服务器，函数名称，标记位等;
 10. `svr_country`,记录域名WHOIS服务器的地理位置;
-11. [`tld_whois_flag`](#tld_whois_flag)
-	记录各个域名顶级后缀的whois信息情况，通过flag标记位分类，flag\_details是详细信息。每小时更新一次最新数据
+11. [`tld_whois_flag`](#tld_whois_flag)  
+    记录各个域名顶级后缀的whois信息情况，通过flag标记位分类，flag\_details是详细信息。每小时更新一次最新数据
 12. [`tld_whois_sum`](#tld_whois_sum)
 	记录最新一次的各个域名顶级后缀探测的域名whois的总数，每小时更新一次最新数据
 13. [`tld_whois_sum_history`](#tld_whois_sum_history)
