@@ -1,4 +1,4 @@
-### 数据库说明
+### 数据库表整体介绍
 1. `domain_whois_A---domain_whois_Z`,为根据主域名首字母建立的域名WHOIS信息存储表;
 2. `domain_whois_num`，主域名首字母为数字的域名WHOIS信息存储表;
 3. `domain_whois_other`,顶级后缀或者主域名为特殊字符的域名WHOIS信息存储表;
@@ -10,6 +10,7 @@
 9. `whois_addr`，存储WHOIS信息获取需要的各类信息，包括主服务器，函数名称，标记位等;
 10. `svr_country`,记录域名WHOIS服务器的地理位置;
 11. [`tld_whois_flag`](#t),记录已有whois信息的flag标志位的分布情况
+12. [`tld_whois_sum_history`](#tld_whois_sum_history),记录数据库中每天每小时各个域名顶级后缀探测的域名whois的总数，**该表每小时更新一次**
 12. [`whois_sum`](#whois_sum),记录每天每小时的数据库中域名whois的总数，简单来说就是多少个域名已探测，**该表每小时更新一次**；
 13. [`whois_sum_by_day`](#whois_sum_by_day)，记录每天数据库中已经探测得到的域名WHOIS总数,**该表在每天晚上12点之前更新一次**
 
@@ -28,8 +29,25 @@
 - 数据库名称：DomainWhois
 
 ## 表结构详细说明
+介绍各个表的结构，字段说明
 
-<h3 id="whois_sum">1. whois_sum</h3>
+<h3 id="tld_whois_sum_history">tld_whois_sum_history</h3>
+
+字段说明
+
+- id：编号
+- tld: 域名顶级后缀
+- whois\_sum：目前为止总共探测的域名whois数量
+- update\_date:更新时间
+
+例子：
+
+id    | tld  | whois_sum  | update_date
+------|------|---------|---------
+1| net| 434343434|2015-12-07 09:40:45
+2| org| 22222222|2015-12-07 10:42:32
+
+<h3 id="whois_sum">whois_sum</h3>
 
 字段说明
 
@@ -45,7 +63,7 @@ id    | tld_sum  | insert_date
 2| 30101000| 2015-12-07 10:42:32
 
 
-<h3 id="whois_sum_by_day">2. whois_sum_by_day</h3>
+<h3 id="whois_sum_by_day">whois_sum_by_day</h3>
 
 字段说明
 
