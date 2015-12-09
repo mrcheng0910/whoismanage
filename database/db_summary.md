@@ -1,14 +1,24 @@
 ## 数据库表整体介绍
-1. `domain_whois_A---domain_whois_Z`,为根据主域名首字母建立的域名WHOIS信息存储表;
-2. `domain_whois_num`，主域名首字母为数字的域名WHOIS信息存储表;
-3. `domain_whois_other`,顶级后缀或者主域名为特殊字符的域名WHOIS信息存储表;
-4. `domain_summary`,统计域名WHOIS信息存储表中，各个顶级后缀的域名的**最新数量**;
-5. `domain_update`, 定期统计域名WHOIS信息存储表中，各个顶级后缀的域名数量，最新数据则保存到`domain_summary`内;
-6. `msvr_ssvr`,存储主和次域名WHOIS服务器的各自数量；
-7. `tld_details`，存储**最新**域名顶级后缀,包括后缀类型、管理组织、网址等；
-8. `tld_whois_sum`,存储各个域名顶级后缀已经获取的域名WHOIS信息数量；
-9. `whois_addr`，存储WHOIS信息获取需要的各类信息，包括主服务器，函数名称，标记位等;
-10. `svr_country`,记录域名WHOIS服务器的地理位置;
+1. `domain_whois_A---domain_whois_Z`  
+	为根据主域名首字母建立的域名WHOIS信息存储表;
+2. `domain_whois_num`
+	主域名首字母为数字的域名WHOIS信息存储表;
+3. `domain_whois_other`
+	顶级后缀或者主域名为特殊字符的域名WHOIS信息存储表;
+4. `domain_summary`
+	统计域名WHOIS信息存储表中，各个顶级后缀的域名的**最新数量**;
+5. `domain_update`
+	定期统计域名WHOIS信息存储表中，各个顶级后缀的域名数量，最新数据则保存到`domain_summary`内;
+6. `msvr_ssvr`
+	存储主和次域名WHOIS服务器的各自数量；
+7. `tld_details`
+	存储**最新**域名顶级后缀,包括后缀类型、管理组织、网址等；
+8. `tld_whois_sum`
+	存储各个域名顶级后缀已经获取的域名WHOIS信息数量；
+9. `whois_addr`
+	存储WHOIS信息获取需要的各类信息，包括主服务器，函数名称，标记位等;
+10. `svr_country`
+	记录域名WHOIS服务器的地理位置;
 11. [`tld_whois_flag`](#tld_whois_flag)  
     记录各个域名顶级后缀的whois信息情况，通过flag标记位分类，flag\_details是详细信息。每小时更新一次最新数据
 12. [`tld_whois_sum`](#tld_whois_sum)  

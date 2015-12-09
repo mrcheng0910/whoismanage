@@ -2,8 +2,8 @@
 # encoding:utf-8
 """
 网站后台定期更新程序
-功能：更新tld_whois_sum_history表，完成数据库中已经探测的域名数量，包括顶级后缀和域名后缀
-其他：tld_whois_sum_history的update_time字段为自动添加，插入数据后，根据系统时间自动生成
+功能：更新表tld_whois_sum_history、tld_whois_sum、whois_sum、whois_sum_by_day四个表。
+
 """
 import sys
 import MySQLdb
@@ -120,8 +120,8 @@ def create_queue():
 
 def main():
     """主操作"""
-    global sum_domains  # 务必添加，初始化，否则会一直累加
-    sum_domains = []
+    global sum_domains  
+    sum_domains = [] # 务必添加，初始化，否则会一直累加
     create_queue()
     for q in range(num_thread):  # 开始任务
         worker = Thread(target=count_domain, args=(q, queue))
