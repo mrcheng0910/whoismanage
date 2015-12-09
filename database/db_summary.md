@@ -34,13 +34,8 @@
 - insert_date:更新时间
 
 例子：  
-|id ||sum||insert_date||
-|---||---||---||
-||1|| 30098330||2015-12-04 09:40:45||
-||2|| 30101000||2015-12-05 09:40:45||
 
-
-First Header  | Second Header
-------------- | -------------
-Content Cell  | Content Cell
-Content Cell  | Content Cell
+id    | sum  | insert_date
+------|------|---------
+1| 30098330| 2015-12-04 09:40:45
+2| 30101000| 2015-12-05 09:40:45
