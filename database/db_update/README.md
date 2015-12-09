@@ -8,3 +8,8 @@
 ##触发器
 - `update_summary.sql`:触发器--将domain_summary表中最新数据更新到domain_update表中
 - `update_trigger.sql`:触发器--统计所有含有whois信息的域名数量，按tld分组，存入tld_whois_sum表中
+
+## DomainWhois数据库更新程序
+
+### update_database.py
+1. 更新表格

@@ -22,7 +22,7 @@
 ├── models 其中存放各种模型(数据),对应MVC的M(model)
 ├── settings 配置文件
 ├── server.py 用来启动web服务器
-├── db_info.md 数据库相关介绍
+├── database 数据库介绍以及后台数据库更新程序
 ├── static 存放静态文件
 │   ├── css  存放CSS文件
 │   ├── images  存放图片

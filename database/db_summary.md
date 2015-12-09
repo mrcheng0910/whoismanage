@@ -10,13 +10,15 @@
 9. `whois_addr`，存储WHOIS信息获取需要的各类信息，包括主服务器，函数名称，标记位等;
 10. `svr_country`,记录域名WHOIS服务器的地理位置;
 11. `tld_whois_flag`,记录已有whois信息的flag标志位的分布情况
+12. `whois_sum`,记录每天每小时的探测whois的域名数量，简单来说就是多少个域名已探测；
+13. [`whois_sum_by_day`](#d)，记录每天whois数量总数
 
 ### 负责人说明
 1. **程亚楠**负责整个数据库的信息维护；
 2. **王凯**负责表1-3、9的维护；
 3. **赵新岭**负责表4、5、6、8维护（暂时）
 4. **马有为**负责表7的维护（暂时）
-5. **程亚楠**负责表10、11的维护（暂时）
+5. **程亚楠**负责表10、11、12、13的维护（暂时）
 
 ### 表功能说明
 1. 表1-3、9为域名WHOIS信息存储表，为获取系统的整体表。
@@ -24,3 +26,19 @@
 
 ###
 - 数据库名称：DomainWhois
+
+zheshi
+ni
+dfjldkj
+dlkfjkdl
+dflkj
+djfldjfldfjldfjld
+
+<h2 id="d">你好</h2>
+
+zheshi
+ni
+dfjldkj
+dlkfjkdl
+dflkj
+djfldjfldfjldfjld

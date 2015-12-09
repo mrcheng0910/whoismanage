@@ -83,7 +83,7 @@ function init(categories,series_total,series_increase){
             // endOnTick: false,
             // tickInterval: 0.01,
             // min: series_increase[0]
-            // min: series_total[0],
+            min: series_total[0],     //添加最大和最小值后，坐标显示很好，下次需要将增长率也这样
             max: series_total[series_total.length-1],
             alignTicks: false,
             gridLineWidth: 0
