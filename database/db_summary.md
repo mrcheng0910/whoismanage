@@ -98,8 +98,8 @@ id    | tld_name  | domain_num |  query_date
 
 id    | tld  | type |  organisation|url
 ------|------|------|--------|-----
-1| com | generic  | VeriSign Global Registry Services|www.example.com
-2|cn| country-code|China Internet Network Information Center (CNNIC)|www.example.com
+1| com | generic  | VeriSign Global Registry Services|[http://www.iana.org/domains/root/db/com.html](http://www.iana.org/domains/root/db/com.html)
+2|cn| country-code|China Internet Network Information Center (CNNIC)|[http://www.iana.org/domains/root/db/cn.html](http://www.iana.org/domains/root/db/cn.html)
 
 
 <h3 id="msvr_ssvr">msvr_ssvr</h3>
