@@ -43,7 +43,7 @@
 ## 表结构详细说明
 介绍各个表的结构，字段说明
 
-<h3 id="domain_whois_*">domain\_whois\_*</h3>
+<h3 id="domain_whois_*">domain_whois_*</h3>
 
 这类表共有28张，分别包括26个首字母表、num、other。这些表分别存储对应的域名以及whois信息。
 
