@@ -25,20 +25,6 @@ queue = Queue()  # 任务队列，存储sql语句
 lock = threading.Lock()  # 锁
 
 
-def conn_db():
-    """连接数据库"""
-    try:
-        conn = MySQLdb.connect(
-                host="172.26.253.3",
-                user="root",
-                passwd="platform",
-                db="DomainWhois"
-                )
-    except MySQLdb.Error, e:
-        print "Error %d: %s" % (e.args[0], e.args[1])
-        sys.exit(1)
-    return conn
-
 
 def update_db():
     """更新数据库"""
@@ -58,21 +44,6 @@ def update_db():
         print 'update_db succesed'
     except MySQLdb.Error, e:
         print "update_db Error %d: %s " % (e.args[0], e.args[1])
-
-
-def put_queue(queue):
-    """创建任务队列"""
-    for i in range(65, 91):     # 创建任务队列，A-Z
-        sql = 'SELECT  DISTINCT sec_whois_server \
-               FROM domain_whois_%s  where sec_whois_server <> "" ' % chr(i)
-        queue.put(sql)  # 加入对列
-    sql_num = 'SELECT DISTINCT sec_whois_server \
-                FROM domain_whois_num where sec_whois_server <> "" '
-    queue.put(sql_num)  # domain_whois_num 加入队列
-    sql_other = 'SELECT DISTINCT sec_whois_server \
-                FROM domain_whois_other where sec_whois_server <> "" '
-    queue.put(sql_other)  # domain_whois_other 加入队列
-    return queue
 
 
 def count_ssvr(q, queue):

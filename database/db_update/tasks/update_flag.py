@@ -2,7 +2,7 @@
 # encoding:utf-8
 """
 网站后台定期更新程序
-功能：更新表tld_whois_sum_history、tld_whois_sum、whois_sum、whois_sum_by_day四个表。
+功能：更新表tld_whois_flag表。
 
 """
 import sys

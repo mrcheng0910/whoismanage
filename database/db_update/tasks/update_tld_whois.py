@@ -115,21 +115,3 @@ def tld_whois_sum():
         print value
     update_db()
     
-def update_day():
-    """更新每天的数据"""
-    conn = conn_db()
-    sql = 'insert into DomainWhois.whois_sum_by_day(sum) select max(tld_sum) from DomainWhois.whois_sum where to_days(insert_time) = to_days(now())' # 插入数据
-    cur = conn.cursor()
-    cur.execute(sql)
-    conn.commit()
-    conn.close()
-
-# if __name__ == "__main__":
-    
-#     schedule.every().hour.do(main)   # 每小时运行一次
-#     # schedule.every(15).minutes.do(main)
-#     # schedule.every(30).minutes.do(update_day)
-#     schedule.every().day.at("23:40").do(update_day)
-#     while True:
-#         schedule.run_pending()
-#         time.sleep(1)

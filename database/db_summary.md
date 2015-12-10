@@ -9,8 +9,7 @@
 	统计域名WHOIS信息存储表中，各个顶级后缀的域名的**最新数量**;
 5. `domain_update`
 	定期统计域名WHOIS信息存储表中，各个顶级后缀的域名数量，最新数据则保存到`domain_summary`内;
-6. `msvr_ssvr`
-	存储主和次域名WHOIS服务器的各自数量；
+
 7. `tld_details`
 	存储**最新**域名顶级后缀,包括后缀类型、管理组织、网址等；
 8. `tld_whois_sum`
@@ -19,6 +18,8 @@
 	存储WHOIS信息获取需要的各类信息，包括主服务器，函数名称，标记位等;
 10. `svr_country`
 	记录域名WHOIS服务器的地理位置;
+10. [`msvr_ssvr`](#msvr_ssvr)  
+	存储主和次域名WHOIS服务器的各自数量,每7天更新一次；
 11. [`tld_whois_flag`](#tld_whois_flag)  
     记录各个域名顶级后缀的whois信息情况，通过flag标记位分类，flag\_details是详细信息。每小时更新一次最新数据
 12. [`tld_whois_sum`](#tld_whois_sum)  
@@ -48,12 +49,13 @@
 <h3 id="tld_whois_flag">tld_whois_flag</h3>
 
 **字段说明**
+
 - id：编号
 - tld: 域名顶级后缀
 - flag：标记位分类
 - flag\_detail:详细分类
 - whois\_sum:已探测的whois数量
-- update\_time:更新时间
+- update\_time:更新时间,默认为当前时间current\_timestamp
 
 **例子：**
 
@@ -94,7 +96,7 @@ id    | tld  | flag | flag_detail|whois_sum  | update_date
 - id：编号
 - tld: 域名顶级后缀
 - whois\_sum：目前为止总共探测的域名whois数量
-- update\_date:更新时间，其实应该是插入时间
+- update\_date:更新时间，其实应该是插入时间,默认为当前时间current\_timestamp
 
 例子：
 
@@ -110,7 +112,7 @@ id    | tld  | whois_sum  | update_date
 - id：编号
 - tld: 域名顶级后缀
 - whois\_sum：目前为止总共探测的域名whois数量
-- update\_date:更新时间，其实应该是插入时间
+- update\_date:更新时间，其实应该是插入时间,默认为当前时间current\_timestamp
 
 例子：
 
@@ -141,7 +143,7 @@ id    | tld_sum  | insert_date
 
 - id：编号
 - sum：目前为止总共探测的域名数量
-- insert\_date:插入时间
+- insert\_date:插入时间,默认为当前时间current\_timestamp
 
 例子:
 
