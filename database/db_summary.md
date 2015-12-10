@@ -1,17 +1,16 @@
 ## 数据库表整体介绍
-1. `domain_whois_A---domain_whois_Z`  
+1. [`domain_whois_A---domain_whois_Z`](#domain_whois_*)  
 	为根据主域名首字母建立的域名WHOIS信息存储表;
-2. `domain_whois_num`
+2. [`domain_whois_num`](#domain_whois_*)  
 	主域名首字母为数字的域名WHOIS信息存储表;
-3. `domain_whois_other`
+3. [`domain_whois_other`](#domain_whois_*)  
 	顶级后缀或者主域名为特殊字符的域名WHOIS信息存储表;
-4. `domain_summary`
-	统计域名WHOIS信息存储表中，各个顶级后缀的域名的**最新数量**;
-5. `domain_update`
-	定期统计域名WHOIS信息存储表中，各个顶级后缀的域名数量，最新数据则保存到`domain_summary`内;
-
-7. `tld_details`
-	存储**最新**域名顶级后缀,包括后缀类型、管理组织、网址等；
+4. [`domain_summary`](#domain_summary)  
+	统计域名WHOIS信息存储表中，各个顶级后缀的域名的最新数量,该表只保存最近一次统计数据;
+5. [`domain_update`](#domain_update)  
+	定期统计域名WHOIS信息存储表中，各个顶级后缀的域名数量，其包括历史数据，最新一次统计结果则保存到`domain_summary`;
+7. [`tld_details`](#tld_details)  
+	存储最新域名顶级后缀,包括后缀类型、管理组织、网址等；
 8. `tld_whois_sum`
 	存储各个域名顶级后缀已经获取的域名WHOIS信息数量；
 9. `whois_addr`
@@ -46,6 +45,63 @@
 ## 表结构详细说明
 介绍各个表的结构，字段说明
 
+<h3 id="domain_whois_*">domain\_whois\_*</h3>
+
+这类表共有28张，分别包括26个首字母表、num、other。这些表分别存储对应的域名以及whois信息。
+
+<h3 id="domain_summary">domain_summary</h3>
+
+**字段说明**
+
+- id: 编号
+- tld\_name: 域名顶级后缀
+- domain\_num: 域名数量
+- query\_time: 插入时间，应该域名插入时间，默认是insert\_timestamp，会自动更新
+
+**例子**
+
+id    | tld_name  | domain_num |  query_date
+------|------|------|--------
+1| net | 73443434  | 2015-12-07 09:40:45
+2| com | 434343434| 2015-12-07 09:40:45
+
+<h3 id="domain_update">domain_update</h3>
+
+**字段说明**
+
+- id: 编号
+- tld\_name: 域名顶级后缀
+- domain\_num: 域名数量
+- query\_time: 插入时间，应该域名插入时间，默认是insert\_timestamp，会自动更新
+
+**例子**
+
+id    | tld_name  | domain_num |  query_date
+------|------|------|--------
+1| net | 73443434  | 2015-12-07 09:40:45
+2| com | 434343434| 2015-12-07 09:40:45
+...|...|...|...
+55|net|434343434|2015-12-09 09:40:45
+56|com|434343434|2015-12-09 09:40:45
+
+<h3 id="tld_details">tld_details</h3>
+
+**字段说明**
+
+- id: 编号
+- tld: 顶级后缀
+- type：类型
+- organisation:组织
+- url： 官网地址
+
+**例子**
+
+id    | tld  | type |  organisation|url
+------|------|------|--------|-----
+1| com | generic  | VeriSign Global Registry Services|www.example.com
+2|cn| country-code|China Internet Network Information Center (CNNIC)|www.example.com
+
+
 <h3 id="msvr_ssvr">msvr_ssvr</h3>
 
 **字段说明**
@@ -55,7 +111,7 @@
 - ssvr: 二级服务器数量
 - updata\_time: 更新时间,默认是update\_timestamp，会自动更新
 
-**例子：**
+**例子**
 
 id    | msvr  | ssvr |  update_date
 ------|------|------|--------
