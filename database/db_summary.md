@@ -11,12 +11,10 @@
 	定期统计域名WHOIS信息存储表中，各个顶级后缀的域名数量，其包括历史数据，最新一次统计结果则保存到`domain_summary`;
 7. [`tld_details`](#tld_details)  
 	存储最新域名顶级后缀,包括后缀类型、管理组织、网址等；
-8. `tld_whois_sum`
-	存储各个域名顶级后缀已经获取的域名WHOIS信息数量；
-9. `whois_addr`
+8. `whois_addr`  
 	存储WHOIS信息获取需要的各类信息，包括主服务器，函数名称，标记位等;
-10. `svr_country`
-	记录域名WHOIS服务器的地理位置;
+10. `svr_country`  
+	记录域名WHOIS服务器的地理位置，**需要添加二级服务器，暂未更新**
 10. [`msvr_ssvr`](#msvr_ssvr)  
 	存储主和次域名WHOIS服务器的各自数量,每7天更新一次；
 11. [`tld_whois_flag`](#tld_whois_flag)  
