@@ -46,6 +46,22 @@
 ## 表结构详细说明
 介绍各个表的结构，字段说明
 
+<h3 id="msvr_ssvr">msvr_ssvr</h3>
+
+**字段说明**
+
+- id: 编号
+- msvr: 主服务器数量
+- ssvr: 二级服务器数量
+- updata\_time: 更新时间,默认是update\_timestamp，会自动更新
+
+**例子：**
+
+id    | msvr  | ssvr |  update_date
+------|------|------|--------
+1| 381 | 734  | 2015-12-07 09:40:45
+
+
 <h3 id="tld_whois_flag">tld_whois_flag</h3>
 
 **字段说明**
