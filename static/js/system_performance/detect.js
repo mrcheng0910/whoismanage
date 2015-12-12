@@ -56,7 +56,7 @@ function init(categories,series_total,series_increase){
         }],
         yAxis: [{ // Primary yAxis
             labels: {
-                format: '{value}%',   //格式化标签
+                format: '{value}个',   //格式化标签
                 style: {
                     color: Highcharts.getOptions().colors[1]
                 }
@@ -116,7 +116,7 @@ function init(categories,series_total,series_increase){
             type: 'spline',
             data: series_increase,
             tooltip: {
-                valueSuffix: '%'
+                valueSuffix: '个'
             }
            
         }]
@@ -129,7 +129,7 @@ function get_data(start,end) {
     var categories =[];
     var series_total = [];
     var series_increase = [];
-    var flag=false;
+    var flag=false;  //flag用来控制时间截取日期or小时
     if (start==end){
         flag = true;
     }
@@ -143,20 +143,21 @@ function get_data(start,end) {
             },
             timeout: 5000, //超时时间
             success: function (data) {  //成功后的处理
-                raw_data = JSON.parse(data);
+                
+                raw_data = JSON.parse(data); //json格式化原始数据
+                var value;
                 for(var i=0,arrLength=raw_data.length;i<arrLength;i++){
-                    var value = raw_data[i]
-                    if (flag==true){
+                    value = raw_data[i]
+                    if (flag==true){//添加时间，截取详细时间
                         categories.unshift(value.insert_time.slice(11,value.insert_time.length)); 
-                    }else{
+                    }
+                    else{
                         categories.unshift(value.insert_time.slice(0,10)); 
                     }
-                    //添加时间，截取详细时间
                     series_total.unshift((Math.round((value.sum/1000000.0)*1000)/1000)); //添加数量，两位小数，百万级别
                 }
-                for(var i =1;i<series_total.length;i++){
-                    var single_value = (series_total[i]-series_total[i-1])/series_total[i-1];
-                    series_increase.push(Math.round(single_value*10000)/10000);
+                for(var i=1,arrLength=raw_data.length;i<arrLength;i++){
+                    series_increase.unshift(raw_data[i-1].sum-raw_data[i].sum)
                 }
                 init(categories.slice(1,categories.length),series_total.slice(1,series_total.length),series_increase);
             },

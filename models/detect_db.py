@@ -24,7 +24,7 @@ class DetectDb(BaseDb):
         else:
             # test = time.strftime(start_date,'%Y-%m-%d')
             start = datetime.datetime.strptime(start_date,'%Y-%m-%d')
-            start_previous= (start-datetime.timedelta(days=1)).strftime('%Y-%m-%d')
+            start_previous= (start-datetime.timedelta(days=1)).strftime('%Y-%m-%d') # 增加一天时间是用来统计增长率
             sql = 'SELECT sum,insert_time FROM whois_sum_by_day WHERE DATE_FORMAT(insert_time,"%%Y-%%m-%%d") BETWEEN %s AND %s ORDER BY insert_time DESC'
             results = self.db.query(sql,str(start_previous),str(end_date))
             return results

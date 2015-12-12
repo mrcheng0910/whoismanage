@@ -1,0 +1,87 @@
+{% extends "../main_template.html" %}
+
+{% block title_name %}
+<title>域名WHOIS信息探测性能</title>
+{% end %}
+
+{% block page %}
+
+<div class="row"> <!-- page-header -->
+    <div class="col-lg-12">
+        <h1 class="page-header">域名WHOIS信息探测性能</h1>
+    </div>
+</div> <!-- //page-header -->
+
+<div class="row">
+    <div class="col-lg-4"><!-- container-total -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-inbox fa-fw"></i>
+                    已探测与未探测域名数量
+            </div>
+            <div class="panel-body">
+                <div id="container-total" style="width:100%;min-height:300px;"></div>
+            </div>
+        </div>
+    </div> <!-- //container-total -->
+    <div class="col-lg-4"> <!-- container-speed -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-calendar fa-fw"></i>
+                    探测区间：<span id="p-title"></span>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                            选择查询区间
+                            <span class="caret"></span>
+                        </button>
+                        
+                        <ul class="dropdown-menu pull-right" role="menu">
+                            <li><a href="#" data-period="three-hours">最近三小时</a></li>
+                            <li><a href="#" data-period="seven-hours">最近七小时</a></li>
+                            <li><a href="#" data-period="twelve-hours">最近十二小时</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#" data-period="one-day">最近一天</a>
+                            <li><a href="#" data-period="three-days">最近三天</a>
+                            <li><a href="#" data-period="one-week">最近一周</a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div id="container-speed" style="width:100%;min-height:300px;"></div>
+            </div>
+        </div>
+    </div> <!-- //container-speed -->
+    <div class="col-lg-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <i class="fa fa-calendar fa-fw"></i>
+                    日期
+            </div>
+            <div class="panel-body">
+                探测
+            </div>
+        </div>
+    </div>
+</div>
+
+{% end %}
+
+{% block foot_script %}
+
+<script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script src="//cdn.hcharts.cn/highcharts/highcharts-more.js"></script>
+<script src={{static_url("js/system_performance/forcast.js")}}></script>
+<script>
+    init_total({% raw total %});
+    $("a").bind("click",function(){
+        var period = this.getAttribute("data-period")
+        if (period=="three-hours"){
+            $("#p-title").text("最近三小时");
+        }
+        
+       
+    });
+</script>
+{%end%}

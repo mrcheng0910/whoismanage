@@ -3,7 +3,7 @@ import tornado.web
 from models.detect_db import DetectDb
 import json
 from datetime import datetime
-PATH = './domain_whois/'
+PATH = './system_performance/'
 
 class DetectHandler(tornado.web.RequestHandler):
     """首页渲染"""

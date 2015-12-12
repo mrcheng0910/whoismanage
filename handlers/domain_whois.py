@@ -6,7 +6,7 @@ import tornado.web
 from models.domain_whois_db import DomainWhoisDb
 import json
 
-PATH = './domain_whois/'
+PATH = './system_performance/'
 
 class DomainWhoisHandler(tornado.web.RequestHandler):
     def get(self):

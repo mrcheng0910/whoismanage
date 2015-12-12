@@ -10,6 +10,7 @@ from handlers.svr import *
 from handlers.tld import TldHandler
 from handlers.domain_whois import DomainWhoisHandler
 from handlers.detect_efficiency import DetectHandler,ManageIncreaseHandler
+from handlers.system_performance.detect_forcast import DetectForcastHandler
 
 urls = [
     (r'/', IndexHandler),
@@ -31,4 +32,5 @@ urls = [
     (r'/whois_integrity',DomainWhoisHandler), # whois信息完整性分析
     (r'/detect',DetectHandler),  # 测试探测性能首页
     (r'/detect/increase',ManageIncreaseHandler),  # 探测性能
+    (r'/forcast',DetectForcastHandler),
 ]
