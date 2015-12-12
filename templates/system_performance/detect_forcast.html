@@ -27,23 +27,23 @@
     <div class="col-lg-4"> <!-- container-speed -->
         <div class="panel panel-default">
             <div class="panel-heading">
-                <i class="fa fa-calendar fa-fw"></i>
-                    探测区间：<span id="p-title"></span>
+                <i class="fa fa-tachometer fa-fw"></i> 
+                    探测时间段：<span id="p-title"></span>
                 <div class="pull-right">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                            选择查询区间
+                            选择查询时间段
                             <span class="caret"></span>
                         </button>
                         
-                        <ul class="dropdown-menu pull-right" role="menu">
+                        <ul class="dropdown-menu pull-right" role="menu" id="ul-test">
                             <li><a href="#" data-period="three-hours">最近三小时</a></li>
                             <li><a href="#" data-period="seven-hours">最近七小时</a></li>
                             <li><a href="#" data-period="twelve-hours">最近十二小时</a></li>
                             <li class="divider"></li>
                             <li><a href="#" data-period="one-day">最近一天</a>
                             <li><a href="#" data-period="three-days">最近三天</a>
-                            <li><a href="#" data-period="one-week">最近一周</a>
+                            <li><a href="#" data-period="seven-days">最近一周</a>
                         </ul>
                     </div>
                 </div>
@@ -54,13 +54,36 @@
         </div>
     </div> <!-- //container-speed -->
     <div class="col-lg-4">
-        <div class="panel panel-primary">
+        <div class="panel panel-default">
             <div class="panel-heading">
-                <i class="fa fa-calendar fa-fw"></i>
-                    日期
+                <i class="fa fa-space-shuttle fa-fw"></i> 
+                    探测结束时间预计
             </div>
             <div class="panel-body">
-                探测
+                
+                
+                <ul>
+                    <li>
+                        以目前的探测速度:
+                        <span class="label label-success" id="detecting-speed"></span>
+                        个/小时
+                    </li>
+                    <br>
+                    <li>探测完剩余域名需要:
+                        <span class="label label-success" id="detecting-days"></span>
+                        天
+                    </li>
+                    <br>
+                    <li>探测完剩余域名需要:
+                        <span class="label label-success" id="detecting-months"></span>
+                        月
+                    </li>
+                </ul>
+                
+<!--                
+                <p>
+                    </p>
+                <p>探测完全部域名，还需要</p>-->
             </div>
         </div>
     </div>
@@ -74,14 +97,39 @@
 <script src="//cdn.hcharts.cn/highcharts/highcharts-more.js"></script>
 <script src={{static_url("js/system_performance/forcast.js")}}></script>
 <script>
-    init_total({% raw total %});
-    $("a").bind("click",function(){
-        var period = this.getAttribute("data-period")
-        if (period=="three-hours"){
-            $("#p-title").text("最近三小时");
-        }
+    
+$(function(){
+    
+    init_total({% raw total %});  //初始化总数
+    get_data("three-hours");      //初始化speed
+     $("#p-title").text("最近三小时");
+    var resources = document.querySelector('#ul-test');
+    resources.addEventListener('click', showtarget, false);
+    function showtarget(ev) {
         
-       
-    });
+        var target = ev.target;
+        if (target.tagName === 'A') {
+            $("#p-title").text(target.text);
+            if (target.text == "最近三小时"){
+                get_data("three-hours");
+            }
+            else if(target.text == "最近七小时"){
+                get_data("seven-hours");
+            }
+            else if(target.text == "最近十二小时"){
+                get_data("twelve-hours");
+            }
+            else if(target.text == "最近一天"){
+                get_data("one-day");
+            }
+            else if(target.text == "最近三天"){
+                get_data("three-days");
+            }
+            else if(target.text == "最近一周"){
+                get_data("seven-days");
+            }
+        }
+    }        
+});
 </script>
 {%end%}

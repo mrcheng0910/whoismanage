@@ -1,6 +1,7 @@
 #encoding:utf-8
 import tornado.web
 from models.index_db import IndexDb
+from models.detect_db import DetectDb
 import json
 PATH = './system_performance/'
 
@@ -16,3 +17,12 @@ class DetectForcastHandler(tornado.web.RequestHandler):
                     total = total
                     )
     
+
+class ForcastPeriodHandler(tornado.web.RequestHandler):
+    """提供期间速率查询"""
+    def get(self):
+        db = DetectDb()
+        
+        period = self.get_argument('period', "None")
+        speeds = db.get_speed(period)
+        self.write(json.dumps(speeds))

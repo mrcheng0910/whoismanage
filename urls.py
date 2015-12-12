@@ -10,7 +10,7 @@ from handlers.svr import *
 from handlers.tld import TldHandler
 from handlers.domain_whois import DomainWhoisHandler
 from handlers.detect_efficiency import DetectHandler,ManageIncreaseHandler
-from handlers.system_performance.detect_forcast import DetectForcastHandler
+from handlers.system_performance.detect_forcast import DetectForcastHandler,ForcastPeriodHandler
 
 urls = [
     (r'/', IndexHandler),
@@ -33,4 +33,5 @@ urls = [
     (r'/detect',DetectHandler),  # 测试探测性能首页
     (r'/detect/increase',ManageIncreaseHandler),  # 探测性能
     (r'/forcast',DetectForcastHandler),
+    (r'/forcast/period',ForcastPeriodHandler),
 ]
