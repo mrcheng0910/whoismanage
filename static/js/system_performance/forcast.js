@@ -1,7 +1,9 @@
-var domain_detecting,detecting_speed;
+var domain_detecting,detecting_speed,domain_total,domain_detected;
 function init_total(total){
     //初始化已探测与未探测域名数量
     domain_detecting = total[2];
+    domain_total= total[0];
+    domain_detected = total[1];
     $('#container-total').highcharts({
         credits: {
             enabled: false
@@ -66,7 +68,9 @@ function init_speed(speed){
     //探测效率统计
     detecting_speed = speed;
     $('#container-speed').highcharts({
-
+        credits: {
+            enabled: false
+        },
         chart: {
             type: 'gauge',
             plotBackgroundColor: null,
@@ -76,7 +80,8 @@ function init_speed(speed){
         },
 
         title: {
-            text: '探测效率(个/小时)'
+            // text: '探测效率(个/小时)'
+            text: null
         },
 
         pane: {
@@ -115,7 +120,7 @@ function init_speed(speed){
         // the value axis
         yAxis: {
             min: 0,
-            max: 3600,
+            max: 36000,
 
             minorTickInterval: 'auto',
             minorTickWidth: 1,
@@ -137,15 +142,15 @@ function init_speed(speed){
             },
             plotBands: [{
                 from: 0,
-                to: 1200,
+                to: 12000,
                 color: '#DF5353' // green '#DF5353'
             }, {
-                from: 1200,
-                to: 2400,
+                from: 12000,
+                to: 24000,
                 color: '#DDDF0D' // yellow
             }, {
-                from: 2400,
-                to: 3600,
+                from: 24000,
+                to: 36000,
                 color: '#55BF3B' // red '#55BF3B'
             }]
         },
@@ -183,6 +188,9 @@ function init_speed(speed){
     var tmp = domain_detecting*1000000/(detecting_speed*24);
     $("#detecting-days").text(Math.ceil(tmp));
     $("#detecting-months").text(Math.ceil(tmp/30));
+    $("#domain-detecting").text(Math.round(domain_detecting*100)/100);
+    $("#domain-detected").text(domain_detected);
+    $("#domain-total").text(domain_total);
     
 }
 

@@ -56,15 +56,31 @@
     <div class="col-lg-4">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <i class="fa fa-space-shuttle fa-fw"></i> 
-                    探测结束时间预计
+                <i class="fa fa-calendar fa-fw"></i> 
+                    探测情况汇总
             </div>
             <div class="panel-body">
-                
-                
                 <ul>
                     <li>
-                        以目前的探测速度:
+                        数据库中域名总数为:
+                        <span class="label label-success" id="domain-total"></span>
+                        M个
+                    </li>
+                    <br>
+                    <li>
+                        已探测WHOIS的域名数量:
+                        <span class="label label-success" id="domain-detected"></span>
+                        M个
+                    </li>
+                    <br>
+                    <li>
+                        未探测WHOIS的域名数量:
+                        <span class="label label-success" id="domain-detecting"></span>
+                        M个
+                    </li>
+                    <br>
+                    <li>
+                        目前域名WHOIS探测速度:
                         <span class="label label-success" id="detecting-speed"></span>
                         个/小时
                     </li>
@@ -79,11 +95,6 @@
                         月
                     </li>
                 </ul>
-                
-<!--                
-                <p>
-                    </p>
-                <p>探测完全部域名，还需要</p>-->
             </div>
         </div>
     </div>

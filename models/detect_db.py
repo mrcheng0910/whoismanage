@@ -32,11 +32,6 @@ class DetectDb(BaseDb):
             
     def get_speed(self,period):
         period = period.split('-')
-        
-        if period[1]=='hours':
-            table_name = 'whois_sum'
-        else:
-            table_name = 'whois_sum_by_day'
         if period[0]=='one':
             top = 2
         elif period[0]=='three':
@@ -45,15 +40,22 @@ class DetectDb(BaseDb):
             top = 8
         elif period[0]=='twelve':
             top = 13
-        speeds = []
-        sql = 'SELECT tld_sum FROM %s ORDER BY insert_time DESC LIMIT %s' % (table_name,top)
+            
+        if period[1]=='hours':
+            table_name = 'whois_sum'
+            flag = 'tld_sum'
+        else:
+            table_name = 'whois_sum_by_day'
+            flag = 'sum'
+        
+        sql = 'SELECT %s FROM %s ORDER BY insert_time DESC LIMIT %s' % (flag,table_name,top)
         results = self.db.query(sql)
         length = len(results)
         total = 0
         for i in xrange(1,length):
-            speeds.append(results[i-1]['tld_sum']-results[i]['tld_sum'])
-            total = total + results[i-1]['tld_sum']-results[i]['tld_sum']
+            total = total + results[i-1][flag]-results[i][flag]
         
-        print total/(length-1)
-        # return speeds
-        return total/(length-1)
+        if period[1]=='hours':
+            return total/(length-1)
+        else:
+            return total/((length-1)*24)
