@@ -1,6 +1,6 @@
 # encoding:utf-8
 """
-首页handler
+统计域名whois信息的完整性
 """
 import tornado.web
 from models.domain_whois_db import DomainWhoisDb
@@ -11,7 +11,7 @@ PATH = './system_performance/'
 class DomainWhoisHandler(tornado.web.RequestHandler):
     def get(self):
         tld_whois_sum = manage_flag()  # 获取whois类型信息
-        self.render(PATH+'tld_whois_integrity.html',
+        self.render(PATH+'whois_integrity.html',
                     tld_whois_sum=json.dumps(tld_whois_sum)
                     )
 

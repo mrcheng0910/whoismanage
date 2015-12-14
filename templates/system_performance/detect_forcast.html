@@ -37,13 +37,13 @@
                         </button>
                         
                         <ul class="dropdown-menu pull-right" role="menu" id="ul-test">
-                            <li><a href="#" data-period="three-hours">最近三小时</a></li>
-                            <li><a href="#" data-period="seven-hours">最近七小时</a></li>
-                            <li><a href="#" data-period="twelve-hours">最近十二小时</a></li>
+                            <li><a href="#" >最近三小时</a></li>
+                            <li><a href="#" >最近七小时</a></li>
+                            <li><a href="#" >最近十二小时</a></li>
                             <li class="divider"></li>
-                            <li><a href="#" data-period="one-day">最近一天</a>
-                            <li><a href="#" data-period="three-days">最近三天</a>
-                            <li><a href="#" data-period="seven-days">最近一周</a>
+                            <li><a href="#" >最近一天</a>
+                            <li><a href="#" >最近三天</a>
+                            <li><a href="#" >最近一周</a>
                         </ul>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
             </div>
         </div>
     </div> <!-- //container-speed -->
-    <div class="col-lg-4">
+    <div class="col-lg-4"> <!-- col-lg-4 -->
         <div class="panel panel-default">
             <div class="panel-heading">
                 <i class="fa fa-calendar fa-fw"></i> 
@@ -109,38 +109,38 @@
 <script src={{static_url("js/system_performance/forcast.js")}}></script>
 <script>
     
-$(function(){
-    
-    init_total({% raw total %});  //初始化总数
-    get_data("three-hours");      //初始化speed
-     $("#p-title").text("最近三小时");
-    var resources = document.querySelector('#ul-test');
-    resources.addEventListener('click', showtarget, false);
-    function showtarget(ev) {
+    $(function(){
         
-        var target = ev.target;
-        if (target.tagName === 'A') {
-            $("#p-title").text(target.text);
-            if (target.text == "最近三小时"){
-                get_data("three-hours");
+        init_total({% raw total %});  //初始化总数
+        get_data("three-hours");      //初始化speed
+        $("#p-title").text("最近三小时"); //初始化显示时间段
+        var resources = document.querySelector('#ul-test');
+        resources.addEventListener('click', showtarget, false);
+        function showtarget(ev) {
+            
+            var target = ev.target;
+            if (target.tagName === 'A') {
+                $("#p-title").text(target.text); //可以使用switch，下一次优化
+                if (target.text == "最近三小时"){
+                    get_data("three-hours");
+                }
+                else if(target.text == "最近七小时"){
+                    get_data("seven-hours");
+                }
+                else if(target.text == "最近十二小时"){
+                    get_data("twelve-hours");
+                }
+                else if(target.text == "最近一天"){
+                    get_data("one-day");
+                }
+                else if(target.text == "最近三天"){
+                    get_data("three-days");
+                }
+                else if(target.text == "最近一周"){
+                    get_data("seven-days");
+                }
             }
-            else if(target.text == "最近七小时"){
-                get_data("seven-hours");
-            }
-            else if(target.text == "最近十二小时"){
-                get_data("twelve-hours");
-            }
-            else if(target.text == "最近一天"){
-                get_data("one-day");
-            }
-            else if(target.text == "最近三天"){
-                get_data("three-days");
-            }
-            else if(target.text == "最近一周"){
-                get_data("seven-days");
-            }
-        }
-    }        
-});
+        }        
+    });
 </script>
 {%end%}

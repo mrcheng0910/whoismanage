@@ -1,4 +1,5 @@
 var domain_detecting,detecting_speed,domain_total,domain_detected;
+
 function init_total(total){
     //初始化已探测与未探测域名数量
     domain_detecting = total[2];

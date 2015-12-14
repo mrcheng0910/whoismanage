@@ -1,4 +1,7 @@
 #encoding:utf-8
+"""
+预测探测时间
+"""
 import tornado.web
 from models.index_db import IndexDb
 from models.detect_db import DetectDb

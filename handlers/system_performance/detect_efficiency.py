@@ -1,4 +1,7 @@
 #encoding:utf-8
+"""
+统计探测效率趋势与whois数量
+"""
 import tornado.web
 from models.detect_db import DetectDb
 import json

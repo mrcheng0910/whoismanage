@@ -14,6 +14,9 @@ function whois_chart(tldWhoisSum) {
         partOfInfo[i] = Number(tldWhoisSum[i].part_info); //注意字符串转数字
     }
     $('#containertb').highcharts({
+        credits: {
+            enabled: false,
+        },
         chart: {
             type: 'column'
         },
@@ -34,6 +37,9 @@ function whois_chart(tldWhoisSum) {
             pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
             shared: true
         },
+        // legend: {
+        //   reversed: true  
+        // },
         plotOptions: {
             column: {
                 stacking: 'percent'
@@ -56,6 +62,33 @@ function whois_chart(tldWhoisSum) {
             //data: [4,5,6,7]
             data: partOfInfo
 
+        }]
+    });
+    $('#containerfz').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: '顶级后缀详细信息'
+        },
+        xAxis: {
+            categories: ['cn']
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            name: '无法连接',
+            data: [5]
+        }, {
+            name: '注册者完整',
+            data: [2]
+        }, {
+            name: '时间完整',
+            data: [-3]
+         }, {
+            name: '两者不完整',
+            data: [-3]
         }]
     });
 }
