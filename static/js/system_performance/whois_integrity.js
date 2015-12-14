@@ -72,23 +72,120 @@ function whois_chart(tldWhoisSum) {
             text: '顶级后缀详细信息'
         },
         xAxis: {
-            categories: ['cn']
+            type: 'category'
         },
         credits: {
             enabled: false
         },
+        legend: {
+            enabled: false
+        },
         series: [{
-            name: '无法连接',
-            data: [5]
-        }, {
-            name: '注册者完整',
-            data: [2]
-        }, {
-            name: '时间完整',
-            data: [-3]
-         }, {
-            name: '两者不完整',
-            data: [-3]
-        }]
+           name: '个数',
+           colorByPoint: true,
+           data: [{
+                name: "无法连接",
+                y: 100,
+                drilldown: "无法连接"
+            }, {
+                name: "注册者完整",
+                y: 80,
+                drilldown: "注册者完整"
+            }, {
+                name: "时间完整",
+                y: 110,
+                drilldown: "时间完整"
+            }, {
+                name: "两者不完整",
+                y: 60,
+                drilldown: "两者不完整"
+            }]
+        }],
+        
+        drilldown: {
+            series: [{
+                name: "无法连接",
+                id: "无法连接",
+                data: [
+                    [
+                        "v11.0",
+                        24
+                    ],
+                    [
+                        "v8.0",
+                        26
+                    ],
+                    [
+                        "v9.0",
+                        20
+                    ],
+                    [
+                        "v10.0",
+                        30
+                    ]
+    
+                   ]
+                }, {
+                name: "注册者完整",
+                id: "注册者完整",
+                data: [
+                    [
+                        "v40.0",
+                        10
+                    ],
+                    [
+                        "v41.0",
+                        20
+                    ],
+                    [
+                        "v42.0",
+                        20
+                    ],
+                    [
+                        "v39.0",
+                        30
+                    ]
+                    
+                ]
+            }, {
+                name: "时间完整",
+                id: "时间完整",
+                data: [
+                    [
+                        "v35",
+                        40
+                    ],
+                    [
+                        "v36",
+                        70
+                    ]
+                    
+                ]
+            }, {
+                name: "两者不完整",
+                id: "两者不完整",
+                data: [
+                    [
+                        "v8.0",
+                        10
+                    ],
+                    [
+                        "v7.1",
+                        10
+                    ],
+                    [
+                        "v5.1",
+                        20
+                    ],
+                    [
+                        "v5.0",
+                        20
+                    ]
+                ]
+            }]
+        }
+      
     });
+     
+
 }
