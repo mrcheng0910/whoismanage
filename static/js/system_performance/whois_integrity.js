@@ -64,6 +64,10 @@ function whois_chart(tldWhoisSum) {
 
         }]
     });
+    
+}
+
+function aaa(){
     $('#containerfz').highcharts({
         chart: {
             type: 'column'
@@ -187,5 +191,4 @@ function whois_chart(tldWhoisSum) {
       
     });
      
-
 }
