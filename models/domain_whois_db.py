@@ -14,8 +14,14 @@ class DomainWhoisDb(BaseDb):
         """
         # 1.先获取whois数量排名前10的顶级后缀
         # 2.再获取前十名当中的tld，标记位和数量
-        sql = "SELECT tld,flag,sum(whois_sum) as whois_sum FROM tld_whois_flag WHERE tld \
+        sql = 'SELECT tld,flag,sum(whois_sum) as whois_sum FROM tld_whois_flag WHERE tld \
                 in (SELECT tld FROM (SELECT tld FROM tld_whois_flag GROUP BY tld \
-                 ORDER BY sum(whois_sum) DESC LIMIT %s) as t) GROUP BY tld,flag" % top
+                 ORDER BY sum(whois_sum) DESC LIMIT %s) as t) GROUP BY tld,flag' % top
         result = self.db.query(sql)
+        return result
+    
+    def get_assignment_tld_flag(self,tld='net'):
+        """获取指定域名后缀的标记位情况"""
+        sql = 'SELECT flag,flag_detail,whois_sum FROM tld_whois_flag WHERE tld=%s'
+        result =self.db.query(sql,tld)
         return result

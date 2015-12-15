@@ -67,7 +67,94 @@ function whois_chart(tldWhoisSum) {
     
 }
 
-function aaa(){
+function get_tld_data(tld){
+    var raw_data;
+    var flag = [0,0,0,0];
+    var noConncet = [];
+    var regInfo = [];
+    var regDate = [];
+    var partOfInfo = [];
+    $.ajax({
+            url: '/whois_integrity/assignment',
+            type: "get",
+            data: {
+                tld: tld,
+                stamp: Math.random()   // preventing "get" method using cache send to client
+            },
+            timeout: 5000, //超时时间
+            success: function (data) {  //成功后的处理
+                if (data=='None'){
+                    alert("无该顶级后缀内容");
+                }
+                else{
+                    raw_data = JSON.parse(data); //json格式化原始数据
+                    for(var i=0;i<raw_data.length;i++){
+                        switch(raw_data[i].flag){
+                            case '0':
+                                flag[0] = flag[0] + (+raw_data[i].whois_sum);
+                                noConncet.push([FlagToText(raw_data[i].flag_detail),+raw_data[i].whois_sum]);
+                                break;
+                            case '1':
+                                flag[1] = flag[1] + (+raw_data[i].whois_sum);
+                                regInfo.push([FlagToText(raw_data[i].flag_detail),+raw_data[i].whois_sum]);
+                                break;
+                            case '2':
+                                flag[2] = flag[2] + (+raw_data[i].whois_sum);
+                                regDate.push([FlagToText(raw_data[i].flag_detail),+raw_data[i].whois_sum]);
+                                break;
+                            case '3':
+                                flag[3] = flag[3] + (+raw_data[i].whois_sum);
+                                partOfInfo.push([FlagToText(raw_data[i].flag_detail),+raw_data[i].whois_sum]);
+                                break;
+                        }
+                    }
+                    init_assignment_tld(flag,noConncet,regInfo,regDate,partOfInfo);
+                }
+            },
+            error: function (xhr) {
+                if (xhr.status == "0") {
+                    alert("超时，稍后重试");
+                } else {
+                    alert("错误提示：" + xhr.status + " " + xhr.statusText);
+                }
+            } // 出错后的处理
+        });
+    
+}
+    
+function FlagToText(flag){
+    
+    switch(flag){
+        case '-1':
+            return "连接超时";
+        case '-2':
+            return "解析失败";
+        case '-3':
+            return "无法连接";
+        case '-4':
+            return "其他连接错误";
+        case '120':
+            return "无注册日期"
+        case '121':
+            return "注册日期不完善";
+        case '122':
+            return "注册信息完整";
+        case '110':
+            return "注册者不完善，无注册时间";
+        case '102':
+            return "无注册者，注册时间完善";
+        case '112':
+            return "注册者信息不完善，注册时间完善"
+        case '100':
+            return "无注册者，无注册日期";
+        case '101':
+            return "无注册信息，注册日期不完善";
+        case '111':
+            return "两者都不完善";
+    }
+}
+    
+function init_assignment_tld(flag,noConnect,regInfo,regDate,partOfInfo){
     $('#containerfz').highcharts({
         chart: {
             type: 'column'
@@ -89,19 +176,19 @@ function aaa(){
            colorByPoint: true,
            data: [{
                 name: "无法连接",
-                y: 100,
+                y: flag[0],
                 drilldown: "无法连接"
             }, {
                 name: "注册者完整",
-                y: 80,
+                y: flag[1],
                 drilldown: "注册者完整"
             }, {
                 name: "时间完整",
-                y: 110,
+                y: flag[2],
                 drilldown: "时间完整"
             }, {
                 name: "两者不完整",
-                y: 60,
+                y: flag[3],
                 drilldown: "两者不完整"
             }]
         }],
@@ -110,85 +197,23 @@ function aaa(){
             series: [{
                 name: "无法连接",
                 id: "无法连接",
-                data: [
-                    [
-                        "v11.0",
-                        24
-                    ],
-                    [
-                        "v8.0",
-                        26
-                    ],
-                    [
-                        "v9.0",
-                        20
-                    ],
-                    [
-                        "v10.0",
-                        30
-                    ]
-    
-                   ]
+                
+                data: noConnect
                 }, {
                 name: "注册者完整",
                 id: "注册者完整",
-                data: [
-                    [
-                        "v40.0",
-                        10
-                    ],
-                    [
-                        "v41.0",
-                        20
-                    ],
-                    [
-                        "v42.0",
-                        20
-                    ],
-                    [
-                        "v39.0",
-                        30
-                    ]
-                    
-                ]
+                data: regInfo
             }, {
                 name: "时间完整",
                 id: "时间完整",
-                data: [
-                    [
-                        "v35",
-                        40
-                    ],
-                    [
-                        "v36",
-                        70
-                    ]
-                    
-                ]
+                data: regDate
             }, {
                 name: "两者不完整",
                 id: "两者不完整",
-                data: [
-                    [
-                        "v8.0",
-                        10
-                    ],
-                    [
-                        "v7.1",
-                        10
-                    ],
-                    [
-                        "v5.1",
-                        20
-                    ],
-                    [
-                        "v5.0",
-                        20
-                    ]
-                ]
+                data: partOfInfo
             }]
         }
-      
+        
     });
      
 }

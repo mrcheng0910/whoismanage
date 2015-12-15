@@ -9,7 +9,7 @@ from handlers.domain_geo import DomainGeoHandler
 from handlers.domain import DomainQueryHandler
 from handlers.svr import *
 from handlers.tld import TldHandler
-from handlers.system_performance.whois_integrity import DomainWhoisHandler
+from handlers.system_performance.whois_integrity import DomainWhoisHandler,ShowAssignmentTld
 from handlers.system_performance.detect_efficiency import DetectHandler,ManageIncreaseHandler
 from handlers.system_performance.detect_forcast import DetectForcastHandler,ForcastPeriodHandler
 
@@ -31,6 +31,7 @@ urls = [
     (r'/top_sec/query_num',TopSecNum), #获取对比数据
     
     (r'/whois_integrity',DomainWhoisHandler), # whois信息完整性分析
+    (r'/whois_integrity/assignment',ShowAssignmentTld),  # 查询指定后缀的flag分布
     (r'/detect',DetectHandler),  # 探测效率
     (r'/detect/increase',ManageIncreaseHandler),  # 探测性能
     (r'/forcast',DetectForcastHandler), # 预测

@@ -25,7 +25,6 @@ class ForcastPeriodHandler(tornado.web.RequestHandler):
     """提供期间速率查询"""
     def get(self):
         db = DetectDb()
-        
         period = self.get_argument('period', "None")
         speeds = db.get_speed(period)
         self.write(json.dumps(speeds))

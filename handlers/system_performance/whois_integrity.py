@@ -72,3 +72,18 @@ def flag_change(flag):
         return 'reg_date'  # 注册日期
     elif flag == '3':
         return 'part_info'  # 部分信息
+
+class ShowAssignmentTld(tornado.web.RequestHandler):
+    """
+    展示指定的域名后缀flag情况
+    """
+    def get(self):
+    
+        tld = self.get_argument('tld', "")
+        results = DomainWhoisDb().get_assignment_tld_flag(tld)
+        print results
+        if not results:
+            self.write("None")
+        else:
+            self.write(json.dumps(results))
+        
