@@ -81,7 +81,6 @@ class ShowAssignmentTld(tornado.web.RequestHandler):
     
         tld = self.get_argument('tld', "")
         results = DomainWhoisDb().get_assignment_tld_flag(tld)
-        print results
         if not results:
             self.write("None")
         else:
