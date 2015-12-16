@@ -24,13 +24,14 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <i class="fa fa-bar-chart-o fa-fw"></i>
-                    域名WHOIS信息完整性分布
+                    域名WHOIS信息完整性统计
                 </div>
                 <div class="panel-body">
                     <div id="containertb" style="width: 100%;height: 100%;"></div>
                 </div>
             </div>
         </div><!--//home-->
+        <!---->
         <div class="tab-pane fade" id="tld">
             <div class="row">
                 <!--col-lg-4-->
@@ -42,7 +43,7 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <form class="form-horizontal" role="form">
+                                <form class="form-horizontal" role="form" onsubmit="return false;">
                                     <div class="form-group">
                                         <label for="tld-query" class="col-sm-3 control-label">
                                             域名后缀
@@ -50,10 +51,13 @@
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control" id="tld-query" 
                                                 placeholder="请输入后缀，例net">
+                                            <span class="help-block">
+                                                单击右图柱状图，可以查看更详细的完整性分布
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="col-sm-offset-3 col-sm-9">
-                                        <button type="button" class="btn btn-primary" id="query">
+                                        <button type="button" class="btn btn-primary" id="query" >
                                             查询详情
                                         </button>
                                     </div>
@@ -61,61 +65,17 @@
                             </div>
                         </div>
                     </div> <!--//panel panel-default-->
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i>
-                            查询WHOIS信息状态说明
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="well">
-                                根据是否能够提取域名WHOIS的注册者和注册时间等关键信息以及WHOIS服务器是否有效，将状态主要分为以下四类，可以单击按钮查看详情
-                                </div>
-                                <div class="col-sm-offset-3">
-                                    <button class="btn btn-primary " data-toggle="modal" data-target="#myModal">
-                                        查看状态说明
-                                    </button>
-                                </div>
-                                    
-                                <!-- 模态框（Modal） -->
-                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
-                                    aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title" id="myModalLabel">
-                                                    WHOIS信息状态位说明
-                                                </h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="well">
-                                                    笔记为的说明文档
-                                                    你好
-                                                    不好
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">
-                                                    关闭
-                                                </button>
-                                            </div>
-                                        </div><!-- /.modal-content -->
-                                    </div><!-- /.modal -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div><!--//col-lg-4-->
                 <!--col-lg-8-->
                 <div class="col-lg-8">
-                    <div class="panel panel-primary">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-bar-chart-o fa-fw"></i>
                             域名WHOIS信息完整性分布
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                            <div id="containerfz" style="width:100%;height:100%;"></div>
+                            <div id="containerfz" style="width:100%;height:350px;"></div>
                             </div>
                         </div>
                     </div>

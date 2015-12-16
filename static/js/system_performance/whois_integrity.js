@@ -5,7 +5,8 @@ function whois_chart(tldWhoisSum) {
     var regInfo = [];  //注册者信息
     var regDate = [];  // 注册日期
     var partOfInfo = [];  //部分信息
-    for (var i = 0; i < tldWhoisSum.length; i++) {
+    var tldLength = tldWhoisSum.length
+    for (var i = 0; i < tldLength; i++) {
 
         tldName[i] = tldWhoisSum[i].tld_name;
         noConnect[i] = Number(tldWhoisSum[i].no_connect);//注意字符串转数字
@@ -21,7 +22,7 @@ function whois_chart(tldWhoisSum) {
             type: 'column'
         },
         title: {
-            text: 'WHOIS信息类型统计'
+            text: '域名WHOIS信息完整性统计(TOP '+tldLength+')'
         },
         xAxis: {
             //categories: ['COM', 'NET', 'ORG', 'CN']
@@ -30,7 +31,7 @@ function whois_chart(tldWhoisSum) {
         yAxis: {
             min: 0,
             title: {
-                text: '域名WHOIS信息获取情况分布'
+                text: '域名WHOIS信息完整性情况分布'
             }
         },
         tooltip: {
@@ -108,7 +109,7 @@ function get_tld_data(tld){
                                 break;
                         }
                     }
-                    init_assignment_tld(flag,noConncet,regInfo,regDate,partOfInfo);
+                    init_assignment_tld(tld,flag,noConncet,regInfo,regDate,partOfInfo);
                 }
             },
             error: function (xhr) {
@@ -154,16 +155,21 @@ function FlagToText(flag){
     }
 }
     
-function init_assignment_tld(flag,noConnect,regInfo,regDate,partOfInfo){
+function init_assignment_tld(tld,flag,noConnect,regInfo,regDate,partOfInfo){
     $('#containerfz').highcharts({
         chart: {
             type: 'column'
         },
         title: {
-            text: '顶级后缀详细信息'
+            text: '域名顶级后缀('+tld+')详细信息'
         },
         xAxis: {
             type: 'category'
+        },
+        yAxis:{
+            title:{
+                text: '域名数量'
+            } 
         },
         credits: {
             enabled: false
@@ -172,7 +178,7 @@ function init_assignment_tld(flag,noConnect,regInfo,regDate,partOfInfo){
             enabled: false
         },
         series: [{
-           name: '个数',
+           name: '总数',
            colorByPoint: true,
            data: [{
                 name: "无法连接",
