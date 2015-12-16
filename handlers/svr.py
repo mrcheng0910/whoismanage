@@ -74,13 +74,7 @@ class SvrInfoHandler(tornado.web.RequestHandler):
                     )
 
 
-class SvrDetectHandler(tornado.web.RequestHandler):
-    def get(self):
-        results = SvrDb().get_detect()
-        self.render(PATH + 'detect_info.html',
-                    results1=json.dumps(results[:7]),
-                    results2=json.dumps(results[7:15])
-                    )
+
 
 
 class TopSecSvr(tornado.web.RequestHandler):

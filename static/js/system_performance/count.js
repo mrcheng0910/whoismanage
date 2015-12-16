@@ -39,18 +39,18 @@ function detect(results) {
                 title: {
                     text: null
                 },
-                labels: {
-                    formatter: function () {
-                        return (Math.abs(this.value) / 1000000) + 'M';
-                    }
-                },
-                min: -1000000,
-                max: 1000000
+                // labels: {
+                //     formatter: function () {
+                //         return (Math.abs(this.value) / 1000000) + 'M';
+                //     }
+                // },
+                min: -100,
+                max: 100
             },
 
             plotOptions: {
                 series: {
-                    stacking: 'normal'
+                    stacking: 'percent'
                 }
             },
 
@@ -116,18 +116,18 @@ function detect1(results) {
                 title: {
                     text: null
                 },
-                labels: {
-                    formatter: function () {
-                        return (Math.abs(this.value) / 1000000) + 'M';
-                    }
-                },
-                min: -10000,
-                max: 10000
+                // labels: {
+                //     formatter: function () {
+                //         return (Math.abs(this.value) / 1000000) + 'M';
+                //     }
+                // },
+                min: -100,
+                max: 100
             },
 
             plotOptions: {
                 series: {
-                    stacking: 'normal'
+                    stacking: 'percent'
                 }
             },
 
@@ -137,7 +137,7 @@ function detect1(results) {
                         'Population: ' + Highcharts.numberFormat(Math.abs(this.point.y), 0);
                 }
             },
-
+            
             series: [{
                 name: '已探测域名',
                 //data: [-1746181, -1884428, -2089758, -2222362, -2537431, -2507081, -2443179,

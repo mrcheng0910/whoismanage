@@ -12,6 +12,7 @@ from handlers.tld import TldHandler
 from handlers.system_performance.whois_integrity import DomainWhoisHandler,ShowAssignmentTld,ShowAssignmentType
 from handlers.system_performance.detect_efficiency import DetectHandler,ManageIncreaseHandler
 from handlers.system_performance.detect_forcast import DetectForcastHandler,ForcastPeriodHandler
+from handlers.system_performance.detect_count import SvrDetectHandler
 
 urls = [
     (r'/', IndexHandler),
@@ -25,7 +26,7 @@ urls = [
     (r'/svr_performance',SvrPerformanceHandler), # whois服务器性能
     (r'/svr_table',SvrTableHandler), # 服务器表格内容测试，测试
     (r'/svr_table_info',SvrInfoHandler),  # 信息
-    (r'/svr_detect',SvrDetectHandler),  # 探测信息
+    
     (r'/top_sec',TopSecSvr), # 一级和二级服务器
     (r'/top_sec/query',TopSecQuery), # 获取信息
     (r'/top_sec/query_num',TopSecNum), #获取对比数据
@@ -37,4 +38,5 @@ urls = [
     (r'/detect/increase',ManageIncreaseHandler),  # 探测性能
     (r'/forcast',DetectForcastHandler), # 预测
     (r'/forcast/period',ForcastPeriodHandler),  # 预测
+    (r'/detect_count',SvrDetectHandler),  # 探测信息
 ]
