@@ -76,7 +76,7 @@ function get_tld_data(tld){
     var regDate = [];
     var partOfInfo = [];
     $.ajax({
-            url: '/whois_integrity/assignment',
+            url: '/whois_integrity/assignment_tld',
             type: "get",
             data: {
                 tld: tld,
@@ -222,4 +222,81 @@ function init_assignment_tld(tld,flag,noConnect,regInfo,regDate,partOfInfo){
         
     });
      
+}
+
+function get_type_data(type,type_name){
+    $.ajax({
+        url: '/whois_integrity/assignment_type',
+        type: "get",
+        data: {
+                type: type,
+                stamp: Math.random()   // preventing "get" method using cache send to client
+        },
+        timeout: 5000, //超时时间
+        success: function (data) {  //成功后的处理
+            var raw_data = JSON.parse(data); 
+            var tld = [];
+            var tld_type = raw_data[0];
+            var tld_type_total = []
+            var tld_no_type = raw_data[1];
+            var tld_no_type_total = []
+            for (var i=0,arr_len = tld_type.length;i<arr_len;i++){
+                tld.push(tld_type[i].tld);
+                tld_type_total.push(tld_type[i].total);
+                tld_no_type_total.push(tld_no_type[i].total);
+            }
+            // alert(tld);
+            // alert(tld_type_total);
+            init_type(tld,tld_type_total,tld_no_type_total,type_name);
+        },
+        error: function (xhr) {
+            if (xhr.status == "0") {
+                alert("超时，稍后重试");
+            } else {
+                alert("错误提示：" + xhr.status + " " + xhr.statusText);
+            }
+        } // 出错后的处理
+    });
+}
+
+function init_type(tld,tld_type_total,tld_no_type_total,type_name){
+    var len = tld.length;
+    $('#containera').highcharts({
+    credits: {
+            enabled: false,
+    },
+    chart: {
+        type: 'bar',
+        height: 30*len
+    },
+    title: {
+        text: null
+    },
+    xAxis: {
+        categories: tld
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: null
+        }
+    },
+    tooltip: {
+        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+        shared: true
+    },
+    plotOptions: {
+        series: {
+            stacking: 'percent'
+        }
+    },
+    series: [{
+        name: type_name,
+        data: tld_type_total
+    }, {
+        name: '其他类型',
+        data: tld_no_type_total
+    }]
+});
+
 }

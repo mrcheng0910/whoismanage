@@ -18,28 +18,32 @@
         <li>
             <a href="#tld" data-toggle="tab">特定域名后缀情况统计</a>
         </li>
+        <li>
+            <a href="#type" data-toggle="tab">特定类型情况统计分析</a>
+        </li>
     </ul>
     <div id="myTabContent" class="tab-content" style="margin-top:15px;">
+        <!--tab-home-->
         <div class="tab-pane fade in active" id="home">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <i class="fa fa-bar-chart-o fa-fw"></i>
-                    域名WHOIS信息完整性统计
+                    域名WHOIS信息完整性概览
                 </div>
                 <div class="panel-body">
                     <div id="containertb" style="width: 100%;height: 100%;"></div>
                 </div>
             </div>
-        </div><!--//home-->
-        <!---->
+        </div><!--//tab-home-->
+        <!--tab-tld-->
         <div class="tab-pane fade" id="tld">
             <div class="row">
                 <!--col-lg-4-->
                 <div class="col-lg-4">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i>
-                                域名WHOIS信息完整性分布
+                            <i class="fa fa-crosshairs fa-fw"></i>
+                                选择查询的顶级后缀
                         </div>
                         <div class="panel-body">
                             <div class="row">
@@ -71,7 +75,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-bar-chart-o fa-fw"></i>
-                            域名WHOIS信息完整性分布
+                            特定域名后缀WHOIS完整性统计
                         </div>
                         <div class="panel-body">
                             <div class="row">
@@ -81,7 +85,62 @@
                     </div>
                 </div><!--col-lg-8-->
             </div>
-        </div>
+        </div><!--//tab-tld-->
+        <!--tab-type-->
+        <div class="tab-pane fade" id="type">
+            <div class="row">
+                <!--col-lg-4-->
+                <div class="col-lg-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i>
+                                选择查询的类型
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                <label for="name">选择要查看的类型</label>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" value="reg-info" checked>
+                                            注册者信息完整
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" value="reg-date">
+                                            注册时间完整
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios"  value="part-info">
+                                            注册者和时间都不完整
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" value="no-connect">
+                                            无法连接
+                                    </label>
+                                </div>
+                            </form>
+                        </div>
+                    </div> <!--//panel panel-default-->
+                </div><!--//col-lg-4-->
+                <!--col-lg-8-->
+                <div class="col-lg-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i>
+                            域名WHOIS信息完整性分布
+                        </div>
+                        <div class="panel-body">
+                            <div id="containera" style="width:100%;min-height:500px"></div>
+                        </div>
+                    </div>
+                </div><!--col-lg-8-->
+            </div>
+        </div><!--//tab-type-->
     </div>
 </div>
 
@@ -101,10 +160,35 @@ $(function(){
         if(activeTab=="特定域名后缀情况统计"){
             get_tld_data('net');
         }
+        else if(activeTab=="特定类型情况统计分析"){
+            get_type_data('1','注册者信息完整');
+        }
     });
     $("#query").bind('click',function(){
         get_tld_data($("#tld-query").val());
     });
+    
+    //radio绑定change事件
+    $('input[type=radio][name=optionsRadios]').change(function() {
+        if (this.value == 'reg-info') {
+            get_type_data('1','注册者信息完整')
+        }
+        else if (this.value == 'reg-date') {
+            get_type_data('2','注册日期完整')
+        }
+        else if (this.value == 'part-info'){
+            get_type_data('3','部分信息完整')
+        }
+        else if (this.value == 'no-connect'){
+            get_type_data('0','无法连接')
+        }
+    });
+    
+    
+    
+    
+    
+
 });
 </script>
 {% end %}

@@ -79,10 +79,37 @@ class ShowAssignmentTld(tornado.web.RequestHandler):
     """
     def get(self):
     
-        tld = self.get_argument('tld', "")
+        tld = self.get_argument('tld', '')
         results = DomainWhoisDb().get_assignment_tld_flag(tld)
         if not results:
             self.write("None")
         else:
             self.write(json.dumps(results))
+
+class ShowAssignmentType(tornado.web.RequestHandler):
+    """
+    展示指定的类型的whois完整情况
+    """
+    def get(self):
+        results = []
+        whois_type = self.get_argument('type','')
+        results_type,results_no_type = DomainWhoisDb().get_assignment_type(whois_type)
+        results.append(results_type)
+        results_no_type = self.test(results_type,results_no_type)
+        results.append(results_no_type)
+        self.write(json.dumps(results))
+    
+    def test(self,results_type,results_no_type):
+        
+        for index, value in enumerate(results_type):
+            try:
+                if value['tld'] == results_no_type[index]['tld']:
+                    pass
+                else:
+                    results_no_type.insert(index,{'tld': value['tld'],'total':0})
+            except:
+                results_no_type.insert(index,{'tld': value['tld'],'total':0})
+        
+        return results_no_type
+        
         

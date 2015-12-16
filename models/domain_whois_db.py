@@ -25,3 +25,16 @@ class DomainWhoisDb(BaseDb):
         sql = 'SELECT flag,flag_detail,whois_sum FROM tld_whois_flag WHERE tld=%s'
         result =self.db.query(sql,tld)
         return result
+    
+    def get_assignment_type(self,whois_type='1'):
+        """
+        获取指定类型的whois分布情况
+        """
+        
+        sql = 'SELECT tld, sum(whois_sum) AS total FROM tld_whois_flag WHERE flag=%s GROUP BY tld'
+        results_type = self.db.query(sql,whois_type)
+        
+        sql = 'SELECT  tld,SUM(whois_sum) AS total FROM tld_whois_flag WHERE (tld in (SELECT tld            FROM tld_whois_flag WHERE flag = %s GROUP BY tld)) AND flag <> %s GROUP BY tld'
+        results_no_type = self.db.query(sql,whois_type,whois_type)
+        
+        return results_type,results_no_type
