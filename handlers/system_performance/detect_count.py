@@ -8,6 +8,5 @@ class SvrDetectHandler(tornado.web.RequestHandler):
     def get(self):
         results = DomainWhoisDb().get_detect()
         self.render(PATH + 'detect_count.html',
-                    results1=json.dumps(results[:7]),
-                    results2=json.dumps(results[7:15])
+                    results1=json.dumps(results[:7])
                     )

@@ -267,7 +267,7 @@ function init_type(tld,tld_type_total,tld_no_type_total,type_name){
     },
     chart: {
         type: 'bar',
-        height: 30*len
+        height: 35*len
     },
     title: {
         text: null
