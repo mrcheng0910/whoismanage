@@ -12,7 +12,7 @@ from handlers.tld import TldHandler
 from handlers.system_performance.whois_integrity import DomainWhoisHandler,ShowAssignmentTld,ShowAssignmentType
 from handlers.system_performance.detect_efficiency import DetectHandler,ManageIncreaseHandler
 from handlers.system_performance.detect_forcast import DetectForcastHandler,ForcastPeriodHandler
-from handlers.system_performance.detect_count import SvrDetectHandler
+from handlers.system_performance.detect_count import DomainCountHandler,GetDomainCountHandler
 
 urls = [
     (r'/', IndexHandler),
@@ -38,5 +38,6 @@ urls = [
     (r'/detect/increase',ManageIncreaseHandler),  # 探测性能
     (r'/forcast',DetectForcastHandler), # 预测
     (r'/forcast/period',ForcastPeriodHandler),  # 预测
-    (r'/detect_count',SvrDetectHandler),  # 探测信息
+    (r'/detect_count',DomainCountHandler),  # 探测信息
+    (r'/detect_count/data',GetDomainCountHandler)
 ]

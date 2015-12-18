@@ -15,43 +15,70 @@
     </div>
 </div>
 <div class="row">
+    <!--col-lg-3-->
     <div class="col-lg-3">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <i class="fa fa-search"></i>
-                <div class="pull-right">选择</div>
-            </div>
-            <div class="panel-body">
-                <form role-form>
-                    <div class="form-group">
-                        <label>Top Selected</label>
-                        <select class="form-control" id="select_amount">
-                            <option>10</option>
-                            <option>15</option>
-                            <option>20</option>
-                            <option>25</option>
-                            <option>30</option>
-                            <option>35</option>
-                        </select>
-                    </div>
-                </form>
-                <p>右图为域名WHOIS服务器所负责提供WHOIS查询服务器的域名个数。</p>
+        <div class="row">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <i class="fa fa-search fa-fw"></i> 选择排名
+                </div>
+                <div class="panel-body">
+                    <form role-form>
+                        <div class="form-group">
+                            <label for="select_amount">选择排名</label>
+                            <select class="form-control" id="select_amount">
+                                <option>10</option>
+                                <option>15</option>
+                                <option>20</option>
+                                <option>25</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- /col-lg-3 -->
+        <div class="row">
+             <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <i class="fa fa-search fa-fw"></i> 输入域名后缀
+                </div>
+                <div class="panel-body">
+                    <form role-form onsubmit="return false;">
+                        <div class="form-group">
+                            <label>输入要查询的域名后缀</label>
+                            <input type="text" class="form-control" id="tld-query" 
+                                                placeholder="请输入后缀，例net">
+                        </div>
+                        <button type="button" class="btn btn-primary" id="btn-query">查询详情</button>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div><!-- /col-lg-3 -->
     <div class="col-lg-9">
         <div class="panel panel-default">
             <div class="panel-heading">
-                域名WHOIS信息统计
+                <li class="fa fa-bar-chart fa-fw"></li> 
+                已探测与未探测域名百分比
             </div>
             <div class="panel-body">
                 <div id="container" style="width:100%;height:100%"></div>
-                <script type="text/javascript">
-                    $(document).ready(detect({% raw results1 %}));
-                </script>
             </div>
         </div>
     </div>
 </div>
+{% end %}
+{% block foot_script %}
+<script>
+    $(function (){
+        GetDomainCount(10,'num');
+        $("#select_amount").bind("change", function () {
+            GetDomainCount($(this).val(),'num');
+        });
+        $("#btn-query").bind('click',function(){
+        GetDomainCount($("#tld-query").val(),'tld');
+    });
+    });
+</script>
 {% end %}

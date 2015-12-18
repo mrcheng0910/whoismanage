@@ -6,12 +6,13 @@
     {% block title_name  %}
     <title></title>
     {% end %}
-    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="//cdn.bootcss.com/metisMenu/2.2.0/metisMenu.min.css" rel="stylesheet">
     <link href={{static_url("css/sb-admin-2.css")}} rel="stylesheet">
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-    {% block head_link %}{% end %}
+    {% block head_link %}
+    {% end %}
 
 </head>
 
@@ -146,7 +147,7 @@
     </div>
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="//cdn.bootcss.com/metisMenu/2.2.0/metisMenu.min.js"></script>
-    <script src="{{static_url("js/sb-admin-2.js")}}"></script>
+    <script src={{static_url("js/sb-admin-2.js")}}></script>
     {% block foot_script %}
     {% end %}
 </body>

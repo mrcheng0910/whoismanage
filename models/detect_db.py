@@ -59,3 +59,35 @@ class DetectDb(BaseDb):
             return total/(length-1)
         else:
             return total/((length-1)*24)
+            
+            
+    def get_detecting_tld(self):
+        """
+        获得最近一小时的域名whois后缀
+        """
+        results = []
+        sql_not_exist= 'SELECT tld,whois_sum FROM (SELECT *  FROM tld_whois_sum_history \
+              WHERE update_time BETWEEN DATE_SUB(NOW(),INTERVAL 1 HOUR)  AND NOW()) as t1 \
+              WHERE NOT EXISTS (SELECT * FROM (SELECT *  FROM tld_whois_sum_history \
+              WHERE update_time BETWEEN DATE_SUB(NOW(),INTERVAL 2 HOUR) \
+              AND DATE_SUB(NOW(),INTERVAL 1 HOUR) ) as t2 WHERE t1.tld=t2.tld)'
+        results_not_exist = self.db.query(sql_not_exist)
+        
+        sql_change = 'SELECT t1.tld,t1.whois_sum AS n_num,t3.whois_sum AS p_num FROM \
+                      (SELECT *  FROM tld_whois_sum_history WHERE update_time \
+                      BETWEEN DATE_SUB(NOW(),INTERVAL 1 HOUR)  AND NOW()) as t1 \
+                      JOIN (SELECT * FROM (SELECT *  FROM tld_whois_sum_history \
+                      WHERE update_time BETWEEN DATE_SUB(NOW(),INTERVAL 2 HOUR) \
+                      AND DATE_SUB(NOW(),INTERVAL 1 HOUR) ) as t2) as t3 ON t1.tld = t3.tld AND t1.whois_sum<>t3.whois_sum'
+        results_change = self.db.query(sql_change)
+        if  results_not_exist:
+            for value in results_not_exist:
+                results.append({'tld':value['tld'],'num':value['whois_sum']})
+        if  results_change:
+            for value in results_change:
+                results.append({'tld':value['tld'],'num':(int(value['n_num'])-int(value['p_num']))})
+        print results_not_exist
+        print results_change
+        print results
+        return results
+        

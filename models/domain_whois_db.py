@@ -40,16 +40,16 @@ class DomainWhoisDb(BaseDb):
         return results_type,results_no_type
     
     
-    def get_detect(self):
+    def get_detect(self,top_num=10):
         """
         获取已探测域名和未探测域名的数量
         :return:
         """
         results = []
-        detect_sql = "SELECT tld,sum(whois_sum) as detect_sum FROM tld_whois_flag GROUP BY tld"
+        detect_sql = 'SELECT tld,sum(whois_sum) as detect_sum FROM tld_whois_flag GROUP BY tld'
         detect_results = self.db.query(detect_sql)
-        sum_sql = "SELECT tld_name,domain_num FROM domain_summary WHERE tld_name in(SELECT tld FROM tld_whois_flag) ORDER BY domain_num DESC "
-        sum_results = self.db.query(sum_sql)
+        sum_sql = 'SELECT tld_name,domain_num FROM domain_summary WHERE tld_name in(SELECT tld FROM tld_whois_flag) ORDER BY domain_num DESC LIMIT %s'
+        sum_results = self.db.query(sum_sql,int(top_num))
 
         for sum_value in sum_results:
             for detect_value in detect_results:
@@ -58,3 +58,18 @@ class DomainWhoisDb(BaseDb):
                                     'detected':detect_value['detect_sum'],
                                     'undetected':sum_value['domain_num']-detect_value['detect_sum']})
         return results
+     
+    def get_tld_detect(self,tld):
+        """
+        获取指定域名后缀的探测情况
+        """
+        result = []
+        detected_sql = 'SELECT sum(whois_sum) as detect_sum FROM tld_whois_flag WHERE tld = %s'
+        detected_result = self.db.query(detected_sql,tld)
+        total_sql = 'SELECT domain_num FROM  domain_summary WHERE tld_name = %s'
+        total_result = self.db.query(total_sql,tld)
+        result.append({'tld':tld,
+                       'detected':detected_result[0]['detect_sum'],
+                       'undetected': total_result[0]['domain_num']-detected_result[0]['detect_sum']
+                        })
+        return result

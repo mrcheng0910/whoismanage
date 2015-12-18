@@ -11,7 +11,9 @@ PATH = './system_performance/'
 class DetectHandler(tornado.web.RequestHandler):
     """首页渲染"""
     def get(self):
-        self.render(PATH+'detect_efficiency.html')
+        results = DetectDb().get_detecting_tld()
+        self.render(PATH+'detect_efficiency.html',
+                    results = results)
 
 
 class ManageIncreaseHandler(tornado.web.RequestHandler):

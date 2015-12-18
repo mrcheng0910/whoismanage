@@ -37,8 +37,6 @@ function init(categories,series_total,series_increase){
     $('#container').highcharts({
         credits: {
             enabled: false,
-            text: '域名分析团队',
-            href: '#'
         },
         chart: {
             zoomType: 'x'  //x轴方向缩放
