@@ -86,8 +86,5 @@ class DetectDb(BaseDb):
         if  results_change:
             for value in results_change:
                 results.append({'tld':value['tld'],'num':(int(value['n_num'])-int(value['p_num']))})
-        print results_not_exist
-        print results_change
-        print results
         return results
         

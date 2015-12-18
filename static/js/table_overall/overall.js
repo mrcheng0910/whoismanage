@@ -1,52 +1,28 @@
 
-function GetDomainCount(argument,options){
-    $.ajax({
-            url: '/detect_count/data',
-            type: "get",
-            data: {
-                argument: argument,
-                options: options,
-                stamp: Math.random()   // preventing "get" method using cache send to client
-            },
-            timeout: 5000, //超时时间
-            success: function (data) {  //成功后的处理
-                var raw_data = JSON.parse(data); //json格式化原始数据
-                detect(raw_data);
-            },
-            error: function (xhr) {
-                if (xhr.status == "0") {
-                    alert("超时，稍后重试");
-                } else {
-                    alert("错误提示：" + xhr.status + " " + xhr.statusText);
-                }
-            } // 出错后的处理
-        });
-}
-
-
 function detect(results) {
     var categories = [];
     var detectTld = [];
     var unDetectTld = [];
-    var categoryLen = results.length;
-    for (var i=0;i<categoryLen;i++)
-    {
-        categories[i]=results[i].tld;
-        detectTld[i]=results[i].detected;
-        unDetectTld[i]=results[i].undetected;
+    var len = results.length;
+    for (var i=0,arr_len = results.length;i<arr_len;i++)
+    {   
+        categories.unshift(results[i].table_name);
+        detectTld.unshift(results[i].flag_no_connect);
+        unDetectTld.unshift(results[i].flag_undetected);
+        // categories[i]=results[i].table_name;
+        // detectTld[i]=results[i].flag_no_connect;
+        // unDetectTld[i]=results[i].flag_undetected;
     }
-    var height = 200; //用来调整height的大小
-    if (categoryLen>1){
-        height = 50*categoryLen;
-    }
-    $(document).ready(function () {
-        $('#container').highcharts({
+    test("#container1",categories.slice(0,14),detectTld.slice(0,14),unDetectTld.slice(0,14));
+    test("#container2",categories.slice(14,28),detectTld.slice(14,28),unDetectTld.slice(14,28));
+}
+function test(contain_name,categories,detectTld,unDetectTld){
+        $(contain_name).highcharts({
             credits: {
                 enabled: false,
             },
             chart: {
                 type: 'bar',
-                height: height,
             },
             title: {
                 text: null
@@ -106,5 +82,4 @@ function detect(results) {
                 data: unDetectTld
             }]
         });
-    });
 }

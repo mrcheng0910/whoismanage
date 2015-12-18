@@ -22,7 +22,7 @@
                 数据库表整体情况
             </div>
             <div class="panel-body">
-                <div id="container1" style="width:100%;height:100%"></div>
+                <div id="container1" style="width:100%;height:500px"></div>
             </div>
         </div>
     </div>
@@ -33,7 +33,7 @@
                 数据库表整体情况
             </div>
             <div class="panel-body">
-                <div id="container2" style="width:100%;height:100%"></div>
+                <div id="container2" style="width:100%;height:500px"></div>
             </div>
         </div>
     </div>
@@ -41,14 +41,8 @@
 {% end %}
 {% block foot_script %}
 <script>
-    // $(function (){
-    //     GetDomainCount(10,'num');
-    //     $("#select_amount").bind("change", function () {
-    //         GetDomainCount($(this).val(),'num');
-    //     });
-    //     $("#btn-query").bind('click',function(){
-    //     GetDomainCount($("#tld-query").val(),'tld');
-    // });
-    // });
+    $(function(){
+        detect({% raw results %});    
+    });
 </script>
 {% end %}

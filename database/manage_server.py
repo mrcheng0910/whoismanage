@@ -8,6 +8,7 @@ from tasks.update_tld_whois import tld_whois_sum
 from tasks.simple_update import update_day,update_top_sec_num
 from tasks.update_domain import tld_domain
 from tasks.update_top_sec_svr import top_sec
+from tasks.update_table_overall import table_overall
 try:
     import schedule
 except ImportError:
@@ -22,6 +23,7 @@ if __name__ == "__main__":
     schedule.every().day.at("23:40").do(update_day) # 更新每天的whois探测数量
     schedule.every(8).days.do(tld_domain)
     schedule.every().day.do(top_sec)
+    schedule.every().hour.do(table_overall)
     while True:
         schedule.run_pending()
         time.sleep(1)

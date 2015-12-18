@@ -24,4 +24,3 @@ def update_top_sec_num():
     cur.execute(sql)
     conn.commit()
     conn.close()
-    
