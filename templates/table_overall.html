@@ -1,0 +1,54 @@
+{% extends "main_template.html" %}
+{% block head_link %}
+<script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script src={{static_url("js/table_overall/overall.js")}}></script>
+{% end %}
+
+{% block title_name %}
+<title>数据库表概览</title>
+{% end %}
+
+{% block page %}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">数据库表概览</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <li class="fa fa-bar-chart fa-fw"></li> 
+                数据库表整体情况
+            </div>
+            <div class="panel-body">
+                <div id="container1" style="width:100%;height:100%"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <li class="fa fa-bar-chart fa-fw"></li> 
+                数据库表整体情况
+            </div>
+            <div class="panel-body">
+                <div id="container2" style="width:100%;height:100%"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% end %}
+{% block foot_script %}
+<script>
+    // $(function (){
+    //     GetDomainCount(10,'num');
+    //     $("#select_amount").bind("change", function () {
+    //         GetDomainCount($(this).val(),'num');
+    //     });
+    //     $("#btn-query").bind('click',function(){
+    //     GetDomainCount($("#tld-query").val(),'tld');
+    // });
+    // });
+</script>
+{% end %}

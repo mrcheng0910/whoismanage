@@ -14,6 +14,8 @@ from handlers.system_performance.detect_efficiency import DetectHandler,ManageIn
 from handlers.system_performance.detect_forcast import DetectForcastHandler,ForcastPeriodHandler
 from handlers.system_performance.detect_count import DomainCountHandler,GetDomainCountHandler
 
+from handlers.table_overall import TableOverallHandler
+
 urls = [
     (r'/', IndexHandler),
     (r'/rate_of_increase',RateOfIncrease),
@@ -39,5 +41,7 @@ urls = [
     (r'/forcast',DetectForcastHandler), # 预测
     (r'/forcast/period',ForcastPeriodHandler),  # 预测
     (r'/detect_count',DomainCountHandler),  # 探测信息
-    (r'/detect_count/data',GetDomainCountHandler)
+    (r'/detect_count/data',GetDomainCountHandler),
+    
+    (r'/table_overall',TableOverallHandler) # 数据库表整体情况
 ]
