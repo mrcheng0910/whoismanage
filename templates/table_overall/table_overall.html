@@ -1,8 +1,4 @@
 {% extends "../main_template.html" %}
-{% block head_link %}
-<script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
-<script src={{static_url("js/table_overall/overall.js")}}></script>
-{% end %}
 
 {% block title_name %}
 <title>数据库表概览</title>
@@ -29,6 +25,8 @@
 </div>
 {% end %}
 {% block foot_script %}
+<script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script src={{static_url("js/table_overall/overall.js")}}></script>
 <script src="http://apps.bdimg.com/libs/layer/2.0/layer.js"></script>
 <script>
     $(function(){

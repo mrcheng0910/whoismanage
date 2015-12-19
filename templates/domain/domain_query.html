@@ -1,11 +1,5 @@
 {% extends "../main_template.html" %}
-{% block head_link %}
-<script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
-<script src="http://cdn.hcharts.cn/highcharts/highcharts-more.js"></script>
-<script src="http://cdn.hcharts.cn/highcharts/modules/solid-gauge.js"></script>
-<script src="{{static_url("js/domain/domain_query.js")}}"></script>
 
-{% end %}
 {% block title_name %}
 <title>域名查询</title>
 {% end %}
@@ -48,15 +42,20 @@
                     <div id="container-tld" style="width: 600px; height: 200px; float: left"></div>
                 </div>
             </div>
-
         </div>
     </div>
-
 </div>
 
 {% end %}
 {% block foot_script %}
+<script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script src="//cdn.hcharts.cn/highcharts/highcharts-more.js"></script>
+<script src="//cdn.hcharts.cn/highcharts/modules/solid-gauge.js"></script>
+<script src="{{static_url("js/domain/domain_query.js")}}"></script>
 <script>
-    $(document).ready(test())
+    $(function(){
+        test();
+    });
+    // $(document).ready(test());
 </script>
 {% end %}

@@ -1,8 +1,4 @@
 {% extends "../main_template.html" %}
-{% block head_link %}
-<script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
-<script src={{static_url("js/system_performance/count.js")}}></script>
-{% end %}
 
 {% block title_name %}
 <title>WHOIS探测信息</title>
@@ -69,7 +65,11 @@
     </div>
 </div>
 {% end %}
+
 {% block foot_script %}
+<script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script src="{{static_url("js/system_performance/count.js")}}"></script>
+
 <script>
     $(function (){
         GetDomainCount(10,'num');
@@ -77,8 +77,8 @@
             GetDomainCount($(this).val(),'num');
         });
         $("#btn-query").bind('click',function(){
-        GetDomainCount($("#tld-query").val(),'tld');
-    });
+            GetDomainCount($("#tld-query").val(),'tld');
+        });
     });
 </script>
 {% end %}

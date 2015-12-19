@@ -1,8 +1,6 @@
 {% extends "../main_template.html" %}
 {% block head_link %}
-<script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
-<script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/exporting.js"></script>
-<script src="{{static_url("js/svr/svr.js")}}"></script>
+
 {% end %}
 {% block title_name %}
 <title>WHOIS服务器信息</title>
@@ -52,9 +50,9 @@
             </div>
             <div class="panel-body">
                 <div id="container" style="width:100%;height:100%">
-                <script type="text/javascript">
+                <!--<script type="text/javascript">
                      $(document).ready(test({%raw svrs %}));
-                </script>
+                </script>-->
                 </div>
             </div>
         </div>
@@ -99,9 +97,9 @@
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <div id="container_sort" style="width:100%;height:100%">
-                    <script>
+                    <!--<script>
                         $(document).ready(domain_sort({% raw svrs %}));
-                    </script>
+                    </script>-->
 
                 </div>
             </div>
@@ -110,22 +108,32 @@
     </div>
 
 </div>
+
+{% end %}
+
+{% block foot_script %}
+
+<script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script src="{{static_url("js/svr/svr.js")}}"></script>
 <script>
-    $(function (){ //尝试添加判断语句
+    $(function (){
+
+        $(document).ready(test({%raw svrs %}));
+        $(document).ready(domain_sort({% raw svrs %}));
+
         $("#select_percent").bind("change", function () {
             $.post('/svr', {num:$(this).val()}, function(data){
              test(data);
             });
         });
-    });
-</script>
-<script>
-    $(function (){
+
         $("#select_amount").bind("change", function () {
             $.post('/svr', {num:$(this).val()}, function(data){
              domain_sort(data);
             });
         });
+        
     });
 </script>
+
 {% end %}

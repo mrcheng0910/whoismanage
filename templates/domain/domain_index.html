@@ -1,9 +1,4 @@
 {% extends "../main_template.html" %}
-{% block head_link %}
-<script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/exporting.js"></script>
-<script src="{{static_url("js/domain/domain.js")}}"></script>
-<script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
-{% end %}
 {% block title_name %}
 <title>顶级后缀统计</title>
 {% end %}
@@ -24,10 +19,6 @@
             <div class="panel-body">
                 <!-- <div id="morris-area-chart"></div> -->
                 <div id="container" style="width:100%;height:100%">
-
-                    <script>
-                        $(document).ready(domain({% raw domains %}));
-                    </script>
                 </div>
             </div>
             <!-- /.panel-body -->
@@ -44,10 +35,6 @@
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <div id="container_sort" style="width:100%;height:100%">
-                    <script>
-                        $(document).ready(domain_sort({% raw domains %}));
-                    </script>
-
                 </div>
             </div>
 
@@ -55,5 +42,19 @@
     </div>
 
 </div>
+
+{% end %}
+{% block foot_script %}
+
+<script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script src="{{static_url("js/domain/domain.js")}}"></script>
+<script>
+    
+$(function(){
+    domain({% raw domains %});
+    domain_sort({% raw domains %});
+});
+    
+</script>
 
 {% end %}

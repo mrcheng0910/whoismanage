@@ -1,11 +1,4 @@
 {% extends "../main_template.html" %}
-{% block head_link %}
-<script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
-<script src="http://cdn.hcharts.cn/highmaps/modules/data.js"> </script>
-<script src="http://cdn.hcharts.cn/highmaps/modules/drilldown.js"></script>
-<script src="{{static_url("js/svr/top_sec.js")}}"></script>
-<script src="{{static_url("js/svr/top_sec_num.js")}}"></script>
-{% end %}
 
 {% block title_name %}
 <title>二级WHOIS服务器分析</title>
@@ -73,6 +66,13 @@
 </div>
 {% end %}
 {% block foot_script %}
+
+<script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script src="http://cdn.hcharts.cn/highmaps/modules/data.js"> </script>
+<script src="http://cdn.hcharts.cn/highmaps/modules/drilldown.js"></script>
+<script src="{{static_url("js/svr/top_sec.js")}}"></script>
+<script src="{{static_url("js/svr/top_sec_num.js")}}"></script>
+
 <script>
    $(function(){
       $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
