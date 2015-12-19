@@ -39,72 +39,63 @@ function detect(results) {
     if (categoryLen>1){
         height = 50*categoryLen;
     }
-    $(document).ready(function () {
-        $('#container').highcharts({
-            credits: {
-                enabled: false,
-            },
-            chart: {
-                type: 'bar',
-                height: height,
-            },
+    $('#container').highcharts({
+        credits: {
+            enabled: false,
+        },
+        chart: {
+            type: 'bar',
+            height: height,
+        },
+        title: {
+            text: null
+        },
+        xAxis: [{
+            categories: categories,
+        }],
+        yAxis: {
             title: {
                 text: null
             },
-            xAxis: [{
-                categories: categories,
-            }],
-            yAxis: {
-                title: {
-                    text: null
-                },
-                labels: {
-                    formatter: function () {
-                        return (Math.abs(this.value)) + '%'; //输出正数百分比
-                    }
-                },
-            },
-            
-            plotOptions: {
-                series: {
-                    stacking: 'percent'
+            labels: {
+                formatter: function () {
+                    return (Math.abs(this.value)) + '%'; //输出正数百分比
                 }
             },
-
-            tooltip: {
-                //下列函数就是用来把负值变为正数输出
-                formatter: function () {
-                    var s = '<b>' + this.x + '</b>';
-                    var detectedDomainCount = 0;
-                    var detectingDomainCount = 0;
-                    $.each(this.points, function () {
-                        if (this.y<0){
-                            detectedDomainCount = (-this.y);
-                            s += '<br>' + this.series.name + ': ' + detectedDomainCount + '个'
-                                 +' <b>(' + Math.round(-this.percentage*100)/100 + '%)</b>';
-                        }
-                        else{
-                            detectingDomainCount = this.y;
-                            s += '<br>' + this.series.name + ': ' + detectingDomainCount + '个'
-                                  +' <b>('+ Math.round(this.percentage*100)/100 + '%)</b>';
-                            }
-                        });
-                        s += '<br><b>域名总数: '+(detectedDomainCount+detectingDomainCount)+'个</b>';
-                        return s;
-                    },
-                shared: true,
-                crosshairs: true,
-                valueSuffix: ' 个',
+        },
+        legend: {
+                reversed: true,
             },
+        plotOptions: {
+            series: {
+                stacking: 'percent',
+            }
+        },
+        tooltip: {
+            //下列函数就是用来把负值变为正数输出
+            formatter: function () {
+                var s = '<b>' + this.x + '</b>';
+                var domainCount = 0;
+                $.each(this.points, function () {
+                        domainCount += this.y;
+                        s += '<br>' + this.series.name + ': ' + this.y + '个'
+                                +' <b>('+ Math.round(this.percentage*100)/100 + '%)</b>';
+                    });
+                    s += '<br><b>域名总数: '+(domainCount)+'个</b>';
+                    return s;
+                },
+            shared: true,
+            crosshairs: true,
+            valueSuffix: ' 个',
+        },
 
-            series: [{
-                name: '已探测域名',
-                data: detectTld
-                // data: [-100000,]
-            }, {
-                name: '未探测域名',
-                data: unDetectTld
-            }]
-        });
+        series: [{
+            name: '已探测域名',
+            data: detectTld
+            // data: [-100000,]
+        }, {
+            name: '未探测域名',
+            data: unDetectTld
+        }]
     });
 }

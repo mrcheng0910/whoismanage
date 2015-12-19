@@ -34,6 +34,9 @@ function whois_chart(tldWhoisSum) {
                 text: '域名WHOIS信息完整性情况分布'
             }
         },
+        legend: {
+                reversed: true,
+            },
         tooltip: {
             pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
             shared: true
@@ -280,6 +283,9 @@ function init_type(tld,tld_type_total,tld_no_type_total,type_name){
         title: {
             text: null
         }
+    },
+    legend: {
+            reversed: true,
     },
     tooltip: {
         pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',

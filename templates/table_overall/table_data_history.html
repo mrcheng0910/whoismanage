@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                 <div class="panel panel-default">
+                    <div class="panel-heading">
+                    <li class="fa fa-bar-chart fa-fw"></li> 
+                    数据库表数据增长趋势
+                    </div>
+                    <div class="panel-body">
+                    <div id="container" style="width:100%;height:100%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
+    <script src={{static_url("js/table_overall/table_data_history.js")}}></script>
+    <script>
+        $(function () {
+            showTable({% raw results %});
+        });
+    </script>
+    </body>
+</html>

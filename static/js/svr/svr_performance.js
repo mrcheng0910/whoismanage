@@ -19,10 +19,10 @@ function tld_svr_pie(count,count_null) {
                 events:{
                     click: function(e){
                         if (e.point.name=='含有whois服务器'){
-                            tld_svr_tb(flag=true);
+                            tld_svr_tb(true);
                         }
                         else if(e.point.name=='不含有whois服务器'){
-                            tld_svr_tb(flag=false);
+                            tld_svr_tb(false);
                         }
                     }
                 },
@@ -52,11 +52,9 @@ function tld_svr_tb(flag) {
     var url = ''
     if (flag){
         url = '/svr_table?flag=True';
-        //title = '含有whois服务器域名列表'
     }
     else{
         url = '/svr_table?flag=False';
-        //title = '不含有whois服务器域名列表'
     }
     layer.open({
         type: 2,
