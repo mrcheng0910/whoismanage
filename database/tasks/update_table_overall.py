@@ -1,35 +1,43 @@
 #!/usr/bin/python
 # encoding:utf-8
 """
-网站后台定期更新程序
-功能：更新表domain_summary,domain_update两个表。
-
+更新DomainWhois.table_overall_history表,汇总28张表中各个标记位的情况
+@作者：程亚楠
+@时间：2015.12.20
 """
 import sys
 from database import conn_db
 import time
-import threading
 from threading import Thread
 from Queue import Queue
 import MySQLdb
-
+from datetime import datetime
+import re
 
 num_thread = 5      # 线程数量
 queue = Queue()     # 任务队列，存储sql
 
 
-def count_domain(q, queue):
-    """计算各个列表中，各个顶级后缀的数量，并求和"""
+def count_domain(q,queue):
+    """执行数据库更新功能
+    参数：
+        queue : Queue
+            任务队列，存储mysql执行语句
+        q : int
+            线程编号
+    """
+    
+    pattern = re.compile(r"domain_whois_(\w*)")  # 获取探测数据库表名称
     while 1:
         content = queue.get()
-        if not content:
-            queue.task_done()
-            # break
+        table_name = pattern.search(content) # 获得表名称
+        print " ".join(['开始探测时间:',str(datetime.now()),'任务:更新表table_overll','字段:',table_name.group()])
+        
         try:
-            print "线程：" + str(q) + "探测各个域名顶级后缀的域名数量..."
             conn = conn_db()
             cur = conn.cursor()
             cur.execute(content)
+            cur.close()
             conn.commit()
             queue.task_done()
             time.sleep(1)  # 去掉偶尔会出现错误
@@ -37,14 +45,13 @@ def count_domain(q, queue):
             print "Error %d: %s" % (e.args[0], e.args[1])
             sys.exit(1)
         finally:
-            print "线程: "+str(q)+" 探测结束"
-            cur.close()
+            print " ".join(['结束探测时间:',str(datetime.now()),'任务:更新表table_overll','字段:',table_name.group()])
             conn.close()
 
 
 def create_queue():
-    """
-    创建任务队列91
+    """创建任务队列
+    共有28张表，需要创建28个任务
     """
     for i in xrange(65, 91):     # 创建任务队列，A-Z
         
@@ -87,8 +94,10 @@ def create_queue():
     queue.put(sql_other)  # domain_whois_other 加入队列
     
 def create_thread():
+    """创建任务线程"""
+    
     for q in range(num_thread):  # 开始任务
-        worker = Thread(target=count_domain, args=(q, queue))
+        worker = Thread(target=count_domain, args=(q,queue))
         worker.setDaemon(True)
         worker.start()
     queue.join()

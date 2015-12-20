@@ -12,7 +12,8 @@ import time
 import threading
 from threading import Thread
 from Queue import Queue
-
+import re
+from datetime import datetime
 
 num_thread = 5      # 线程数量
 queue = Queue()     # 任务队列，存储sql
@@ -40,12 +41,12 @@ def sum_all_flags(sum_flags=[], single_domains=[]):
 
 def count_flag(q, queue):
     """计算各个列表中，各个顶级后缀的flag中域名whois数量，并求和"""
+    pattern = re.compile(r"domain_whois_(\w*)")  # 获取探测数据库表名称
     while 1:
         content = queue.get()
-        if not content:
-            queue.task_done()
+        table_name = pattern.search(content) # 获得表名称
+        print " ".join(['开始时间:',str(datetime.now()),'任务:更新flag','字段:',table_name.group()])
         try:
-            print "正在执行线程： "+str(q)
             conn = conn_db()
             cur = conn.cursor()
             cur.execute(content)
@@ -60,6 +61,7 @@ def count_flag(q, queue):
             print "Error %d: %s" % (e.args[0], e.args[1])
             sys.exit(1)
         finally:
+            print " ".join(['结束时间:',str(datetime.now()),'任务:更新flag','字段:',table_name.group()])
             conn.close()
 
 
@@ -119,7 +121,3 @@ def update_whois_flag():
     create_thread() # 创建线程
     update_db()
     
-    # test
-    for value in sum_flags:
-        print value
- 

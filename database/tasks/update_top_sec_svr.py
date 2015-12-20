@@ -7,10 +7,11 @@ import sys
 import time
 import MySQLdb
 from database import conn_db
-import threading
 from Queue import Queue
+import threading
 from threading import Thread
-
+import re
+from datetime import datetime
 
 sum_svr = []
 num_thread = 5  # 线程数量
@@ -40,6 +41,7 @@ def update_db():
         sql = 'INSERT INTO top_sec_svr(top_svr, sec_svr, whois_sum) VALUES(%s, %s, %s)'
         cur = conn.cursor()
         cur.execute('TRUNCATE TABLE top_sec_svr')
+        conn.commit()
         for item in sum_svr:
             cur.execute(sql, (item[0], item[1], item[2]))
         conn.commit()
@@ -65,12 +67,13 @@ def create_queue():
 
 def count(q, queue):
     '''任务操作：获取表中二级服务器数量并添加到num_ssvr'''
-    while True:
-        if queue.empty():
-            break
+    pattern = re.compile(r"domain_whois_(\w*)")  # 获取探测数据库表名称
+    while 1:
+        content = queue.get()
         try:
+            table_name = pattern.search(content) # 获得表名称
+            print " ".join(['开始时间:',str(datetime.now()),'任务:更新服务器数据','字段:',table_name.group()])
             conn = conn_db()
-            content = queue.get()
             cur = conn.cursor()
             cur.execute(content)
             single_tld_whois_flag = list(cur.fetchall())
@@ -84,6 +87,7 @@ def count(q, queue):
             print "Error %d: %s" % (e.args[0], e.args[1])
             sys.exit(1)
         finally:
+            print " ".join(['结束时间:',str(datetime.now()),'任务:更新服务器数据','字段:',table_name.group()])
             conn.close()
 
 

@@ -19,28 +19,15 @@
 	存储主和次域名WHOIS服务器的各自数量,每7天更新一次；
 11. [`tld_whois_flag`](#tld_whois_flag)  
     记录各个域名顶级后缀的whois信息情况，通过flag标记位分类，flag\_details是详细信息。每小时更新一次最新数据
-12. [`tld_whois_sum`](#tld_whois_sum)  
-	记录最新一次的各个域名顶级后缀探测的域名whois的总数，每小时更新一次最新数据
 13. [`tld_whois_sum_history`](#tld_whois_sum_history)  
 	记录数据库中每天每小时各个域名顶级后缀探测的域名whois的总数，每小时插入一次最新数据
 14. [`whois_sum`](#whois_sum)  
 	记录每天每小时的数据库中域名whois的总数，简单来说就是多少个域名已探测，每小时插入一次最新数据；
 15. [`whois_sum_by_day`](#whois_sum_by_day)  
 	记录每天数据库中已经探测得到的域名WHOIS总数,在每天晚上11点50分左右插入一次最新数据
-16. [`table_overall`](#table-overall)
-    记录28张表中，数据的增长情况，包括各个标记为的数量;
-17. [`table_overall`]
+16. [`table_overall_history`](#table-overall)
+    记录28张表中，数据的增长情况，包括各个标记为的数量,每2个小时更新一次。
 
-## 负责人说明
-1. **程亚楠**负责整个数据库的信息维护；
-2. **王凯**负责表1-3、9的维护；
-3. **赵新岭**负责表4、5、6、8维护
-4. **马有为**负责表7的维护
-5. **程亚楠**负责表10、11、12、13、14、15的维护
-
-## 表功能说明
-1. 表1-3、9为域名WHOIS信息存储表，为获取系统的整体表。
-2. 表4-8、9为域名WHOIS信息统计web所需要表。
 
 
 ## 表结构详细说明
@@ -105,6 +92,12 @@ id    | tld  | type |  organisation|url
 
 <h3 id="msvr_ssvr">msvr_ssvr</h3>
 
+**依赖表**
+更新该表的程序，依赖以下表：
+
+- top_sec_svr
+- whois_addr
+
 **字段说明**
 
 - id: 编号
@@ -162,32 +155,25 @@ id    | tld  | flag | flag_detail|whois_sum  | update_date
 12 |3 | 101 | 无注册者信息，注册日期不完善
 13 | 3 |111 | 注册者信息不完善，注册日期不完善
 
-<h3 id="tld_whois_sum">tld_whois_sum</h3>
-
-字段说明
-
-- id：编号
-- tld: 域名顶级后缀
-- whois\_sum：目前为止总共探测的域名whois数量
-- update\_date:更新时间，其实应该是插入时间,默认为当前时间current\_timestamp
-
-例子：
-
-id    | tld  | whois_sum  | update_date
-------|------|---------|---------
-1| net| 434343434|2015-12-07 09:40:45
-2| org| 22222222|2015-12-07 10:42:32
 
 <h3 id="tld_whois_sum_history">tld_whois_sum_history</h3>
 
-字段说明
+**依赖表**
+更新该表的程序，依赖以下所有表：
+
+- domain_whois_A--Z
+- domain_whois_other
+- domain_whois_num
+
+
+**字段说明**
 
 - id：编号
 - tld: 域名顶级后缀
 - whois\_sum：目前为止总共探测的域名whois数量
 - update\_date:更新时间，其实应该是插入时间,默认为当前时间current\_timestamp
 
-例子：
+**例子**
 
 id    | tld  | whois_sum  | update_date
 ------|------|---------|---------
@@ -196,13 +182,21 @@ id    | tld  | whois_sum  | update_date
 
 <h3 id="whois_sum">whois_sum</h3>
 
-字段说明
+**依赖表**
+更新该表的程序，依赖以下所有表：
+
+- domain_whois_A--Z
+- domain_whois_other
+- domain_whois_num
+
+
+**字段说明**
 
 - id：编号
 - tld\_sum：目前为止总共探测的域名数量
 - insert\_date:插入时间
 
-例子：
+**例子**
 
 id    | tld_sum  | insert_date
 ------|------|---------
@@ -212,15 +206,38 @@ id    | tld_sum  | insert_date
 
 <h3 id="whois_sum_by_day">whois_sum_by_day</h3>
 
-字段说明
+**依赖表**
+更新该表的程序，依赖以下表：
+
+- whois_sum，获取该天最大值
+
+
+**字段说明**
 
 - id：编号
 - sum：目前为止总共探测的域名数量
 - insert\_date:插入时间,默认为当前时间current\_timestamp
 
-例子:
+**例子**
 
 id    | sum  | insert_date
 ------|------|---------
 1| 30098330| 2015-12-04 09:40:45
 2| 30101000| 2015-12-05 09:40:45
+
+
+<h3 id="table_overall_history">table_overall_history</h3>
+
+**依赖表**
+更新该表的程序，依赖以下所有表：
+
+- domain_whois_A--Z
+- domain_whois_other
+- domain_whois_num
+
+
+**字段说明**
+
+
+
+例子：

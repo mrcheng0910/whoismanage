@@ -12,7 +12,8 @@ import threading
 from threading import Thread
 from Queue import Queue
 import MySQLdb
-
+import re
+from datetime import datetime
 
 num_thread = 5      # 线程数量
 queue = Queue()     # 任务队列，存储sql
@@ -39,17 +40,18 @@ def sum_all_domains(sum_domains=[], single_domains=[]):
 
 def count_domain(q, queue):
     """计算各个列表中，各个顶级后缀的数量，并求和"""
+    pattern = re.compile(r"domain_whois_(\w*)")  # 获取探测数据库表名称
     while 1:
         content = queue.get()
-        if not content:
-            queue.task_done()
-            # break
+        
         try:
-            print "线程：" + str(q) + "探测各个域名顶级后缀的域名数量..."
+            table_name = pattern.search(content) # 获得表名称
+            print " ".join(['开始时间:',str(datetime.now()),'任务:更新域名','字段:',table_name.group()])
             conn = conn_db()
             cur = conn.cursor()
             cur.execute(content)
             single_domains = cur.fetchall()
+            cur.close()
             lock.acquire()  # 锁
             sum_all_domains(sum_domains, list(single_domains))
             lock.release()  # 解锁
@@ -59,8 +61,7 @@ def count_domain(q, queue):
             print "Error %d: %s" % (e.args[0], e.args[1])
             sys.exit(1)
         finally:
-            print "线程: "+str(q)+" 探测结束"
-            cur.close()
+            print " ".join(['结束时间:',str(datetime.now()),'任务:更新域名','字段:',table_name.group()])
             conn.close()
 
 
@@ -73,6 +74,7 @@ def update_db():
         cur.execute(sql, (domain[0], domain[1]))
     conn.commit()
     cur.execute('TRUNCATE TABLE domain_summary')
+    conn.commit()
     sql = 'INSERT INTO domain_summary(tld_name, domain_num) VALUES(%s, %s)'
     for domain in sum_domains:
         cur.execute(sql, (domain[0], domain[1]))
@@ -109,4 +111,4 @@ def tld_domain():
     create_queue()
     create_thread()
     update_db()
-    
+

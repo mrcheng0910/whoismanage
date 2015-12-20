@@ -33,10 +33,11 @@ class IndexDb(BaseDb):
     def get_whois_sum(self):
         """获取数据库中已有域名whois信息的数量"""
         whois_sum = 0
-        sql = ' SELECT sum(whois_sum) as whois_sum FROM tld_whois_sum '
+        sql = 'SELECT tld_sum FROM `whois_sum` ORDER BY insert_time DESC LIMIT 1'
         result = self.db.query(sql)
-        whois_sum = result[0]['whois_sum']
-        return round(whois_sum/1000000,2)
+        whois_sum = result[0]['tld_sum']
+        print whois_sum
+        return round(whois_sum/1000000.0,2)
         
     def get_increase(self,top=11):
         """获取域名whois增量"""

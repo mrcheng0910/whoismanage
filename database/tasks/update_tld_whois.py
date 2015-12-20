@@ -1,9 +1,9 @@
 #!/usr/bin/python
 # encoding:utf-8
 """
-网站后台定期更新程序
-功能：更新表tld_whois_sum_history、tld_whois_sum、whois_sum、whois_sum_by_day四个表。
-
+功能：更新表tld_whois_sum_history、whois_sum两个表。
+作者：程亚楠
+时间：2015.12.20
 """
 import sys
 from database import conn_db
@@ -12,7 +12,8 @@ import threading
 from threading import Thread
 from Queue import Queue
 import MySQLdb
-
+from datetime import datetime
+import re
 
 num_thread = 5      # 线程数量
 queue = Queue()     # 任务队列，存储sql
@@ -39,18 +40,17 @@ def sum_all_domains(sum_domains=[], single_domains=[]):
 
 def count_domain(q, queue):
     """计算各个列表中，各个顶级后缀的数量，并求和"""
+    pattern = re.compile(r"domain_whois_(\w*)")  # 获取探测数据库表名称
     while 1:
         content = queue.get()
-        if not content:
-            queue.task_done()
+        table_name = pattern.search(content) # 获得表名称
+        print " ".join(['开始时间:',str(datetime.now()),'任务:更新whois探测数据','字段:',table_name.group()])
         try:
-            print content
             conn = conn_db()
             cur = conn.cursor()
             cur.execute(content)
             single_domains = cur.fetchall()
             cur.close()
-            # conn.close()
             lock.acquire()  # 锁
             sum_all_domains(sum_domains, list(single_domains))
             lock.release()  # 解锁
@@ -60,6 +60,7 @@ def count_domain(q, queue):
             print "Error %d: %s" % (e.args[0], e.args[1])
             sys.exit(1)
         finally:
+            print " ".join(['结束时间:',str(datetime.now()),'任务:更新whois探测数据','字段:',table_name.group()])
             conn.close()
 
 
@@ -71,15 +72,11 @@ def update_db():
     cur = conn.cursor()
     for domain in sum_domains:
         cur.execute(sql,(domain[0], domain[1]))
-    conn.commit()
-    cur.execute('TRUNCATE TABLE tld_whois_sum')
-    sql = 'INSERT INTO tld_whois_sum(tld,whois_sum) VALUES(%s, %s)'
-    for domain in sum_domains:
-        cur.execute(sql,(domain[0], domain[1]))
-        total = total + domain[1]
+        total += domain[1]
     conn.commit()
     sql = 'INSERT INTO whois_sum(tld_sum) VALUES(%s)'
     cur.execute(sql,total)
+    cur.close()
     conn.commit()
     conn.close()
 
@@ -109,9 +106,5 @@ def tld_whois_sum():
         worker.setDaemon(True)
         worker.start()
     queue.join()
-
-    # test
-    for value in sum_domains:
-        print value
     update_db()
     
