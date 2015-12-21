@@ -108,3 +108,6 @@ def tld_whois_sum():
     queue.join()
     update_db()
     
+
+    
+tld_whois_sum()

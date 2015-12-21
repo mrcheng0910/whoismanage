@@ -18,7 +18,6 @@ class TableDataHistoryHandler(tornado.web.RequestHandler):
     def get(self):
         table_name = self.get_argument('table_name','None')
         results = TableOverallDb().get_data_history(table_name)
-        print results
         self.render('./table_overall/table_data_history.html',
                     results = json.dumps(results,default=json_serial)
         )

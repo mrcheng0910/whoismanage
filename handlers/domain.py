@@ -14,8 +14,3 @@ class DomainIndexHandler(tornado.web.RequestHandler):
                     total=total
                     )
 
-
-class DomainQueryHandler(tornado.web.RequestHandler):
-    """域名相关查询"""
-    def get(self):
-        self.render(PATH+'domain_query.html')

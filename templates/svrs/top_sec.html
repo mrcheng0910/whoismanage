@@ -11,83 +11,38 @@
     </div>
 </div> <!--./row-->
 <div class="row">
-    <ul id="myTab" class="nav nav-tabs">
-        <li class="active">
-            <a href="#home" data-toggle="tab">服务器数量统计</a>
-        </li>
-        <li><a href="#domain" data-toggle="tab">服务器管理域名统计</a></li>
-        <!--<li><a href="#" data-toggle="tab">性能分析</a></li>-->
-    </ul>
-    <div id="myTabContent" class="tab-content">
-        <div class="tab-pane fade in active" id="home">
-            <div class="row">
-                <div class="col-lg-7">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <i class="fa  fa-chart fa-fw"></i> 截至{{ datetime.datetime.now().strftime('%Y-%m-%d')}}最新数据
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div id="container" style="min-width:400px;height:400px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-5">
-                    <div class="well">
-                        目前数据库中，含有二级whois服务器的顶级服务器有<code id="top" style="font-size:20px;"></code>个，二级服务器总数为<code style="font-size:20px;">{{sec_num}}</code>个，详细可单击柱状图查询。
-                    </div>
-                </div>
+    <div class="col-lg-4">
+        <div class="well">
+            目前数据库中，含有二级whois服务器的顶级服务器有<code id="top" style="font-size:20px;"></code>个，二级服务器总数为<code style="font-size:20px;">{{sec_num}}</code>个，详细可单击柱状图查询。
+        </div>
+    </div>
+    
+    <div class="col-lg-8">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <i class="fa  fa-chart fa-fw"></i> 截至{{ datetime.datetime.now().strftime('%Y-%m-%d')}}最新数据
             </div>
-        </div> <!--./home tab-->
-        
-        <div class="tab-pane fade" id="domain">
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <i class="fa  fa-chart fa-fw"></i> 截至{{ datetime.datetime.now().strftime('%Y-%m-%d')}}最新数据
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div id="container1" style="min-width:400px;height:400px;margin:0 auto;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="well">
-                        左图为二级服务器所负责的WHOIS信息查询的域名数量以及所占比例示意图。单击饼图可查询详细内容。
-                    </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div id="container1" style="min-width:400px;height:400px;"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 {% end %}
+
 {% block foot_script %}
 
 <script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
-<script src="http://cdn.hcharts.cn/highmaps/modules/data.js"> </script>
-<script src="http://cdn.hcharts.cn/highmaps/modules/drilldown.js"></script>
-<script src="{{static_url("js/svr/top_sec.js")}}"></script>
+<script src="//cdn.hcharts.cn/highmaps/modules/data.js"> </script>
+<script src="//cdn.hcharts.cn/highmaps/modules/drilldown.js"></script>
 <script src="{{static_url("js/svr/top_sec_num.js")}}"></script>
 
 <script>
    $(function(){
-      $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-      // 获取已激活的标签页的名称
-      var activeTab = $(e.target).text(); 
-      if(activeTab=="服务器管理域名统计"){
-          test();
-      }
-    //   alert(activeTab);     
-      // 获取前一个激活的标签页的名称
-    //   var previousTab = $(e.relatedTarget).text(); 
-    //   $(".active-tab span").html(activeTab);
-    //   $(".previous-tab span").html(previousTab);
-    // alert("nihao");
-   });
-});
+       test();
+    });
 </script>
+
 {% end %}

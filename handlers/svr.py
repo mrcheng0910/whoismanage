@@ -85,13 +85,6 @@ class TopSecSvr(tornado.web.RequestHandler):
         results = SvrDb().sec_num()
         self.render(PATH+'top_sec.html',sec_num=results[0].num)
         
-class TopSecQuery(tornado.web.RequestHandler):
-    """
-    get
-    """
-    def get(self):
-        results = SvrDb().top_sec()
-        self.write(json.dumps(results))
 
 class TopSecNum(tornado.web.RequestHandler):
     """

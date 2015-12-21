@@ -36,7 +36,6 @@ class IndexDb(BaseDb):
         sql = 'SELECT tld_sum FROM `whois_sum` ORDER BY insert_time DESC LIMIT 1'
         result = self.db.query(sql)
         whois_sum = result[0]['tld_sum']
-        print whois_sum
         return round(whois_sum/1000000.0,2)
         
     def get_increase(self,top=11):

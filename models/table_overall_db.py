@@ -8,7 +8,7 @@ class TableOverallDb(BaseDb):
         BaseDb.__init__(self)  # 执行父类
 
     def get_table_info(self):
-        sql = 'SELECT table_name,flag_no_connect,flag_undetected,flag_reg_info,flag_reg_date,flag_no_svr,flag_part_info FROM table_overall_histroy GROUP BY table_name ORDER BY update_time DESC,table_name DESC LIMIT 28'
+        sql = 'SELECT table_name,flag_no_connect,flag_undetected,flag_reg_info,flag_reg_date,flag_no_svr,flag_part_info FROM table_overall_histroy  ORDER BY update_time DESC,table_name DESC LIMIT 28'
         results = self.db.query(sql)
         return results
         

@@ -1,6 +1,9 @@
 //含有和不含有whois服务器的饼图
 function tld_svr_pie(count,count_null) {
     $('#container').highcharts({
+        credits: {
+            enabled: false,
+        },
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
@@ -40,8 +43,8 @@ function tld_svr_pie(count,count_null) {
             type: 'pie',
             name: '百分比',
             data: [
-                {name: '含有whois服务器', y: count},
-                {name: '不含有whois服务器', y: count_null},
+                {name: '不含有whois服务器', y: count},
+                {name: '含有whois服务器', y: count_null},
             ]
 
         }]
@@ -58,11 +61,11 @@ function tld_svr_tb(flag) {
     }
     layer.open({
         type: 2,
-        title: "域名WHOIS详细信息",
-        closeBtn: false,
+        title: null,
+        // closeBtn: false,
         shadeClose: true,
         shade: 0.8,
-        area: ['68%', '75%'],
+        area: ['68%', '80%'],
         content: url
     });
 }
@@ -70,6 +73,11 @@ function tld_svr_tb(flag) {
 //含有和不含有whois服务器的饼图
 function tld_svr_reg(reg_n,reg_p,reg_y) {
     $('#container_reg').highcharts({
+        credits: {
+            enabled: false,
+        },
+        
+        
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
@@ -118,11 +126,11 @@ function tld_svr_info(flag) {
     var url = '/svr_table_info'
     layer.open({
         type: 2,
-        title: "域名WHOIS详细信息",
-        closeBtn: false,
+        title: null,
+        // closeBtn: false,
         shadeClose: true,
         shade: 0.8,
-        area: ['68%', '75%'],
+        area: ['68%', '80%'],
         content: url
     });
 }
