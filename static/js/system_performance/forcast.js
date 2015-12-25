@@ -121,7 +121,7 @@ function init_speed(speed){
         // the value axis
         yAxis: {
             min: 0,
-            max: 36000,
+            max: 180000,
 
             minorTickInterval: 'auto',
             minorTickWidth: 1,
@@ -143,15 +143,15 @@ function init_speed(speed){
             },
             plotBands: [{
                 from: 0,
-                to: 12000,
+                to: 60000,
                 color: '#DF5353' // green '#DF5353'
             }, {
-                from: 12000,
-                to: 24000,
+                from: 60000,
+                to: 120000,
                 color: '#DDDF0D' // yellow
             }, {
-                from: 24000,
-                to: 36000,
+                from: 120000,
+                to: 180000,
                 color: '#55BF3B' // red '#55BF3B'
             }]
         },

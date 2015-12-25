@@ -14,6 +14,3 @@ def conn_db():
         print "Error %d: %s" % (e.args[0], e.args[1])
         sys.exit(1)
     return conn
-
-
-conn_db()
