@@ -75,7 +75,7 @@ def update_db():
         total += domain[1]
     conn.commit()
     sql = 'INSERT INTO whois_sum(tld_sum) VALUES(%s)'
-    cur.execute(sql,total)
+    cur.execute(sql,(total,))
     cur.close()
     conn.commit()
     conn.close()
@@ -110,4 +110,4 @@ def tld_whois_sum():
     
 
     
-tld_whois_sum()
+# tld_whois_sum()
