@@ -1,19 +1,19 @@
 #!/usr/bin/python
 # encoding:utf-8
 """
-网站后台定期更新程序
-功能：更新表tld_whois_flag表。
-
+功能：更新表tld_whois_flag表
+作者: 程亚楠
+更新日期：2015.12.28
 """
+
 import sys
-from database import conn_db
-import MySQLdb
 import time
 import threading
 from threading import Thread
 from Queue import Queue
-import re
 from datetime import datetime
+from data_base import MySQL
+
 
 num_thread = 5      # 线程数量
 queue = Queue()     # 任务队列，存储sql
@@ -41,53 +41,40 @@ def sum_all_flags(sum_flags=[], single_domains=[]):
 
 def count_flag(q, queue):
     """计算各个列表中，各个顶级后缀的flag中域名whois数量，并求和"""
-    pattern = re.compile(r"domain_whois_(\w*)")  # 获取探测数据库表名称
     while 1:
-        content = queue.get()
-        table_name = pattern.search(content) # 获得表名称
-        print " ".join(['开始时间:',str(datetime.now()),'任务:更新flag','字段:',table_name.group()])
         try:
-            conn = conn_db()
-            cur = conn.cursor()
-            cur.execute(content)
-            single_flags = cur.fetchall()
-            cur.close()
+            content = queue.get()
+            db = MySQL()
+            db.query(content)
+            single_flags = db.fetchAllRows()
             lock.acquire()  # 锁
             sum_all_flags(sum_flags, list(single_flags))
             lock.release()  # 解锁
             queue.task_done()
             time.sleep(1)  # 去掉偶尔会出现错误
-        except MySQLdb.Error, e:
-            print "Error %d: %s" % (e.args[0], e.args[1])
+        except:
+            print 'Wrong Query'
             sys.exit(1)
         finally:
-            print " ".join(['结束时间:',str(datetime.now()),'任务:更新flag','字段:',table_name.group()])
-            conn.close()
+            db.close()
 
 
 def update_db():
     """更新数据库"""
-    try:
-        conn = conn_db()
-        sql = 'INSERT INTO tld_whois_flag(tld, flag,flag_detail, whois_sum) VALUES(%s, %s, %s, %s)'
-        cur = conn.cursor()
-        cur.execute('TRUNCATE TABLE tld_whois_flag')
-        for item in sum_flags:
-            if item[1] < 0:
-                flag = 0
-            elif item[1] >= 120:
-                flag = 1
-            elif item[1] == 102 or item[1] == 110 or item[1] == 112:
-                flag = 2
-            else:
-                flag = 3
-            cur.execute(sql, (item[0], flag, item[1], item[2]))
-        conn.commit()
-        cur.close()
-        conn.close()
-    except MySQLdb.Error, e:
-        print "update_db Error %d: %s " % (e.args[0], e.args[1])
-        sys.exit(1)
+    db = MySQL()
+    sql = 'INSERT INTO tld_whois_flag(tld, flag,flag_detail, whois_sum) VALUES("%s", "%s", "%s", "%s")'
+    db.truncate('TRUNCATE TABLE tld_whois_flag')
+    for item in sum_flags:
+        if item[1] < 0:
+            flag = 0
+        elif item[1] >= 120:
+            flag = 1
+        elif item[1] == 102 or item[1] == 110 or item[1] == 112:
+            flag = 2
+        else:
+            flag = 3
+        db.insert(sql % (item[0],flag,item[1],item[2]))
+    db.close()
 
 def create_queue():
     """
@@ -115,9 +102,11 @@ def create_thread():
 
 def update_whois_flag():
     """主操作"""
+    print str(datetime.now()),'开始统计各个标记位的whois数量'
     global sum_flags  
     sum_flags = [] # 务必添加，初始化，否则会一直累加
     create_queue()  # 创建任务队列
     create_thread() # 创建线程
     update_db()
+    print str(datetime.now()),'结束统计各个标记位的whois数量'
     

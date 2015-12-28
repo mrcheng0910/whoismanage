@@ -1,17 +1,17 @@
 # encoding:utf-8
-'''
-top_sec_svr定时更新程序
-'''
+"""
+更新top_sec_svr定时更新程序
+
+"""
 
 import sys
 import time
-import MySQLdb
-from database import conn_db
-from Queue import Queue
 import threading
+from Queue import Queue
 from threading import Thread
-import re
 from datetime import datetime
+from data_base import MySQL
+
 
 sum_svr = []
 num_thread = 5  # 线程数量
@@ -37,18 +37,24 @@ def sum_all_list(sum_svr=[], single_svr=[]):
 def update_db():
     """更新数据库"""
     try:
-        conn = conn_db()
-        sql = 'INSERT INTO top_sec_svr(top_svr, sec_svr, whois_sum) VALUES(%s, %s, %s)'
-        cur = conn.cursor()
-        cur.execute('TRUNCATE TABLE top_sec_svr')
-        conn.commit()
+        # conn = conn_db()
+        db = MySQL()
+
+        # cur = conn.cursor()
+        db.truncate('TRUNCATE TABLE top_sec_svr')
+        # cur.execute()
+        # conn.commit()
+        sql = 'INSERT INTO top_sec_svr(top_svr, sec_svr, whois_sum) VALUES("%s", "%s", "%s")'
         for item in sum_svr:
-            cur.execute(sql, (item[0], item[1], item[2]))
-        conn.commit()
-        cur.close()
-        conn.close()
-    except MySQLdb.Error, e:
-        print "update_db Error %d: %s " % (e.args[0], e.args[1])
+            # cur.execute(sql, (item[0], item[1], item[2]))
+            db.insert(sql % (item[0],item[1],item[2]))
+        # conn.commit()
+        # cur.close()
+        # conn.close()
+        db.close()
+    except :
+        print "Insert Wrong"
+        sys.exit(1)
 
 
 def create_queue():
@@ -67,28 +73,22 @@ def create_queue():
 
 def count(q, queue):
     '''任务操作：获取表中二级服务器数量并添加到num_ssvr'''
-    pattern = re.compile(r"domain_whois_(\w*)")  # 获取探测数据库表名称
     while 1:
         content = queue.get()
         try:
-            table_name = pattern.search(content) # 获得表名称
-            print " ".join(['开始时间:',str(datetime.now()),'任务:更新服务器数据','字段:',table_name.group()])
-            conn = conn_db()
-            cur = conn.cursor()
-            cur.execute(content)
-            single_tld_whois_flag = list(cur.fetchall())
-            cur.close()
+            db = MySQL()
+            db.query(content)
+            single_tld_whois_flag = list(db.fetchAllRows())
             lock.acquire()  # 加锁
             sum_all_list(sum_svr, single_tld_whois_flag)
             lock.release()  # 解锁
             queue.task_done()
             time.sleep(1)
-        except MySQLdb.Error, e:
-            print "Error %d: %s" % (e.args[0], e.args[1])
+        except:
+            print "Query Wrong"
             sys.exit(1)
         finally:
-            print " ".join(['结束时间:',str(datetime.now()),'任务:更新服务器数据','字段:',table_name.group()])
-            conn.close()
+            db.close()
 
 
 def create_thread():
@@ -101,9 +101,10 @@ def create_thread():
 
 
 def top_sec():
-
+    print str(datetime.now()),'开始统计最新的二级服务器地址'
     global sum_svr
     sum_svr = []
     create_queue()
     create_thread()
     update_db()
+    print str(datetime.now()),'结束统计最新的二级服务器地址'

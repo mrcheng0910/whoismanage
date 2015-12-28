@@ -1,19 +1,18 @@
 #!/usr/bin/python
 # encoding:utf-8
 """
-网站后台定期更新程序
-功能：更新表domain_summary,domain_update两个表。
-
+功能：统计数据库中最新的域名数据domain_summary,domain_update两个表。
+作者：程亚楠
+更新：2015.12.28
 """
 import sys
-from database import conn_db
 import time
 import threading
 from threading import Thread
 from Queue import Queue
-import MySQLdb
-import re
 from datetime import datetime
+from data_base import MySQL
+
 
 num_thread = 5      # 线程数量
 queue = Queue()     # 任务队列，存储sql
@@ -40,47 +39,36 @@ def sum_all_domains(sum_domains=[], single_domains=[]):
 
 def count_domain(q, queue):
     """计算各个列表中，各个顶级后缀的数量，并求和"""
-    pattern = re.compile(r"domain_whois_(\w*)")  # 获取探测数据库表名称
     while 1:
         content = queue.get()
-        
         try:
-            table_name = pattern.search(content) # 获得表名称
-            print " ".join(['开始时间:',str(datetime.now()),'任务:更新域名','字段:',table_name.group()])
-            conn = conn_db()
-            cur = conn.cursor()
-            cur.execute(content)
-            single_domains = cur.fetchall()
-            cur.close()
+            db = MySQL()
+            db.query(content)
+            single_domains = db.fetchAllRows()
             lock.acquire()  # 锁
             sum_all_domains(sum_domains, list(single_domains))
             lock.release()  # 解锁
             queue.task_done()
             time.sleep(1)  # 去掉偶尔会出现错误
-        except MySQLdb.Error, e:
-            print "Error %d: %s" % (e.args[0], e.args[1])
+        except:
+            print "Query Wrong"
             sys.exit(1)
         finally:
-            print " ".join(['结束时间:',str(datetime.now()),'任务:更新域名','字段:',table_name.group()])
-            conn.close()
+            db.close()
 
 
-def update_db():    
+def update_db():
     """更新数据库"""
-    conn = conn_db()
-    sql = 'INSERT INTO domain_update(tld_name, domain_num) VALUES(%s, %s)'
-    cur = conn.cursor()
+    db = MySQL()
+    sql = 'INSERT INTO domain_update(tld_name, domain_num) VALUES("%s", "%s")'
     for domain in sum_domains:
-        cur.execute(sql, (domain[0], domain[1]))
-    conn.commit()
-    cur.execute('TRUNCATE TABLE domain_summary')
-    conn.commit()
-    sql = 'INSERT INTO domain_summary(tld_name, domain_num) VALUES(%s, %s)'
+        db.insert(sql % (domain[0],domain[1]))
+    db.truncate('TRUNCATE TABLE domain_summary')
+    sql = 'INSERT INTO domain_summary(tld_name, domain_num) VALUES("%s", "%s")'
     for domain in sum_domains:
-        cur.execute(sql, (domain[0], domain[1]))
-    conn.commit()
-    cur.close()
-    conn.close()
+        db.insert(sql%(domain[0],domain[1]))
+    db.close()
+
 
 def create_queue():
     """
@@ -96,7 +84,8 @@ def create_queue():
     sql_other = 'SELECT SUBSTRING_INDEX(domain,".",-1) as tld, count(*) AS count \
                 FROM domain_whois_other GROUP BY tld'
     queue.put(sql_other)  # domain_whois_other 加入队列
-    
+
+
 def create_thread():
     for q in range(num_thread):  # 开始任务
         worker = Thread(target=count_domain, args=(q, queue))
@@ -104,11 +93,13 @@ def create_thread():
         worker.start()
     queue.join()
 
+
 def tld_domain():
     """主操作"""
+    print str(datetime.now()),'开始统计数据库中最新域名数量'
     global sum_domains  
     sum_domains = [] # 务必添加，初始化，否则会一直累加
     create_queue()
     create_thread()
     update_db()
-
+    print str(datetime.now()),'结束统计数据库中最新域名数量'

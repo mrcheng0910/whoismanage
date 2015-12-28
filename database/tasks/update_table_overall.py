@@ -6,13 +6,12 @@
 @时间：2015.12.20
 """
 import sys
-from database import conn_db
 import time
 from threading import Thread
 from Queue import Queue
-import MySQLdb
 from datetime import datetime
-import re
+
+from data_base import MySQL
 
 num_thread = 5      # 线程数量
 queue = Queue()     # 任务队列，存储sql
@@ -26,27 +25,18 @@ def count_domain(q,queue):
         q : int
             线程编号
     """
-    
-    pattern = re.compile(r"domain_whois_(\w*)")  # 获取探测数据库表名称
     while 1:
         content = queue.get()
-        table_name = pattern.search(content) # 获得表名称
-        print " ".join(['开始探测时间:',str(datetime.now()),'任务:更新表table_overll','字段:',table_name.group()])
-        
         try:
-            conn = conn_db()
-            cur = conn.cursor()
-            cur.execute(content)
-            cur.close()
-            conn.commit()
+            db = MySQL()
+            db.insert(content)
             queue.task_done()
             time.sleep(1)  # 去掉偶尔会出现错误
-        except MySQLdb.Error, e:
-            print "Error %d: %s" % (e.args[0], e.args[1])
+        except :
+            print "Query Wrong"
             sys.exit(1)
         finally:
-            print " ".join(['结束探测时间:',str(datetime.now()),'任务:更新表table_overll','字段:',table_name.group()])
-            conn.close()
+            db.close()
 
 
 def create_queue():
@@ -104,6 +94,7 @@ def create_thread():
 
 def table_overall():
     """主操作"""
+    print str(datetime.now()),'开始统计数据库表wois信息'
     create_queue()
     create_thread()
-    
+    print str(datetime.now()),'结束统计数据库表wois信息'

@@ -4,21 +4,28 @@
 功能：更新表tld_whois_sum_history、whois_sum两个表。
 作者：程亚楠
 时间：2015.12.20
+更新时间:2015.12.28
 """
+
 import sys
-from database import conn_db
 import time
 import threading
 from threading import Thread
 from Queue import Queue
-import MySQLdb
 from datetime import datetime
-import re
+
+# import MySQLdb
+
+# import re
+# from database import conn_db
+from data_base import MySQL
+
 
 num_thread = 5      # 线程数量
 queue = Queue()     # 任务队列，存储sql
 sum_domains = []    # 存储域名的和
 lock = threading.Lock()
+
 
 def sum_all_domains(sum_domains=[], single_domains=[]):
     """合并两个列表，相同名称求和"""
@@ -40,45 +47,35 @@ def sum_all_domains(sum_domains=[], single_domains=[]):
 
 def count_domain(q, queue):
     """计算各个列表中，各个顶级后缀的数量，并求和"""
-    pattern = re.compile(r"domain_whois_(\w*)")  # 获取探测数据库表名称
     while 1:
         content = queue.get()
-        table_name = pattern.search(content) # 获得表名称
-        print " ".join(['开始时间:',str(datetime.now()),'任务:更新whois探测数据','字段:',table_name.group()])
         try:
-            conn = conn_db()
-            cur = conn.cursor()
-            cur.execute(content)
-            single_domains = cur.fetchall()
-            cur.close()
+            db = MySQL()
+            db.query(content)
+            single_domains = db.fetchAllRows()
             lock.acquire()  # 锁
             sum_all_domains(sum_domains, list(single_domains))
             lock.release()  # 解锁
             queue.task_done()
             time.sleep(1)  # 去掉偶尔会出现错误
-        except MySQLdb.Error, e:
-            print "Error %d: %s" % (e.args[0], e.args[1])
+        except :
+            print "Query Wrong"
             sys.exit(1)
         finally:
-            print " ".join(['结束时间:',str(datetime.now()),'任务:更新whois探测数据','字段:',table_name.group()])
-            conn.close()
+            db.close()
 
 
 def update_db():
     """更新数据库"""
     total = 0
-    conn = conn_db()
-    sql = 'INSERT INTO tld_whois_sum_history(tld,whois_sum) VALUES(%s, %s)' # 插入数据
-    cur = conn.cursor()
+    db = MySQL()
+    sql = 'INSERT INTO tld_whois_sum_history(tld,whois_sum) VALUES("%s", "%s")' # 插入数据
     for domain in sum_domains:
-        cur.execute(sql,(domain[0], domain[1]))
+        db.insert(sql % (domain[0],domain[1]))
         total += domain[1]
-    conn.commit()
-    sql = 'INSERT INTO whois_sum(tld_sum) VALUES(%s)'
-    cur.execute(sql,(total,))
-    cur.close()
-    conn.commit()
-    conn.close()
+    sql = 'INSERT INTO whois_sum(tld_sum) VALUES("%s")'
+    db.insert(sql % total)
+    db.close()
 
 def create_queue():
     """
@@ -98,6 +95,7 @@ def create_queue():
 
 def tld_whois_sum():
     """主操作"""
+    print str(datetime.now()),'开始统计各个顶级后缀的whois数量和whois总量'
     global sum_domains  
     sum_domains = [] # 务必添加，初始化，否则会一直累加
     create_queue()
@@ -107,7 +105,5 @@ def tld_whois_sum():
         worker.start()
     queue.join()
     update_db()
+    print str(datetime.now()),'结束统计各个顶级后缀的whois数量和whois总量'
     
-
-    
-# tld_whois_sum()
