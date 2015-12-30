@@ -30,16 +30,13 @@ function init(first,svr_name){
             enabled: false
     },
     title: {
-        text: '二级服务器提供服务域名数量比'
-    },
-    subtitle: {
-        text: '已有域名whois信息域名'
+        text: null
     },
     plotOptions: {
         series: {
             dataLabels: {
                 enabled: true,
-                format: '{point.name}: {point.y:.f}个'
+                format: '{point.name}: <br>{point.y:.f}个'
             }
         }
     },

@@ -40,8 +40,8 @@ class SvrDb(BaseDb):
     def get_svr_addr(self):
         """获取whois服务器所在国家code，以及数量"""
 
-        sql = 'SELECT COUNT(*) as value,upper(code) as code FROM svr_country \
-                GROUP BY code'
+        sql = 'SELECT COUNT(*) as value,upper(code) as code,country FROM svr_country \
+                GROUP BY code ORDER BY value DESC'
         results = self.db.query(sql)
         return results
 
@@ -108,3 +108,8 @@ class SvrDb(BaseDb):
         sql = "SELECT top_svr,sec_svr,whois_sum FROM top_sec_svr order by whois_sum desc"
         sec_results = self.db.query(sql)
         return top_results,sec_results
+    
+    def get_code_svr(self,code):
+        sql = 'SELECT * FROM svr_country WHERE code = "%s"' % code
+        results = self.db.query(sql)
+        return results

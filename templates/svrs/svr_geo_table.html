@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link href="{{static_url("css/sb-admin-2.css")}}" rel="stylesheet">
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <style>
+    .row{
+        margin-top: 0px;
+        margin-right: 4px;
+        margin-bottom: 0px;
+        margin-left: 4px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="row">
+        <br>
+        <div class="dataTable_wrapper">
+            <table class="table table-striped table-bordered table-hover display" id="dataTables_details">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>WHOIS服务器</th>
+                        <th>国家名称</th>
+                        <th>国家代号</th>
+                        <th>城市</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for id ,svr in enumerate(results) %}
+                        <tr>
+                            <td>{{id+1}}</td>
+                            <td>{{svr["svr_name"]}}</td>
+                            <td>{{svr["country"]}}</td>
+                            <td>{{svr["code"]}}</td>
+                            <td>{{svr["city"]}}</td>
+                        </tr>
+                    {% end %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>序号</th>
+                        <th>WHOIS服务器</th>
+                        <th>国家名称</th>
+                        <th>国家代号</th>
+                        <th>城市</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <script src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.9/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('#dataTables_details').DataTable({
+            responsive: true
+        });
+    });
+    </script>
+</body>
+</html>

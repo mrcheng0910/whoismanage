@@ -15,6 +15,9 @@ function domain(domains) {
         }
      }
     $('#container').highcharts({
+        credits: {
+            enabled: false
+        },
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,

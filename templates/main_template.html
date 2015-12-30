@@ -14,7 +14,17 @@
     <!--引用其他外来脚本-->
     {% block head_link %}
     {% end %}
-
+    <style>
+        .navbar-brand {
+        padding: 0px;
+        }
+        .navbar-brand>img {
+        height: 100%;
+        padding: 8px;
+        width: auto;
+        }
+    </style>
+        
 </head>
 
 <body>
@@ -23,12 +33,15 @@
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">nihaoshish</span>
+                    <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">域名WHOIS信息统计平台</a>
+                <a class="navbar-brand" href="/">
+                    <img src="{{static_url("favicon.ico")}}" alt="Logo">域名whois信息管理系统
+                </a>
+                <!--<a class="navbar-brand" href="/">域名WHOIS信息统计系统</a>-->
             </div>
             <!-- /.navbar-header -->
             <!-- 这部分是导航条右边的人头 -->
@@ -43,7 +56,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -146,6 +159,15 @@
             {% end %}
         </div>
     </div>
+    <br>
+    <footer>
+    <p class="text-center">
+        <strong>
+            Copyright © 2014-2015
+            <a href="#">网络与信息安全研究中心</a>
+        </strong>
+    </p>
+    </footer>
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="//cdn.bootcss.com/metisMenu/2.2.0/metisMenu.min.js"></script>

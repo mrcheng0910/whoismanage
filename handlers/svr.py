@@ -37,6 +37,19 @@ class SvrGeoHandler(tornado.web.RequestHandler):
                     data=json.dumps(results)
                     )
 
+class SvrGeoTableHandler(tornado.web.RequestHandler):
+    """
+    地理位置详细信息展示
+    """
+    def get(self):
+        country = self.get_argument('country','')
+        results = SvrDb().get_code_svr(country)
+        print results
+        self.render(PATH + 'svr_geo_table.html',
+                    results = results
+        )
+
+
 
 class SvrPerformanceHandler(tornado.web.RequestHandler):
     """whois服务器性能统计分析"""
@@ -55,14 +68,23 @@ class SvrTableHandler(tornado.web.RequestHandler):
         flag = self.get_argument('flag', None)
         if flag == 'True':
             results = SvrDb().tld_exist_svr()  # 含有whois域名列表
-            title = "含有WHOIS域名列表"
+            # title = "含有WHOIS域名列表"
         else:
             results = SvrDb().tld_no_exist_svr()  # 不含有whois域名列表
-            title = "不含有WHOIS域名列表"
+            # title = "不含有WHOIS域名列表"
         self.render(PATH + 'tld_svr_table.html',
                     results=results,
-                    title=title
+                    # title=title
                     )
+
+
+
+
+
+
+
+
+
 
 
 class SvrInfoHandler(tornado.web.RequestHandler):
@@ -72,10 +94,6 @@ class SvrInfoHandler(tornado.web.RequestHandler):
                     results=results,
                     title='详细信息'
                     )
-
-
-
-
 
 class TopSecSvr(tornado.web.RequestHandler):
     """
