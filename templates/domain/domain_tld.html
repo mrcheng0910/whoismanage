@@ -1,0 +1,70 @@
+{% extends "../main_template.html" %}
+{% block title_name %}
+<title>域名顶级后缀统计</title>
+{% end %}
+{% block page %}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">特定顶级域名后缀数量统计</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <i class="fa fa-search fa-fw"></i>
+                选择要查询的顶级后缀
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" role="form" onsubmit="return false;">
+                    <div class="form-group">
+                        <label for="tld-query" class="col-sm-3 control-label">
+                            域名后缀
+                        </label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="tld-query"
+                                placeholder="请输入后缀，例net">
+                            <span class="help-block">
+                                右图为二级饼图，可查看指定域名后缀与其他域名后缀包含的域名的数量比
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <button type="button" class="btn btn-primary" id="query" >
+                            查询详情
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-pie-chart fa-fw"></i>
+                <strong><span id="title-pie" class="color"></span></strong>顶级后缀所包含域名数量统计
+
+            </div>
+            <div class="panel-body">
+                <div id="container-tld" style="width:100%;height:100%"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% end %}
+{% block foot_script %}
+
+<script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script src="{{static_url("js/domain/domain_tld.js")}}"></script>
+<script>
+    
+$(function(){
+    getTldNum("com");
+     $("#query").bind('click',function(){
+        getTldNum($("#tld-query").val());
+    });
+});
+    
+</script>
+
+{% end %}

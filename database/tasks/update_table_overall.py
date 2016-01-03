@@ -27,6 +27,7 @@ def count_domain(q,queue):
     """
     while 1:
         content = queue.get()
+        print content
         try:
             db = MySQL()
             db.insert(content)
@@ -98,3 +99,5 @@ def table_overall():
     create_queue()
     create_thread()
     print str(datetime.now()),'结束统计数据库表wois信息'
+
+table_overall()

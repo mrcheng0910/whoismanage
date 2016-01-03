@@ -66,16 +66,16 @@ function domain_sort(domains) {
             text: "域名数量排名"
         },
         xAxis: {
-            // categories: ['com', 'net', 'cn', 'info', 'biz'],
             categories: name_data,
             title: {
                 text: null
-            }
+            },
+            crosshair: true
         },
         yAxis: {
             min: 0,
             title: {
-                text: '数量',
+                text: '域名数量',
                 align: 'high'
             },
             labels: {
@@ -108,8 +108,8 @@ function domain_sort(domains) {
         },
         series: [{
             name: '域名数量',
-            // data: [107, 31, 635, 203, 2]
             data: num_data
         }]
     });
 };
+

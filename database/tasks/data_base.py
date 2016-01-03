@@ -82,6 +82,7 @@ class MySQL(object):
             return self._conn.insert_id()
         except MySQLdb.Error, e:
             self.error_code = e.args[0]
+            print e
             return False
     def truncate(self,sql):
         try:

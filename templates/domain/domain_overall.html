@@ -24,11 +24,10 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <i class="fa fa-bar-chart fa-fw"></i>
-                域名总量为<span class="color">{{total}}</span>个
+                域名总量为<strong><span class="color">{{total}}</span></strong>个
             </div>
             <div class="panel-body">
-                <div id="container_sort" style="width:100%;height:100%">
-                </div>
+                <div id="container_sort" style="width:100%;height:100%"></div>
             </div>
         </div>
     </div>
@@ -37,7 +36,7 @@
 {% block foot_script %}
 
 <script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
-<script src="{{static_url("js/domain/domain.js")}}"></script>
+<script src="{{static_url("js/domain/domain_overall.js")}}"></script>
 <script>
     
 $(function(){
