@@ -1,6 +1,7 @@
+#!/usr/bin/python
 # coding=utf-8
 """
-服务器启动
+系统服务器启动
 """
 import tornado.ioloop
 import tornado.httpserver

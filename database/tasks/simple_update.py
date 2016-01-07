@@ -34,3 +34,6 @@ def update_top_sec_num():
     db.update(sql)
     db.close()
     print str(datetime.now()),'结束统计数据库中最新的顶级和二级服务器数量'
+
+# update_day()
+# update_top_sec_num()

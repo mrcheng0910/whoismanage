@@ -51,6 +51,7 @@ def count_domain(q, queue):
         content = queue.get()
         try:
             db = MySQL()
+            # db.update('SET tmp_table_size = 1024 * 1024 * 400')
             db.query(content)
             single_domains = db.fetchAllRows()
             lock.acquire()  # 锁
@@ -77,21 +78,16 @@ def update_db():
     db.insert(sql % total)
     db.close()
 
+
 def create_queue():
-    """
-    创建任务队列
-    """
     for i in xrange(65, 91):     # 创建任务队列，A-Z
-        sql = 'SELECT SUBSTRING_INDEX(domain,".",-1) as tld, count(*) AS count \
-               FROM domain_whois_%s WHERE flag <> -6 GROUP BY tld' % chr(i)
+        sql = 'SELECT tld, count(*) AS count FROM domain_whois_%s WHERE flag <> -6 GROUP BY tld' % chr(i)
         queue.put(sql)
-    sql_num = 'SELECT SUBSTRING_INDEX(domain,".",-1) as tld, count(*) AS count \
-                FROM domain_whois_num WHERE flag <> -6 GROUP BY tld'
+    sql_num = 'SELECT tld, count(*) AS count FROM domain_whois_num WHERE flag <> -6 GROUP BY tld'
     queue.put(sql_num)   # domain_whois_num 加入队列
-    sql_other = 'SELECT SUBSTRING_INDEX(domain,".",-1) as tld, count(*) AS count \
-                FROM domain_whois_other WHERE flag <> -6 GROUP BY tld'
+    sql_other = 'SELECT tld, count(*) AS count FROM domain_whois_other WHERE flag <> -6 GROUP BY tld'
     queue.put(sql_other)   # domain_whois_other 加入队列
-    
+
 
 def tld_whois_sum():
     """主操作"""
@@ -106,4 +102,5 @@ def tld_whois_sum():
     queue.join()
     update_db()
     print str(datetime.now()),'结束统计各个顶级后缀的whois数量和whois总量'
-    
+
+# tld_whois_sum()

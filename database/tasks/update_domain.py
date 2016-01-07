@@ -75,14 +75,11 @@ def create_queue():
     创建任务队列
     """
     for i in xrange(65, 91):     # 创建任务队列，A-Z
-        sql = 'SELECT SUBSTRING_INDEX(domain,".",-1) as tld, count(*) AS count \
-               FROM domain_whois_%s  GROUP BY tld' % chr(i)
+        sql = 'SELECT tld, count(*) AS count FROM domain_whois_%s  GROUP BY tld' % chr(i)
         queue.put(sql)
-    sql_num = 'SELECT SUBSTRING_INDEX(domain,".",-1) as tld, count(*) AS count \
-                FROM domain_whois_num GROUP BY tld'
+    sql_num = 'SELECT tld, count(*) AS count FROM domain_whois_num GROUP BY tld'
     queue.put(sql_num)  # domain_whois_num 加入队列
-    sql_other = 'SELECT SUBSTRING_INDEX(domain,".",-1) as tld, count(*) AS count \
-                FROM domain_whois_other GROUP BY tld'
+    sql_other = 'SELECT tld, count(*) AS count FROM domain_whois_other GROUP BY tld'
     queue.put(sql_other)  # domain_whois_other 加入队列
 
 

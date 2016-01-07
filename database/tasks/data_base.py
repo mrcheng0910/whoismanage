@@ -5,12 +5,14 @@ import MySQLdb
 import time
 import sys
 
-DBCONFIG = {'host':'172.26.253.3', 
+
+DBCONFIG = {'host':'172.26.253.3',
                 'port': 3306, 
                 'user':'root', 
                 'passwd':'platform', 
                 'db':'DomainWhois', 
                 'charset':'utf8'}
+
 
 class MySQL(object):
     """对MySQLdb常用函数进行封装的类"""
@@ -84,6 +86,7 @@ class MySQL(object):
             self.error_code = e.args[0]
             print e
             return False
+
     def truncate(self,sql):
         try:
             result = self._cur.execute(sql)
@@ -92,6 +95,7 @@ class MySQL(object):
             self.error_code = e.args[0]
             result = False
         return result
+
     def fetchAllRows(self):
         """返回结果列表"""
         return self._cur.fetchall()

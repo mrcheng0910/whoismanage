@@ -76,22 +76,20 @@ def update_db():
         db.insert(sql % (item[0],flag,item[1],item[2]))
     db.close()
 
+
 def create_queue():
     """
     创建任务队列
     """
     for i in xrange(65, 91):     # 创建任务队列，A-Z
-        sql = 'SELECT SUBSTRING_INDEX(domain,".",-1) as tld,flag, count(*) AS count \
-               FROM domain_whois_%s WHERE flag <> -6 GROUP BY tld,flag' % chr(i)
+        sql = 'SELECT tld,flag, count(*) AS count FROM domain_whois_%s WHERE flag <> -6 GROUP BY tld,flag' % chr(i)
         queue.put(sql)
-    sql_num = 'SELECT SUBSTRING_INDEX(domain,".",-1) as tld, flag,count(*) AS count \
-                FROM domain_whois_num WHERE flag <> -6 GROUP BY tld,flag'
+    sql_num = 'SELECT tld, flag,count(*) AS count FROM domain_whois_num WHERE flag <> -6 GROUP BY tld,flag'
     queue.put(sql_num)   # domain_whois_num 加入队列
-    sql_other = 'SELECT SUBSTRING_INDEX(domain,".",-1) as tld, flag,count(*) AS count \
-                FROM domain_whois_other WHERE flag <> -6 GROUP BY tld,flag'
+    sql_other = 'SELECT tld, flag,count(*) AS count FROM domain_whois_other WHERE flag <> -6 GROUP BY tld,flag'
     queue.put(sql_other)   # domain_whois_other 加入队列
-    
-    
+
+
 def create_thread():
     """创建任务线程"""
     for q in range(num_thread):  # 开始任务
@@ -110,3 +108,4 @@ def update_whois_flag():
     update_db()
     print str(datetime.now()),'结束统计各个标记位的whois数量'
     
+# update_whois_flag()
