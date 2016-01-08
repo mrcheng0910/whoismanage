@@ -87,6 +87,19 @@ class MySQL(object):
             print e
             return False
 
+    def insert_no_commit(self,sql):
+        """执行 INSERT 语句。如主键为自增长int，则返回新生成的ID"""
+        try:
+            self._cur.execute("SET NAMES utf8")
+            self._cur.execute(sql)
+            # self._conn.commit()
+            return self._conn.insert_id()
+        except MySQLdb.Error, e:
+            self.error_code = e.args[0]
+            print e
+            return False
+
+
     def truncate(self,sql):
         try:
             result = self._cur.execute(sql)
@@ -97,7 +110,9 @@ class MySQL(object):
         return result
 
     def fetchAllRows(self):
-        """返回结果列表"""
+        """返回结果列表
+        :rtype: object
+        """
         return self._cur.fetchall()
  
     def getRowCount(self):

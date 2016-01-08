@@ -5,13 +5,14 @@
 作者：程亚楠
 更新：2015.12.28
 """
-import sys
+
 import time
 import threading
 from threading import Thread
 from Queue import Queue
 from datetime import datetime
 from data_base import MySQL
+from config import DESTINATION_CONFIG
 
 
 num_thread = 5      # 线程数量
@@ -19,8 +20,12 @@ queue = Queue()     # 任务队列，存储sql
 sum_domains = []    # 存储域名的和
 lock = threading.Lock()
 
-def sum_all_domains(sum_domains=[], single_domains=[]):
-    """合并两个列表，相同名称求和"""
+
+def sum_all_domains(single_domains=[]):
+    """合并探测的表到全局表中
+    :param single_domains:当前探测的表
+    :return:
+    """
 
     del_index = []      # 用来存放待删除的index
     for index_sum, value_sum in enumerate(sum_domains):
@@ -37,66 +42,74 @@ def sum_all_domains(sum_domains=[], single_domains=[]):
         del sum_domains[i]
 
 
-def count_domain(q, queue):
-    """计算各个列表中，各个顶级后缀的数量，并求和"""
+def count_domain():
+    """
+
+    :param q:线程编号
+    :param queue: 任务队列
+    :return:
+    """
     while 1:
-        content = queue.get()
-        try:
-            db = MySQL()
-            db.query(content)
-            single_domains = db.fetchAllRows()
-            lock.acquire()  # 锁
-            sum_all_domains(sum_domains, list(single_domains))
-            lock.release()  # 解锁
-            queue.task_done()
-            time.sleep(1)  # 去掉偶尔会出现错误
-        except:
-            print "Query Wrong"
-            sys.exit(1)
-        finally:
-            db.close()
+        tb_name = queue.get()
+        single_domains = get_resource_data(tb_name)
+        lock.acquire()  # 锁
+        sum_all_domains(list(single_domains))
+        lock.release()  # 解锁
+        queue.task_done()
+        time.sleep(1)  # 去掉偶尔会出现错误
+
+
+def get_resource_data(tb_name):
+    """
+    得到原始数据
+    :param tb_name: string 表名
+    :return: results: 查询结果
+    """
+    db = MySQL(DESTINATION_CONFIG)
+    db.query ('SELECT tld, sum(whois_sum) AS count FROM domain_whois_%s  GROUP BY tld' % tb_name)
+    results = db.fetchAllRows()
+    db.close()
+    return results
 
 
 def update_db():
     """更新数据库"""
-    db = MySQL()
-    sql = 'INSERT INTO domain_update(tld_name, domain_num) VALUES("%s", "%s")'
-    for domain in sum_domains:
-        db.insert(sql % (domain[0],domain[1]))
+    db = MySQL(DESTINATION_CONFIG)
     db.truncate('TRUNCATE TABLE domain_summary')
-    sql = 'INSERT INTO domain_summary(tld_name, domain_num) VALUES("%s", "%s")'
+    update_sql = 'INSERT INTO domain_update(tld_name, domain_num) VALUES("%s", "%s")'
+    summary_sql = 'INSERT INTO domain_summary(tld_name, domain_num) VALUES("%s", "%s")'
     for domain in sum_domains:
-        db.insert(sql%(domain[0],domain[1]))
+        db.insert_no_commit(update_sql % (domain[0],domain[1]))
+        db.insert_no_commit(summary_sql % (domain[0],domain[1]))
+    db.commit()
     db.close()
 
 
 def create_queue():
-    """
-    创建任务队列
-    """
-    for i in xrange(65, 91):     # 创建任务队列，A-Z
-        sql = 'SELECT tld, count(*) AS count FROM domain_whois_%s  GROUP BY tld' % chr(i)
-        queue.put(sql)
-    sql_num = 'SELECT tld, count(*) AS count FROM domain_whois_num GROUP BY tld'
-    queue.put(sql_num)  # domain_whois_num 加入队列
-    sql_other = 'SELECT tld, count(*) AS count FROM domain_whois_other GROUP BY tld'
-    queue.put(sql_other)  # domain_whois_other 加入队列
+    """创建任务队列，即表名称"""
+    for i in xrange(97, 123):     # 创建任务队列，a-z
+        queue.put(chr(i))
+    queue.put('num')  # num 加入队列
+    queue.put('other')  # other 加入队列
 
 
 def create_thread():
+    """创建任务线程"""
     for q in range(num_thread):  # 开始任务
-        worker = Thread(target=count_domain, args=(q, queue))
+        worker = Thread(target=count_domain)
         worker.setDaemon(True)
         worker.start()
     queue.join()
 
 
-def tld_domain():
+def count_tld_domains():
     """主操作"""
-    print str(datetime.now()),'开始统计数据库中最新域名数量'
-    global sum_domains  
-    sum_domains = [] # 务必添加，初始化，否则会一直累加
+    print str(datetime.now()), '开始统计数据库中域名数量'
+    global sum_domains
+    sum_domains = []  # 务必添加，初始化，否则会一直累加
     create_queue()
     create_thread()
     update_db()
-    print str(datetime.now()),'结束统计数据库中最新域名数量'
+    print str(datetime.now()), '结束统计数据库中域名数量'
+
+# count_tld_domains()

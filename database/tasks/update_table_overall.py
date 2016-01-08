@@ -5,13 +5,13 @@
 @作者：程亚楠
 @时间：2015.12.20
 """
-import sys
 import time
 from threading import Thread
 from Queue import Queue
 from datetime import datetime
-
 from data_base import MySQL
+from config import DESTINATION_CONFIG
+
 
 num_thread = 5      # 线程数量
 queue = Queue()     # 任务队列，存储sql
@@ -26,18 +26,47 @@ def count_domain(q,queue):
             线程编号
     """
     while 1:
-        content = queue.get()
-        # print content
-        try:
-            db = MySQL()
-            db.insert(content)
-            queue.task_done()
-            time.sleep(1)  # 去掉偶尔会出现错误
-        except :
-            print "Query Wrong"
-            sys.exit(1)
-        finally:
-            db.close()
+        tb_name = queue.get()
+        update_table(tb_name)
+        queue.task_done()
+        time.sleep(1)  # 去掉偶尔会出现错误
+
+
+def update_table(tb_name):
+    """
+    更新表
+    :param tb_name:
+    :return:
+    """
+    sql = 'SELECT flag,sum(whois_sum) FROM domain_whois_%s GROUP BY flag' % tb_name.lower()
+    flag_undetected = flag_no_svr = flag_no_connect = 0
+    flag_reg_info = flag_reg_date = flag_part_info = 0
+    db = MySQL(DESTINATION_CONFIG)
+    db.query(sql)
+    results = db.fetchAllRows()
+
+    for item in results:
+        flag = item[0]
+        whois_sum = item[1]
+        print whois_sum
+        if flag == '-6':
+            flag_undetected += whois_sum
+        if flag == '-5':
+            flag_no_svr += whois_sum
+        elif flag == '-1' or flag == '-2' or flag == '-3' or flag == '-4':
+            flag_no_connect += whois_sum
+        elif flag == '120' or flag == '121' or flag == '122':
+            flag_reg_info += whois_sum
+        elif flag == '110' or flag == '102' or flag == '112':
+            flag_reg_date += whois_sum
+        elif flag == '100' or flag == '101' or flag == '111':
+            flag_part_info += whois_sum
+
+    sql = 'INSERT INTO table_overall_history (table_name,flag_undetected,\
+          flag_no_svr,flag_no_connect,flag_reg_info,flag_reg_date,flag_part_info) \
+          VALUES ("%s","%s","%s","%s","%s","%s","%s")' % (tb_name,flag_undetected,flag_no_svr,flag_no_connect,flag_reg_info,flag_reg_date,flag_part_info)
+    db.insert(sql)
+    db.close()
 
 
 def create_queue():
@@ -45,45 +74,11 @@ def create_queue():
     共有28张表，需要创建28个任务
     """
     for i in xrange(65, 91):     # 创建任务队列，A-Z
-        
-        sql = "INSERT INTO table_overall_histroy (table_name,flag_undetected,\
-               flag_no_svr,flag_no_connect,flag_reg_info,flag_reg_date,flag_part_info) \
-               SELECT  \
-                 'domain_whois_%s' AS `table_name`, \
-                 COUNT( CASE WHEN flag ='-6' THEN 1 ELSE NULL END ) AS `flag_undetected`,\
-                 COUNT( CASE WHEN flag = '-5' THEN 1 ELSE NULL END ) AS `flag_no_svr`, \
-                 COUNT( CASE WHEN flag = '-1' OR flag ='-2' OR flag = '-3'  OR flag = '-4' THEN 1        ELSE NULL END ) AS `flag_no_connect`,\
-                 COUNT( CASE WHEN flag = '120' OR flag ='121' OR flag = '122'  THEN 1 ELSE NULL END )    AS `flag_reg_info`, \
-                 COUNT( CASE WHEN flag = '110' OR flag ='102' OR flag = '112'  THEN 1 ELSE NULL END )    AS `flag_reg_date`, \
-                 COUNT( CASE WHEN flag = '100' OR flag ='101' OR flag = '111'  THEN 1 ELSE NULL END )    AS `flag_part_info` \
-               FROM domain_whois_%s" % (chr(i),chr(i))
-        queue.put(sql)
-    
-    sql_num = "INSERT INTO table_overall_histroy (table_name,flag_undetected,\
-               flag_no_svr,flag_no_connect,flag_reg_info,flag_reg_date,flag_part_info) \
-               SELECT  \
-                 'domain_whois_num' AS `table_name`, \
-                 COUNT( CASE WHEN flag ='-6' THEN 1 ELSE NULL END ) AS `flag_undetected`,\
-                 COUNT( CASE WHEN flag = '-5' THEN 1 ELSE NULL END ) AS `flag_no_svr`, \
-                 COUNT( CASE WHEN flag = '-1' OR flag ='-2' OR flag = '-3'  OR flag = '-4' THEN 1        ELSE NULL END ) AS `flag_no_connect`,\
-                 COUNT( CASE WHEN flag = '120' OR flag ='121' OR flag = '122'  THEN 1 ELSE NULL END )    AS `flag_reg_info`, \
-                 COUNT( CASE WHEN flag = '110' OR flag ='102' OR flag = '112'  THEN 1 ELSE NULL END )    AS `flag_reg_date`, \
-                 COUNT( CASE WHEN flag = '100' OR flag ='101' OR flag = '111'  THEN 1 ELSE NULL END )    AS `flag_part_info` \
-               FROM domain_whois_num" 
-    queue.put(sql_num)  # domain_whois_num 加入队列
-    sql_other = "INSERT INTO table_overall_histroy (table_name,flag_undetected,\
-               flag_no_svr,flag_no_connect,flag_reg_info,flag_reg_date,flag_part_info) \
-               SELECT  \
-                 'domain_whois_other' AS `table_name`, \
-                 COUNT( CASE WHEN flag ='-6' THEN 1 ELSE NULL END ) AS `flag_undetected`,\
-                 COUNT( CASE WHEN flag = '-5' THEN 1 ELSE NULL END ) AS `flag_no_svr`, \
-                 COUNT( CASE WHEN flag = '-1' OR flag ='-2' OR flag = '-3'  OR flag = '-4' THEN 1        ELSE NULL END ) AS `flag_no_connect`,\
-                 COUNT( CASE WHEN flag = '120' OR flag ='121' OR flag = '122'  THEN 1 ELSE NULL END )    AS `flag_reg_info`, \
-                 COUNT( CASE WHEN flag = '110' OR flag ='102' OR flag = '112'  THEN 1 ELSE NULL END )    AS `flag_reg_date`, \
-                 COUNT( CASE WHEN flag = '100' OR flag ='101' OR flag = '111'  THEN 1 ELSE NULL END )    AS `flag_part_info` \
-               FROM domain_whois_other"
-    queue.put(sql_other)  # domain_whois_other 加入队列
-    
+        queue.put(chr(i))
+    queue.put('num')  # domain_whois_num 加入队列
+    queue.put('other')  # domain_whois_other 加入队列
+
+
 def create_thread():
     """创建任务线程"""
     
@@ -93,11 +88,13 @@ def create_thread():
         worker.start()
     queue.join()
 
+
 def table_overall():
     """主操作"""
-    print str(datetime.now()),'开始统计数据库表wois信息'
+    print str(datetime.now()),'开始统计数据库表WHOIS信息'
     create_queue()
     create_thread()
-    print str(datetime.now()),'结束统计数据库表wois信息'
+    print str(datetime.now()),'结束统计数据库表WHOIS信息'
+
 
 # table_overall()

@@ -7,19 +7,13 @@
 更新时间:2015.12.28
 """
 
-import sys
 import time
 import threading
 from threading import Thread
 from Queue import Queue
 from datetime import datetime
-
-# import MySQLdb
-
-# import re
-# from database import conn_db
 from data_base import MySQL
-
+from config import DESTINATION_CONFIG
 
 num_thread = 5      # 线程数量
 queue = Queue()     # 任务队列，存储sql
@@ -27,7 +21,7 @@ sum_domains = []    # 存储域名的和
 lock = threading.Lock()
 
 
-def sum_all_domains(sum_domains=[], single_domains=[]):
+def sum_all_domains(single_domains=[]):
     """合并两个列表，相同名称求和"""
 
     del_index = []      # 用来存放待删除的index
@@ -45,58 +39,59 @@ def sum_all_domains(sum_domains=[], single_domains=[]):
         del sum_domains[i]
 
 
-def count_domain(q, queue):
+def count_domain():
     """计算各个列表中，各个顶级后缀的数量，并求和"""
     while 1:
-        content = queue.get()
-        try:
-            db = MySQL()
-            # db.update('SET tmp_table_size = 1024 * 1024 * 400')
-            db.query(content)
-            single_domains = db.fetchAllRows()
-            lock.acquire()  # 锁
-            sum_all_domains(sum_domains, list(single_domains))
-            lock.release()  # 解锁
-            queue.task_done()
-            time.sleep(1)  # 去掉偶尔会出现错误
-        except :
-            print "Query Wrong"
-            sys.exit(1)
-        finally:
-            db.close()
+        tb_name = queue.get()
+        single_domains = get_resource_data(tb_name)
+        lock.acquire()  # 锁
+        sum_all_domains(list(single_domains))
+        lock.release()  # 解锁
+        queue.task_done()
+        time.sleep(1)  # 去掉偶尔会出现错误
 
 
 def update_db():
     """更新数据库"""
     total = 0
-    db = MySQL()
+    db = MySQL(DESTINATION_CONFIG)
     sql = 'INSERT INTO tld_whois_sum_history(tld,whois_sum) VALUES("%s", "%s")' # 插入数据
     for domain in sum_domains:
-        db.insert(sql % (domain[0],domain[1]))
+        db.insert_no_commit(sql % (domain[0],domain[1]))
         total += domain[1]
+    db.commit()
     sql = 'INSERT INTO whois_sum(tld_sum) VALUES("%s")'
     db.insert(sql % total)
     db.close()
 
 
+def get_resource_data(tb_name):
+    """
+    获得基础数据
+    :param tb_name:
+    :return:
+    """
+    db = MySQL(DESTINATION_CONFIG)
+    db.query('SELECT tld, SUM(whois_sum) AS count FROM domain_whois_%s WHERE flag <> "-6" GROUP BY tld' % tb_name)
+    results = db.fetchAllRows()
+    return results
+
+
 def create_queue():
-    for i in xrange(65, 91):     # 创建任务队列，A-Z
-        sql = 'SELECT tld, count(*) AS count FROM domain_whois_%s WHERE flag <> -6 GROUP BY tld' % chr(i)
-        queue.put(sql)
-    sql_num = 'SELECT tld, count(*) AS count FROM domain_whois_num WHERE flag <> -6 GROUP BY tld'
-    queue.put(sql_num)   # domain_whois_num 加入队列
-    sql_other = 'SELECT tld, count(*) AS count FROM domain_whois_other WHERE flag <> -6 GROUP BY tld'
-    queue.put(sql_other)   # domain_whois_other 加入队列
+    for i in xrange(97, 123):     # 创建任务队列，a-z
+        queue.put(chr(i))
+    queue.put('other')   # domain_whois_other 加入队列
+    queue.put('num')
 
 
 def tld_whois_sum():
     """主操作"""
     print str(datetime.now()),'开始统计各个顶级后缀的whois数量和whois总量'
-    global sum_domains  
+    global sum_domains
     sum_domains = [] # 务必添加，初始化，否则会一直累加
     create_queue()
     for q in range(num_thread):  # 开始任务
-        worker = Thread(target=count_domain, args=(q, queue))
+        worker = Thread(target=count_domain)
         worker.setDaemon(True)
         worker.start()
     queue.join()
