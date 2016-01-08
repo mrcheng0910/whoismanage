@@ -48,7 +48,6 @@ def update_table(tb_name):
     for item in results:
         flag = item[0]
         whois_sum = item[1]
-        print whois_sum
         if flag == '-6':
             flag_undetected += whois_sum
         if flag == '-5':
@@ -64,7 +63,7 @@ def update_table(tb_name):
 
     sql = 'INSERT INTO table_overall_history (table_name,flag_undetected,\
           flag_no_svr,flag_no_connect,flag_reg_info,flag_reg_date,flag_part_info) \
-          VALUES ("%s","%s","%s","%s","%s","%s","%s")' % (tb_name,flag_undetected,flag_no_svr,flag_no_connect,flag_reg_info,flag_reg_date,flag_part_info)
+          VALUES ("%s","%s","%s","%s","%s","%s","%s")' % ('domain_whois_'+tb_name,flag_undetected,flag_no_svr,flag_no_connect,flag_reg_info,flag_reg_date,flag_part_info)
     db.insert(sql)
     db.close()
 

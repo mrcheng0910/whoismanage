@@ -38,7 +38,7 @@ class DomainTldNumHandler(tornado.web.RequestHandler):
         tld = self.get_argument('tld','None')
         # total,tld_num,whois_tld,whois_total = DomainDb().get_tld_num(tld)
         results = DomainDb().get_tld_num(tld)
-        self.write(json.dumps(results,cls=DecimalEncoder))
+        self.write(json.dumps(results, cls=DecimalEncoder))
 
 
 class DecimalEncoder(json.JSONEncoder):

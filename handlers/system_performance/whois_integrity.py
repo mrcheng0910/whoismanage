@@ -8,12 +8,14 @@ import json
 
 PATH = './system_performance/'
 
+
 class DomainWhoisHandler(tornado.web.RequestHandler):
     def get(self):
         tld_whois_sum = manage_flag()  # 获取whois类型信息
-        self.render(PATH+'whois_integrity.html',
-                    tld_whois_sum=json.dumps(tld_whois_sum)
-                    )
+        self.render(
+                PATH+'whois_integrity.html',
+                tld_whois_sum=json.dumps(tld_whois_sum)
+        )
 
 
 def manage_flag():
@@ -45,6 +47,7 @@ def merge_tld_whois(tld_whois, value):
     tld_whois[flag_change(value['flag'])] = value['whois_sum']
     return tld_whois
 
+
 def find_tld(tld_whois_sum, tld_name):
     """
     查询顶级后缀是否在列表中，若存在则返回位置，不存在返回-1
@@ -73,6 +76,7 @@ def flag_change(flag):
     elif flag == '3':
         return 'part_info'  # 部分信息
 
+
 class ShowAssignmentTld(tornado.web.RequestHandler):
     """
     展示指定的域名后缀flag情况
@@ -85,6 +89,7 @@ class ShowAssignmentTld(tornado.web.RequestHandler):
             self.write("None")
         else:
             self.write(json.dumps(results))
+
 
 class ShowAssignmentType(tornado.web.RequestHandler):
     """
@@ -111,5 +116,3 @@ class ShowAssignmentType(tornado.web.RequestHandler):
                 results_no_type.insert(index,{'tld': value['tld'],'total':0})
         
         return results_no_type
-        
-        

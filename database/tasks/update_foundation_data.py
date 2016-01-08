@@ -3,7 +3,6 @@
 获取DomainWhois探测数据库中的基础数据到domain_whois_statistics统计数据库中
 """
 
-import sys
 import time
 from threading import Thread
 from Queue import Queue

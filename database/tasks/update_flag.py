@@ -45,7 +45,6 @@ def count_flag():
     """计算各个列表中，各个顶级后缀的flag中域名whois数量，并求和"""
     while 1:
         tb_name = queue.get()
-        print tb_name
         single_flags = get_source_data(tb_name)
         lock.acquire()  # 锁
         sum_all_flags(list(single_flags))
