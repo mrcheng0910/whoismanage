@@ -114,7 +114,7 @@ def update_whois_flag():
     sum_flags = [] # 务必添加，初始化，否则会一直累加
     create_queue()  # 创建任务队列
     create_thread() # 创建线程
-    update_db()
+    # update_db()
     print str(datetime.now()),'结束统计各个标记位的whois数量'
 
 # update_whois_flag()

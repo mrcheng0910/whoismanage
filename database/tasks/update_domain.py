@@ -112,4 +112,4 @@ def count_tld_domains():
     update_db()
     print str(datetime.now()), '结束统计数据库中域名数量'
 
-count_tld_domains()
+# count_tld_domains()
