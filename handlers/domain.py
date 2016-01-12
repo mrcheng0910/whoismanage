@@ -1,12 +1,14 @@
 # encoding:utf-8
+"""
+功能：域名数量统计所需数据
+"""
+
 import decimal
-
 import tornado
-from models.domain_db import DomainDb
 import json
+from models.domain_db import DomainDb
 
-
-PATH = './domain/'
+PATH = './domain/'  # 模板地址
 
 
 class DomainIndexHandler(tornado.web.RequestHandler):
@@ -19,7 +21,6 @@ class DomainIndexHandler(tornado.web.RequestHandler):
             domains=domains,
             total=total
         )
-
 
 
 class DomainTldIndexHandler(tornado.web.RequestHandler):

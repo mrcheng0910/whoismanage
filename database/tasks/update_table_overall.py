@@ -43,7 +43,7 @@ def update_table(tb_name):
     flag_reg_info = flag_reg_date = flag_part_info = 0
     db = MySQL(DESTINATION_CONFIG)
     db.query(sql)
-    results = db.fetchAllRows()
+    results = db.fetch_all_rows()
 
     for item in results:
         flag = item[0]

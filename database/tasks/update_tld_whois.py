@@ -81,7 +81,7 @@ def get_resource_data(tb_name):
     """
     db = MySQL(DESTINATION_CONFIG)
     db.query('SELECT tld, SUM(whois_sum) AS count FROM domain_whois_%s WHERE flag <> "-6" GROUP BY tld' % tb_name)
-    results = db.fetchAllRows()
+    results = db.fetch_all_rows()
     return results
 
 

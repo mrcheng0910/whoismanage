@@ -142,10 +142,10 @@ function get_data(start,end) {
             timeout: 5000, //超时时间
             success: function (data) {  //成功后的处理
                 
-                raw_data = JSON.parse(data); //json格式化原始数据
+                rawData = JSON.parse(data); //json格式化原始数据
                 var value;
-                for(var i=0,arrLength=raw_data.length;i<arrLength;i++){
-                    value = raw_data[i]
+                for(var i=0,arrLength=rawData.length; i<arrLength; i++){
+                    value = rawData[i]
                     if (flag==true){//添加时间，截取详细时间
                         categories.unshift(value.insert_time.slice(11,value.insert_time.length)); 
                     }
@@ -154,8 +154,8 @@ function get_data(start,end) {
                     }
                     series_total.unshift((Math.round((value.sum/1000000.0)*1000)/1000)); //添加数量，两位小数，百万级别
                 }
-                for(var i=1,arrLength=raw_data.length;i<arrLength;i++){
-                    series_increase.unshift(raw_data[i-1].sum-raw_data[i].sum)
+                for(var i=1,arrLength=rawData.length; i<arrLength; i++){
+                    series_increase.unshift(rawData[i-1].sum-rawData[i].sum)
                 }
                 init(categories.slice(1,categories.length),series_total.slice(1,series_total.length),series_increase);
             },

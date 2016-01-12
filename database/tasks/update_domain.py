@@ -25,9 +25,8 @@ sum_domains = defaultdict(list)  # 存储所有表的合字典
 
 
 def merge_same_tld(tb_tld_num):
-    """
-    合并所有表中相同tld到字典列表中
-    :param tb_tld_num:Tuple 当前表中各个tld的内容
+    """合并表中tld信息到全局字典列表中
+    :param tb_tld_num:Tuple 当前表中各个tld的域名数据
     """
     for item, value in tb_tld_num:
         sum_domains[item].append(value)
@@ -42,15 +41,13 @@ def sum_all_domains():
 
 
 def count_domain():
-    """
-    计算域名的数量
+    """计算域名的数量
     :param q:线程编号
     :param queue: 任务队列
-    :return:
     """
     while 1:
         tb_name = queue.get()
-        tb_tld_num = get_resource_data(tb_name)
+        tb_tld_num = fetch_resource_data(tb_name)
         lock.acquire()  # 锁
         merge_same_tld(tb_tld_num)
         lock.release()  # 解锁
@@ -58,15 +55,14 @@ def count_domain():
         time.sleep(1)  # 去掉偶尔会出现错误
 
 
-def get_resource_data(tb_name):
-    """
-    得到原始数据
+def fetch_resource_data(tb_name):
+    """获得源数据
     :param tb_name: string 表名
     :return: results: 查询结果
     """
     db = MySQL(DESTINATION_CONFIG)
-    db.query('SELECT tld, sum(whois_sum) AS count FROM domain_whois_%s  GROUP BY tld' % tb_name)
-    results = db.fetchAllRows()
+    db.query('SELECT tld, SUM(whois_sum) FROM domain_whois_%s  GROUP BY tld' % tb_name)
+    results = db.fetch_all_rows()
     db.close()
     return results
 

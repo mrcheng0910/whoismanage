@@ -208,9 +208,9 @@ function get_data(period) {
             },
             timeout: 5000, //超时时间
             success: function (data) {  //成功后的处理
-                raw_data = JSON.parse(data); //json格式化原始数据
+                rawData = JSON.parse(data); //json格式化原始数据
                 // alert(data);
-                init_speed(raw_data);
+                init_speed(rawData);
             },
             error: function (xhr) {
                 if (xhr.status == "0") {

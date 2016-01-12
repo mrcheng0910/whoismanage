@@ -31,7 +31,7 @@ def get_data_from_source(tb_name):
     """
     source_db = MySQL(SOURCE_CONFIG)
     source_db.query('select tld,flag,count(*) as whois_sum from domain_whois_%s group by tld,flag' % (tb_name))
-    results = source_db.fetchAllRows()
+    results = source_db.fetch_all_rows()
     source_db.close()
     return results
 

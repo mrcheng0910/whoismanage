@@ -3,7 +3,8 @@
 数据库配置文件
 """
 
-SOURCE_CONFIG = {  # 原始数据库配置
+# 源数据库配置
+SOURCE_CONFIG = {
     'host': '172.26.253.3',
     'port': 3306,
     'user': 'root',
@@ -12,7 +13,8 @@ SOURCE_CONFIG = {  # 原始数据库配置
     'charset': 'utf8'
 }
 
-DESTINATION_CONFIG = {  # 目标数据库配置
+# 目标数据库配置
+DESTINATION_CONFIG = {
     'host': '172.26.253.3',
     'port': 3306,
     'user': 'root',

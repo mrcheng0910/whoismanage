@@ -1,32 +1,23 @@
-#!/usr/bin/python
-#encoding: utf-8 
+# encoding:utf-8
 
-import MySQLdb
 import time
-import sys
-
-
-DBCONFIG = {'host':'172.26.253.3',
-                'port': 3306, 
-                'user':'root', 
-                'passwd':'platform', 
-                'db':'DomainWhois', 
-                'charset':'utf8'}
+import MySQLdb
+from config import DESTINATION_CONFIG
 
 
 class MySQL(object):
     """对MySQLdb常用函数进行封装的类"""
     
-    error_code = '' #MySQL错误号码
+    error_code = ''  # MySQL错误号码
 
-    _instance = None #本类的实例
-    _conn = None # 数据库conn
-    _cur = None #游标
+    _instance = None  # 本类的实例
+    _conn = None  # 数据库conn
+    _cur = None  # 游标
 
-    _TIMEOUT = 30 #默认超时30秒
+    _TIMEOUT = 30  # 默认超时30秒
     _timecount = 0
         
-    def __init__(self, dbconfig=DBCONFIG):
+    def __init__(self, dbconfig=DESTINATION_CONFIG):
         """构造器：根据数据库连接参数，创建MySQL连接"""
         try:
             self._conn = MySQLdb.connect(host=dbconfig['host'],
@@ -99,8 +90,12 @@ class MySQL(object):
             print e
             return False
 
-
-    def truncate(self,sql):
+    def truncate(self, sql):
+        """
+        删除数据库表
+        :param sql: 删除语句
+        :return: 删除结果
+        """
         try:
             result = self._cur.execute(sql)
             self._conn.commit()
@@ -109,13 +104,13 @@ class MySQL(object):
             result = False
         return result
 
-    def fetchAllRows(self):
-        """返回结果列表
-        :rtype: object
+    def fetch_all_rows(self):
+        """获取结果行
+        :return: 结果
         """
         return self._cur.fetchall()
  
-    def getRowCount(self):
+    def get_row_count(self):
         """获取结果行数"""
         return self._cur.rowcount
                           
@@ -135,6 +130,6 @@ class MySQL(object):
         except:
             pass
         
-    def  close(self):
+    def close(self):
         """关闭数据库连接"""
         self.__del__()

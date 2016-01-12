@@ -91,24 +91,24 @@ function get_tld_data(tld){
                     alert("无该顶级后缀内容");
                 }
                 else{
-                    raw_data = JSON.parse(data); //json格式化原始数据
-                    for(var i=0;i<raw_data.length;i++){
-                        switch(raw_data[i].flag){
+                    rawData = JSON.parse(data); //json格式化原始数据
+                    for(var i=0; i<rawData.length; i++){
+                        switch(rawData[i].flag){
                             case '0':
-                                flag[0] = flag[0] + (+raw_data[i].whois_sum);
-                                noConncet.push([FlagToText(raw_data[i].flag_detail),+raw_data[i].whois_sum]);
+                                flag[0] = flag[0] + (+rawData[i].whois_sum);
+                                noConncet.push([FlagToText(rawData[i].flag_detail),+rawData[i].whois_sum]);
                                 break;
                             case '1':
-                                flag[1] = flag[1] + (+raw_data[i].whois_sum);
-                                regInfo.push([FlagToText(raw_data[i].flag_detail),+raw_data[i].whois_sum]);
+                                flag[1] = flag[1] + (+rawData[i].whois_sum);
+                                regInfo.push([FlagToText(rawData[i].flag_detail),+rawData[i].whois_sum]);
                                 break;
                             case '2':
-                                flag[2] = flag[2] + (+raw_data[i].whois_sum);
-                                regDate.push([FlagToText(raw_data[i].flag_detail),+raw_data[i].whois_sum]);
+                                flag[2] = flag[2] + (+rawData[i].whois_sum);
+                                regDate.push([FlagToText(rawData[i].flag_detail),+rawData[i].whois_sum]);
                                 break;
                             case '3':
-                                flag[3] = flag[3] + (+raw_data[i].whois_sum);
-                                partOfInfo.push([FlagToText(raw_data[i].flag_detail),+raw_data[i].whois_sum]);
+                                flag[3] = flag[3] + (+rawData[i].whois_sum);
+                                partOfInfo.push([FlagToText(rawData[i].flag_detail),+rawData[i].whois_sum]);
                                 break;
                         }
                     }
@@ -239,9 +239,9 @@ function get_type_data(type,type_name){
         success: function (data) {  //成功后的处理
             var raw_data = JSON.parse(data); 
             var tld = [];
-            var tld_type = raw_data[0];
+            var tld_type = rawData[0];
             var tld_type_total = []
-            var tld_no_type = raw_data[1];
+            var tld_no_type = rawData[1];
             var tld_no_type_total = []
             for (var i=0,arr_len = tld_type.length;i<arr_len;i++){
                 tld.push(tld_type[i].tld);

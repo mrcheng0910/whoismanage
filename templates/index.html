@@ -1,7 +1,9 @@
 {% extends "main_template.html" %}
+
 {% block title_name %}
-<title>WHOIS管理系统首页</title>
+<title>域名WHOIS统计系统首页</title>
 {% end %}
+
 {% block page %}
 
 <div class="row">
@@ -9,7 +11,6 @@
         <h1 class="page-header">域名及WHOIS信息概览</h1>
     </div>
 </div>
-<!--row -->
 <div class="row">
     <!--domain-->
     <div class="col-lg-3">
@@ -25,7 +26,7 @@
                     </div>
                 </div>
             </div>
-            <a href="/domain">
+            <a href="/domain/overall">
                 <div class="panel-footer">
                     <span class="pull-left">查看详细</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -122,7 +123,8 @@
     </div>
 </div>
 {% end %}
+
 {% block foot_script %}
 <script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
-<script src="{{ static_url("js/initial_charts.js")}}"></script>
+<script src="{{ static_url("js/index.js")}}"></script>
 {% end %}

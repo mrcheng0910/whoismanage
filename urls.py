@@ -5,7 +5,6 @@
 
 from handlers.index import IndexHandler,RateOfIncrease
 from handlers.domain import DomainIndexHandler,DomainTldNumHandler,DomainTldIndexHandler
-from handlers.domain_geo import DomainGeoHandler
 from handlers.svr import *
 from handlers.tld import TldHandler
 from handlers.system_performance.whois_integrity import DomainWhoisHandler,ShowAssignmentTld,ShowAssignmentType
@@ -16,10 +15,11 @@ from handlers.system_performance.detect_count import DomainCountHandler,GetDomai
 from handlers.table_overall import TableOverallHandler,TableDataHistoryHandler
 
 urls = [
-    (r'/', IndexHandler),
-    (r'/rate_of_increase',RateOfIncrease),
+    # 首页内容
+    (r'/', IndexHandler),   # 首页
+    (r'/rate_of_increase',RateOfIncrease),  # 首页whois数量增长图表
+
     (r'/tld', TldHandler),
-    # (r'/domain_geography', DomainGeoHandler), # 域 名 地理位置查询
 
     (r'/domain/overall', DomainIndexHandler),  # 域名首页
     (r'/domain/tld-number',DomainTldIndexHandler),

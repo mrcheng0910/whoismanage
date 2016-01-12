@@ -40,7 +40,7 @@ def sum_all_list():
     """
     svr_num = []
     for item in sum_svr:
-        svr_num.append((item[0],item[1],sum(sum_svr[item])))
+        svr_num.append((item[0], item[1], sum(sum_svr[item])))
     return svr_num
 
 
@@ -69,7 +69,7 @@ def get_source_data(tb_name):
                FROM domain_whois_%s WHERE sec_whois_server <> "" GROUP BY top_svr, sec_svr' % tb_name
 
     db.query(sql)
-    results = db.fetchAllRows()
+    results = db.fetch_all_rows()
     db.close()
     return results
 

@@ -12,8 +12,7 @@ from config import DESTINATION_CONFIG
 
 
 def update_day():
-    """
-    更新表whois_sum_by_day，即统计数据库中最新的域名whois总量
+    """更新表whois_sum_by_day，即统计数据库中最新的域名whois总量
     """
 
     print str(datetime.now()), '开始更新当天数据库中最新的WHOIS总量(whois_sum_by_day)'

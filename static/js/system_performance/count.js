@@ -11,7 +11,7 @@ function GetDomainCount(argument,options){
             timeout: 5000, //超时时间
             success: function (data) {  //成功后的处理
                 var raw_data = JSON.parse(data); //json格式化原始数据
-                detect(raw_data);
+                detect(rawData);
             },
             error: function (xhr) {
                 if (xhr.status == "0") {
