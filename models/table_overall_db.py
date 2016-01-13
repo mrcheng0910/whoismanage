@@ -46,3 +46,22 @@ class TableOverallDb (BaseDb):
             tb_total[item['table_name']].append(tb_domains)
         return tb_increase,tb_total
 
+    def fetch_tb_data(self,tb_name,top =11):
+        sql = 'select flag_no_svr,flag_no_connect,flag_reg_info,flag_reg_date,flag_part_info \
+              from domain_whois_statistics.table_overall_history where table_name ="%s" \
+              order by update_time desc limit %s' % (tb_name,top)
+
+        results = self.db.query(sql)
+        results = self._manage_flag(results)
+
+        return results
+
+    def _manage_flag(self,results):
+        flag_dic = defaultdict(list)
+        for item in results:
+            for key in item:
+                flag_dic[key].append(item[key])
+
+        return flag_dic
+
+# TableOverallDb().fetch_tb_data('domain_whois_O',11)

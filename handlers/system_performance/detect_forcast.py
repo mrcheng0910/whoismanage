@@ -13,8 +13,8 @@ class DetectForcastHandler(tornado.web.RequestHandler):
     
     def get(self):
         db = IndexDb()
-        domain_total = db.get_domain_num()
-        domain_detected = db.get_whois_sum()
+        domain_total = db.fetch_domain_num()
+        domain_detected = db.fetch_whois_sum()
         total = [domain_total,domain_detected,domain_total-domain_detected]
         self.render(PATH + 'detect_forcast.html',
                     total = total

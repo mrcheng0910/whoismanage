@@ -6,7 +6,7 @@
 
 {% block head_link %}
 
-<link href="{{static_url('css/table_overall.css')}}" rel="stylesheet">
+{#<link href="{{static_url('css/table_overall.css')}}" rel="stylesheet">#}
 
 {% end %}
 
@@ -21,7 +21,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <li class="fa fa-bar-chart fa-fw"></li> 
-                数据库表整体情况(A-N)
+                数据库表探测数据增长
             </div>
             <div class="panel-body">
                 <div id="result"></div>
@@ -47,7 +47,7 @@
                             <td>{{ tb_increase[item][1]/1000 }}</td>
                             <td>{{ tb_increase[item][0]/1000 }}</td>
                             <td data-sparkline={{ tb_increase[item][2] }}/>
-                            <td><a href="/">详细</a></td>
+                            <td><a href="#" onclick='tbDetail("{{ item }}");'>详细</a></td>
                         </tr>
                         {% end %}
                     </tbody>
@@ -62,5 +62,7 @@
 <!--必须使用本地该类型的highcharts-->
 <script src="{{static_url("js/table_overall/highcharts.js")}}"></script>
 <script src="{{ static_url("js/table_overall/table_increase.js")}}"></script>
+<script src="{{ static_url("js/table_overall/table_increase_detail.js")}}"></script>
+<script src="http://apps.bdimg.com/libs/layer/2.0/layer.js"></script>
 
 {% end %}

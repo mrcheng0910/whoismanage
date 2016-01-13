@@ -58,7 +58,7 @@ function init_overall(contain_name,categories,noConnectTld,unDetectTld,noSvrTld,
                                 shadeClose: true,
                                 shade: 0.8,
                                 area: ['70%', '63%'],
-                                content: '/table_overall_history?table_name=domain_whois_' + e.point.category
+                                content: '/table/overall/history?table_name=domain_whois_' + e.point.category
                             }); 
                         }
                     }

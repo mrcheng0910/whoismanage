@@ -122,7 +122,7 @@ $(function () {
                     pointStart: 1
                 }],
                 tooltip: {
-                    headerFormat: '<span style="font-size: 10px">' + $td.parent().find('th').html() + ', Q{point.x}:</span><br/>',
+                    headerFormat: '<span style="font-size: 10px">'  + '增长数量:</span>',
                     pointFormat: '<b>{point.y}</b> 个'
                 },
                 chart: chart
@@ -138,9 +138,9 @@ $(function () {
             }
 
             // Print a feedback on the performance
-            if (n === fullLen) {
-                $('#result').html('Generated ' + fullLen + ' sparklines in ' + (new Date() - start) + ' ms');
-            }
+            //if (n === fullLen) {
+            //    $('#result').html('Generated ' + fullLen + ' sparklines in ' + (new Date() - start) + ' ms');
+            //}
         }
     }
     doChunk();

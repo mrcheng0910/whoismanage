@@ -18,7 +18,7 @@ class IndexDb (BaseDb):
         :return: tld_overall 数据列表
         """
         tld_overall = []
-        domain_num = self._fetch_domain_num ()
+        domain_num = self.fetch_domain_num ()
         tld_overall.append (domain_num)
 
         tld_num = self._fetch_tld_num ()
@@ -28,7 +28,7 @@ class IndexDb (BaseDb):
         tld_overall.append (msvr_num)
         tld_overall.append (ssvr_num)
 
-        whois_num = self._fetch_whois_sum ()
+        whois_num = self.fetch_whois_sum ()
         tld_overall.append (whois_num)
 
         domains = self._fetch_increase(top)
@@ -36,7 +36,7 @@ class IndexDb (BaseDb):
 
         return tld_overall
 
-    def _fetch_domain_num(self):
+    def fetch_domain_num(self):
         """获取数据库中域名总数"""
         domain_sum = 0
         sql = 'SELECT SUM(domain_num) AS domain_sum FROM domain_summary'  # 求和
@@ -58,7 +58,7 @@ class IndexDb (BaseDb):
         ssvr_sum = result[0]['ssvr']
         return msvr_sum, ssvr_sum
 
-    def _fetch_whois_sum(self):
+    def fetch_whois_sum(self):
         """获取数据库中已有域名whois信息的数量"""
         whois_sum = 0
         sql = 'SELECT tld_sum FROM `whois_sum` ORDER BY insert_time DESC LIMIT 1'

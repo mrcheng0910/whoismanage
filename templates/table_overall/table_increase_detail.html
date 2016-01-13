@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                 <div class="panel panel-default">
+                    <div class="panel-heading">
+                    <li class="fa fa-bar-chart fa-fw"></li>
+                    数据库表<strong><code>{{ tb_name }}</code></strong>数据增长趋势
+                    </div>
+                    <div class="panel-body">
+                         <div id="result"></div>
+                <table class="table table-hover" id="table-sparkline" align="center">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>类型</th>
+                            <th>数量(个)</th>
+                            <th>数量增长(近10小时)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-sparkline" valign="middle" align="center">
+                    {% for id,item in enumerate(tb_increase) %}
+                        <tr>
+                            <th>{{ id+1 }}</th>
+                            <td>{{ item }}</td>
+                            <td>{{ tb_increase[item][0] }}</td>
+                            <td data-sparkline={{ tb_increase[item][1] }}/>
+                        </tr>
+                        {% end %}
+                    </tbody>
+                </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="{{static_url("js/table_overall/highcharts.js")}}"></script>
+    <script src="{{ static_url("js/table_overall/table_increase.js")}}"></script>
+    </body>
+</html>

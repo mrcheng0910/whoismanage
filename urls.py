@@ -12,7 +12,7 @@ from handlers.system_performance.detect_efficiency import DetectHandler,ManageIn
 from handlers.system_performance.detect_forcast import DetectForcastHandler,ForcastPeriodHandler
 from handlers.system_performance.detect_count import DomainCountHandler,GetDomainCountHandler
 
-from handlers.table_overall import TableOverallHandler,TableDataHistoryHandler,TableIncreaseHandler
+from handlers.table_overall import TbOverallHandler,TbDataHistoryHandler,TbIncreaseHandler,TbIncreaseDetailHander
 
 urls = [
     #  首页内容
@@ -47,7 +47,8 @@ urls = [
     (r'/detect_count/data',GetDomainCountHandler),
 
     # 数据库表情况
-    (r'/table_overall',TableOverallHandler),  # 数据库表整体情况
-    (r'/table_overall_history',TableDataHistoryHandler),  # 历史情况
-    (r'/table/increase',TableIncreaseHandler),  # 表增长情况
+    (r'/table/overall', TbOverallHandler),  # 数据库表整体情况
+    (r'/table/overall/history', TbDataHistoryHandler),  # 历史情况
+    (r'/table/increase', TbIncreaseHandler),  # 表增长情况
+    (r'/table/increase/detail',TbIncreaseDetailHander),  # 增长详细情况
 ]

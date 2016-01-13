@@ -7,7 +7,7 @@ from datetime import datetime
 from collections import OrderedDict  # 用来固定输出数据
 
 
-class TableOverallHandler(tornado.web.RequestHandler):
+class TbOverallHandler(tornado.web.RequestHandler):
 
     def get(self):
         results = TableOverallDb().get_table_info()
@@ -15,13 +15,14 @@ class TableOverallHandler(tornado.web.RequestHandler):
                     results = json.dumps(results)
                     )
                     
-class TableDataHistoryHandler(tornado.web.RequestHandler):
+class TbDataHistoryHandler(tornado.web.RequestHandler):
     
     def get(self):
         table_name = self.get_argument('table_name','None')
         results = TableOverallDb().get_data_history(table_name)
         self.render('./table_overall/table_data_history.html',
-                    results = json.dumps(results,default=self._json_serial)
+                    results = json.dumps(results,default=self._json_serial),
+                    table_name = table_name
         )
 
     def _json_serial(self, obj):
@@ -33,7 +34,7 @@ class TableDataHistoryHandler(tornado.web.RequestHandler):
         raise TypeError ("Type not serializable")
 
 
-class TableIncreaseHandler(tornado.web.RequestHandler):
+class TbIncreaseHandler(tornado.web.RequestHandler):
     """数据库表增长趋势统计"""
 
     def get(self):
@@ -66,7 +67,6 @@ class TableIncreaseHandler(tornado.web.RequestHandler):
 
         keys = results.keys()
         keys.sort()
-        print keys
         for key in keys:
             sort_results[key] = results[key]
         return sort_results
@@ -102,3 +102,52 @@ class TableIncreaseHandler(tornado.web.RequestHandler):
             return 'info'
         else:
             return ''
+
+
+class TbIncreaseDetailHander(tornado.web.RequestHandler):
+
+    def get(self):
+        tb_name = self.get_argument('table','domain_whois_A')
+        tb_data = TableOverallDb().fetch_tb_data(tb_name,top=11)
+        results = self.mange_data(tb_data)
+        self.render(
+            './table_overall/table_increase_detail.html',
+            tb_increase = results,
+            tb_name = tb_name
+        )
+
+    def mange_data(self,tb_data):
+        results = {}
+        temp = []
+        for item in tb_data:
+            temp.append(tb_data[item][0])
+            temp.append(self._data2increse(tb_data[item]))
+            if item == 'flag_no_connect':
+                results['无法连接'] = temp
+            elif item == 'flag_no_svr':
+                results['无服务器'] = temp
+            elif item == 'flag_reg_info':
+                results['注册者信息'] = temp
+            elif item == 'flag_reg_date':
+                results['注册时间'] = temp
+            elif item == 'flag_part_info':
+                results['部分信息'] = temp
+            temp = []
+        return results
+
+
+    def _data2increse(self,data_list):
+        results = []
+        data_list.reverse()
+        length = len(data_list)
+        for i in range(1,length):
+            results.append(data_list[i]-data_list[i-1])
+
+        return self._list2str(results)
+
+    def _list2str(self, list_data):
+        """将int类型的list转为字符串
+        :param list_data:待转换的list
+        :return: 字符串
+        """
+        return ','.join(str(item) for item in list_data)
