@@ -6,7 +6,7 @@ function tbDetail(tbName){
         // closeBtn: false,
         shadeClose: true,
         shade: 0.8,
-        area: ['55%', '53%'],
+        area: ['55%', '56%'],
         content: url
     });
 
