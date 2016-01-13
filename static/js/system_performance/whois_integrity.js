@@ -72,7 +72,7 @@ function whois_chart(tldWhoisSum) {
 }
 
 function get_tld_data(tld){
-    var raw_data;
+    var rawData;
     var flag = [0,0,0,0];
     var noConncet = [];
     var regInfo = [];
@@ -237,7 +237,7 @@ function get_type_data(type,type_name){
         },
         timeout: 5000, //超时时间
         success: function (data) {  //成功后的处理
-            var raw_data = JSON.parse(data); 
+            var rawData = JSON.parse(data);
             var tld = [];
             var tld_type = rawData[0];
             var tld_type_total = []
@@ -248,8 +248,6 @@ function get_type_data(type,type_name){
                 tld_type_total.push(tld_type[i].total);
                 tld_no_type_total.push(tld_no_type[i].total);
             }
-            // alert(tld);
-            // alert(tld_type_total);
             init_type(tld,tld_type_total,tld_no_type_total,type_name);
         },
         error: function (xhr) {
