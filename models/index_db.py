@@ -13,7 +13,7 @@ class IndexDb (BaseDb):
     def __init__(self):
         BaseDb.__init__ (self)  # 执行父类
 
-    def fetch_tld_overall(self):
+    def fetch_tld_overall(self, top=11):
         """获取页面展示数据
         :return: tld_overall 数据列表
         """
@@ -30,6 +30,9 @@ class IndexDb (BaseDb):
 
         whois_num = self._fetch_whois_sum ()
         tld_overall.append (whois_num)
+
+        domains = self._fetch_increase(top)
+        tld_overall.append(domains)
 
         return tld_overall
 
@@ -63,7 +66,7 @@ class IndexDb (BaseDb):
         whois_sum = result[0]['tld_sum']
         return round (whois_sum / 1000000.0, 2)
 
-    def get_increase(self, top=11):
+    def _fetch_increase(self, top=11):
         """获取域名whois增量"""
         sql = 'SELECT sum,DATE (insert_time) as insert_time FROM whois_sum_by_day order by insert_time desc limit %d' % top
         results = self.db.query(sql)

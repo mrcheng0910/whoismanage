@@ -3,7 +3,7 @@
 系统路由设置
 """
 
-from handlers.index import IndexHandler,RateOfIncrease
+from handlers.index import IndexHandler
 from handlers.domain import DomainIndexHandler,DomainTldNumHandler,DomainTldIndexHandler
 from handlers.svr import *
 from handlers.tld import TldHandler
@@ -12,12 +12,11 @@ from handlers.system_performance.detect_efficiency import DetectHandler,ManageIn
 from handlers.system_performance.detect_forcast import DetectForcastHandler,ForcastPeriodHandler
 from handlers.system_performance.detect_count import DomainCountHandler,GetDomainCountHandler
 
-from handlers.table_overall import TableOverallHandler,TableDataHistoryHandler
+from handlers.table_overall import TableOverallHandler,TableDataHistoryHandler,TableIncreaseHandler
 
 urls = [
-    # 首页内容
+    #  首页内容
     (r'/', IndexHandler),   # 首页
-    (r'/rate_of_increase',RateOfIncrease),  # 首页whois数量增长图表
 
     (r'/tld', TldHandler),
 
@@ -46,7 +45,9 @@ urls = [
     (r'/forcast/period',ForcastPeriodHandler),  # 预测
     (r'/detect_count',DomainCountHandler),  # 探测信息
     (r'/detect_count/data',GetDomainCountHandler),
-    
-    (r'/table_overall',TableOverallHandler), # 数据库表整体情况
-    (r'/table_overall_history',TableDataHistoryHandler),
+
+    # 数据库表情况
+    (r'/table_overall',TableOverallHandler),  # 数据库表整体情况
+    (r'/table_overall_history',TableDataHistoryHandler),  # 历史情况
+    (r'/table/increase',TableIncreaseHandler),  # 表增长情况
 ]

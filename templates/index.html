@@ -127,4 +127,9 @@
 {% block foot_script %}
 <script src="//cdn.hcharts.cn/highcharts/highcharts.js"></script>
 <script src="{{ static_url("js/index.js")}}"></script>
+<script>
+    $(function(){
+       show({% raw domains %});
+    });
+</script>
 {% end %}

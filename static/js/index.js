@@ -1,38 +1,23 @@
-$(function () {
-    var raw_data;
-    var categories =[]
-    var series_total = []
-    var series_increase = []
-    $.ajax({
-            url: '/rate_of_increase',
-            type: "get",
-            timeout: 5000, //超时时间
-            success: function (data) {  //成功后的处理
-                var rawData = JSON.parse(data);
-                for(var i=0,arrLength=rawData.length; i<arrLength; i++){
-                    var value = rawData[i]
-                    categories.unshift(value.insert_time); //添加时间，截取年月日
-                    series_total.unshift(value.sum);
-                }
+function show(rawData){
 
-                for(var i=1,arrLength=rawData.length; i<arrLength; i++){
-                    series_increase.unshift(rawData[i-1].sum-rawData[i].sum)
-                }
+    var categories =[];
+    var seriesTotal = [];
+    var seriesIncrease = [];
 
-                init(categories.slice(1,categories.length),series_total.slice(1,series_total.length),series_increase);
-            },
-            error: function (xhr) {
-                if (xhr.status == "0") {
-                    alert("超时，稍后重试");
-                } else {
-                    alert("错误提示：" + xhr.status + " " + xhr.statusText);
-                }
-            } // 出错后的处理
-        });
-});
+    for(var i=0,arrLength=rawData.length; i<arrLength; i++){
+        var itemValue = rawData[i];
+        categories.unshift(itemValue.insert_time);
+        seriesTotal.unshift(itemValue.sum);
+    }
 
+    for(var i=1,arrLength=rawData.length; i<arrLength; i++){
+        seriesIncrease.unshift(rawData[i-1].sum-rawData[i].sum)
+    }
 
-function init(categories,series_total,series_increase){
+    initChart(categories.slice(1,categories.length),seriesTotal.slice(1,seriesTotal.length),seriesIncrease);
+}
+
+function initChart(categories, series_total, series_increase){
     $('#container').highcharts({
         credits: {
             enabled: false,
@@ -65,7 +50,7 @@ function init(categories,series_total,series_increase){
                 },
 
             },
-                            //opposite: true,
+            //opposite: true,
             //startOnTick: false,
             //endOnTick: false,
             alignTicks: false,

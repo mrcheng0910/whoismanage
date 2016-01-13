@@ -15,10 +15,10 @@ class DomainIndexHandler(tornado.web.RequestHandler):
     """各个顶级后缀域名数量统计"""
 
     def get(self):
-        domains, total = DomainDb().get_domain(10)
+        domains, total = DomainDb().fetch_domain(11)
         self.render(
-            PATH+'domain_overall.html',
-            domains=domains,
+            PATH + 'domain_overall.html',
+            domains=json.dumps(domains),
             total=total
         )
 

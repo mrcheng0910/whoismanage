@@ -1,0 +1,66 @@
+{% extends "../main_template.html" %}
+
+{% block title_name %}
+<title>数据库表增长统计</title>
+{% end %}
+
+{% block head_link %}
+
+<link href="{{static_url('css/table_overall.css')}}" rel="stylesheet">
+
+{% end %}
+
+{% block page %}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">数据库表增长统计</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <li class="fa fa-bar-chart fa-fw"></li> 
+                数据库表整体情况(A-N)
+            </div>
+            <div class="panel-body">
+                <div id="result"></div>
+                <table class="table table-hover" id="table-sparkline" align="center">
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>表名</th>
+                            <th>域名总量(K个)</th>
+                            <th>已探测域名数量(K个)</th>
+                            <th>数量增长(近10小时)</th>
+                            <th>详细信息</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-sparkline" valign="middle" align="center">
+                        {% for id,item in enumerate(tb_increase) %}
+                        <tr {% if tb_increase[item][3] %}
+                                class="{{ tb_increase[item][3] }}"
+                                {% end %}
+                        >
+                            <th>{{ id+1 }}</th>
+                            <td>{{ item[13:len(item)] }}</td>
+                            <td>{{ tb_increase[item][1]/1000 }}</td>
+                            <td>{{ tb_increase[item][0]/1000 }}</td>
+                            <td data-sparkline={{ tb_increase[item][2] }}/>
+                            <td><a href="/">详细</a></td>
+                        </tr>
+                        {% end %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% end %}
+
+{% block foot_script %}
+<!--必须使用本地该类型的highcharts-->
+<script src="{{static_url("js/table_overall/highcharts.js")}}"></script>
+<script src="{{ static_url("js/table_overall/table_increase.js")}}"></script>
+
+{% end %}

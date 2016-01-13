@@ -1,19 +1,8 @@
 function domain(domains) {
-    var show_data = new Array()   //显示的数据
+    var showData = []   //显示的数据
     for (var i=0;i<domains.length;i++){
-        if (i == 0){               //i=0时，为最大数据，设置为选择
-            show_data[i] = {
-                name : domains[i].tld_name,
-                y:domains[i].domain_num,
-                sliced: true,
-                selected: true
-            }
-        }
-        else
-        {
-            show_data[i] = new Array(domains[i].tld_name,domains[i].domain_num)
-        }
-     }
+        showData.push([domains[i].tld_name,domains[i].domain_num])
+    }
     $('#container').highcharts({
         credits: {
             enabled: false
@@ -24,7 +13,7 @@ function domain(domains) {
             plotShadow: false
         },
         title: {
-            text: "各个顶级后缀域名所占比例"
+            text: "顶级域名所占比例分布"
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -44,29 +33,29 @@ function domain(domains) {
         series: [{
             type: 'pie',
             name: '域名百分比',
-            data:  show_data
+            data:  showData
         }]
     });
 };
 
 //域名排序
-function domain_sort(domains) {
-    var name_data = new Array()
-    var num_data = new Array()
+function domainSort(domains) {
+    var categories = [];
+    var seriesData = [];
     for (var i=0;i<domains.length;i++){
-        name_data[i] = domains[i].tld_name
-        num_data[i] = domains[i].domain_num
+        categories.push(domains[i].tld_name);
+        seriesData.push(domains[i].domain_num);
     }
 
-    $('#container_sort').highcharts({
+    $('#container-sort').highcharts({
         chart: {
             type: 'bar'
         },
         title: {
-            text: "域名数量排名"
+            text: "顶级域名数量排名"
         },
         xAxis: {
-            categories: name_data,
+            categories: categories,
             title: {
                 text: null
             },
@@ -108,7 +97,7 @@ function domain_sort(domains) {
         },
         series: [{
             name: '域名数量',
-            data: num_data
+            data: seriesData
         }]
     });
 };

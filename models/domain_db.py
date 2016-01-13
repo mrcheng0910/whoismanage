@@ -1,25 +1,33 @@
 # encoding:utf-8
-import torndb
-import json
+"""
+获取域名相关的数据
+作者：程亚楠
+更新：2016.1.12
+优化代码
+
+"""
 from base_db import BaseDb
+
 
 class DomainDb(BaseDb):
 
     def __init__(self):
         BaseDb.__init__(self)  # 执行父类
 
-    def get_domain(self, num=10):
-        """获取各个顶级后缀域名数量"""
-        total = 0
-        domains = []
+    def fetch_domain(self, top=10):
+        """获取各个顶级域名数量
+        :param top: 排名前top
+        :returns
+            domains:顶级域名和数量列表
+            total:域名总数
+        """
         sql = "SELECT tld_name,domain_num FROM domain_summary ORDER BY domain_num DESC"
         domains = self.db.query(sql)
         total = sum([item['domain_num'] for item in domains])  # 得到域名总数
-        domains = domains[:num]
-        total_num = sum([item['domain_num'] for item in domains])  # 得到前num域名总数
-        domains.append({'tld_name': 'Other', 'domain_num': total - total_num})
-        data_string = json.dumps(domains)
-        return data_string, total
+        domains = domains[:top]
+        total_top = sum([item['domain_num'] for item in domains])  # 得到前top域名总数
+        domains.append({'tld_name': 'Other', 'domain_num': total - total_top})  # 添加top之外顶级域名情况
+        return domains, total
 
     def get_tld_num(self,tld):
         """

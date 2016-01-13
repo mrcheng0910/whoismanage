@@ -13,28 +13,19 @@ class IndexHandler(tornado.web.RequestHandler):
 
     def get(self):
         index_db = IndexDb()
-        domain_overall = index_db.fetch_tld_overall()
-        domain_num, tld_num, msvr_sum, ssvr_sum, whois_sum = domain_overall
+        domain_overall = index_db.fetch_tld_overall(top=20)
+        domain_num, tld_num, msvr_sum, ssvr_sum, whois_sum,domains = domain_overall
+
         self.render(
                 'index.html',
                 domain_num=domain_num,
                 tld_num=tld_num,
                 msvr_sum=msvr_sum,
                 ssvr_sum=ssvr_sum,
-                whois_sum=whois_sum
+                whois_sum=whois_sum,
+                domains = json.dumps(domains,default=self._date_handler)
         )
 
-
-class RateOfIncrease (tornado.web.RequestHandler):
-    """
-    首页增长率展示
-    """
-
-    def get(self):
-        index_db = IndexDb()
-        raw_data = index_db.get_increase(top=22)
-        self.write (json.dumps(raw_data, default=self.date_handler))
-
-    def date_handler(self, obj):
+    def _date_handler(self, obj):
         """json支持date格式"""
         return obj.isoformat () if hasattr (obj, 'isoformat') else obj
